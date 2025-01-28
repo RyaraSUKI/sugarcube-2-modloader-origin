@@ -207,6 +207,11 @@ var UIBar = (() => { // eslint-disable-line no-unused-vars, no-var
 
 			if (Story.has(passageName)) {
 				addUiUpdateHandler(() => {
+					if (!_$uiBar) {
+						$el.off(`:uiupdate${EVENT_NS}`);
+						return;
+					}
+
 					const frag = document.createDocumentFragment();
 					new Wikifier(frag, Story.get(passageName).processText().trim());
 					$el.empty().append(frag);
@@ -249,6 +254,11 @@ var UIBar = (() => { // eslint-disable-line no-unused-vars, no-var
 			const $menuStory = jQuery('#menu-story');
 
 			jQuery(document).on(`:uiupdate${EVENT_NS}`, () => {
+				if (!_$uiBar) {
+					$menuStory.off(`:uiupdate${EVENT_NS}`);
+					return;
+				}
+
 				try {
 					const frag = UI.assembleLinkList('StoryMenu', document.createDocumentFragment());
 					$menuStory.empty().append(frag);
@@ -362,7 +372,10 @@ var UIBar = (() => { // eslint-disable-line no-unused-vars, no-var
 			if (noAnimation) {
 				setTimeout(() => {
 					$story.removeClass('no-transition');
-					_$uiBar.removeClass('no-transition');
+
+					if (_$uiBar) {
+						_$uiBar.removeClass('no-transition');
+					}
 				}, Engine.DOM_DELAY);
 			}
 		}
@@ -385,7 +398,10 @@ var UIBar = (() => { // eslint-disable-line no-unused-vars, no-var
 			if (noAnimation) {
 				setTimeout(() => {
 					$story.removeClass('no-transition');
-					_$uiBar.removeClass('no-transition');
+
+					if (_$uiBar) {
+						_$uiBar.removeClass('no-transition');
+					}
 				}, Engine.DOM_DELAY);
 			}
 		}
