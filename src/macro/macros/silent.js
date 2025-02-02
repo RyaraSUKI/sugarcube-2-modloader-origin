@@ -18,8 +18,15 @@ Macro.add('silent', {
 	handler() {
 		if (this.name === 'silently') { console.warn(`[DEPRECATED] <<${this.name}>> macro is deprecated.`); }
 
+		const contents = this.payload[0].contents.trim();
+
+		// Do nothing if there's no content to process.
+		if (contents === '') {
+			return;
+		}
+
 		const frag = document.createDocumentFragment();
-		new Wikifier(frag, this.payload[0].contents.trim());
+		new Wikifier(frag, contents);
 
 		if (Config.debug) {
 			// Custom debug view setup.
