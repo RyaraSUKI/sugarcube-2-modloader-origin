@@ -6,7 +6,7 @@
 	Use of this source code is governed by a BSD 2-clause "Simplified" License, which may be found in the LICENSE file.
 
 ***********************************************************************************************************************/
-/* global Macro, Scripting, State, createSlug, getErrorMessage, getToStringTag, sameValueZero */
+/* global Macro, Scripting, State, createSlug, getErrorMessage, getToStringTag, sameValueZero, triggerEvent */
 
 /*
 	<<cycle>>, <<listbox>>, <<option>>, & <<optionsfrom>>
@@ -206,6 +206,8 @@ Macro.add(['cycle', 'listbox'], {
 						if (config.once && cycleIndex === lastIndex) {
 							$this.off().contents().unwrap();
 						}
+
+						triggerEvent('change', this);
 					}))
 					.appendTo(this.output);
 			}
