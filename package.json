@@ -13,6 +13,7 @@
     "@babel/core": "^7.24.9",
     "@babel/preset-env": "^7.24.8",
     "autoprefixer": "^10.4.19",
+    "browserslist": "^4.24.4",
     "clean-css": "^5.3.3",
     "cmark-gfm-js": "^1.1.7",
     "commander": "^9.5.0",
@@ -22,7 +23,8 @@
     "semver": "^7.6.3",
     "stylelint": "^14.16.1",
     "stylelint-config-standard": "^24.0.0",
-    "terser": "^5.31.3"
+    "terser": "^5.31.3",
+    "update-browserslist-db": "^1.1.2"
   },
   "engine": {
     "node": ">=18.3.0"
