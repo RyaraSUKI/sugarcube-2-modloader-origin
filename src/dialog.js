@@ -275,6 +275,9 @@ var Dialog = (() => { // eslint-disable-line no-unused-vars, no-var
 		Returns `Dialog` for further chaining.
 	*/
 	function create(title, classNames) {
+		$dialog
+			.removeAttr('data-class');
+
 		$title
 			.empty()
 			.append((title != null ? String(title) : '') || '\u00A0'); // lazy equality for null
@@ -284,6 +287,7 @@ var Dialog = (() => { // eslint-disable-line no-unused-vars, no-var
 			.removeClass();
 
 		if (classNames != null) { // lazy equality for null
+			$dialog.attr('data-class', classNames);
 			$body.addClass(classNames);
 		}
 
