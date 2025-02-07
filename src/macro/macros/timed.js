@@ -126,7 +126,7 @@ Macro.add('timed', {
 			// Set the current item and set up the next worker, if any.
 			const curItem = nextItem;
 
-			if ((nextItem = items.shift()) != null) { // lazy equality for null
+			if ((nextItem = items.shift()) != null) { // nullish test
 				timerId = setTimeout(worker, nextItem.delay);
 				timers.add(timerId);
 			}

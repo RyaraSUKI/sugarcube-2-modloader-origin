@@ -77,7 +77,7 @@ var Macro = (() => { // eslint-disable-line no-unused-vars, no-var
 
 		// Tags post-processing.
 		if (typeof _macros[name].tags !== 'undefined') {
-			if (_macros[name].tags == null) { // lazy equality for null
+			if (_macros[name].tags == null) { // nullish test
 				tagsRegister(name);
 			}
 			else if (Array.isArray(_macros[name].tags)) {

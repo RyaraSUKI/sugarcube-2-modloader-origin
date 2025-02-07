@@ -24,7 +24,7 @@ var UI = (() => { // eslint-disable-line no-unused-vars, no-var
 		Config.debug = false;
 
 		try {
-			if (list == null) { // lazy equality for null
+			if (list == null) { // nullish test
 				list = document.createElement('ul');
 			}
 
@@ -575,7 +575,7 @@ var UI = (() => { // eslint-disable-line no-unused-vars, no-var
 				.wikiWithOptions({ cleanup : false }, control.label);
 
 			// Set up the control.
-			if (Setting.getValue(name) == null) { // lazy equality for null
+			if (Setting.getValue(name) == null) { // nullish test
 				Setting.setValue(name, control.default);
 			}
 

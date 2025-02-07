@@ -97,13 +97,13 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function generateName(rawName) {
-		if (rawName == null) { // lazy equality for null
+		if (rawName == null) { // nullish test
 			throw new Error('story name must not be null or undefined');
 		}
 
 		const name = decodeEntities(String(rawName)).trim();
 
-		if (name === '') { // lazy equality for null
+		if (name === '') { // nullish test
 			throw new Error('story name must not be empty or consist solely of whitespace');
 		}
 
@@ -539,7 +539,7 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 			// All other types (incl. `null`).
 			return sameValueZero(passage[key], value);
 		})
-			.sort((a, b) => a[sortKey] == b[sortKey] ? 0 : a[sortKey] < b[sortKey] ? -1 : +1); // lazy equality for null
+			.sort((a, b) => a[sortKey] == b[sortKey] ? 0 : a[sortKey] < b[sortKey] ? -1 : +1); // nullish test
 		/* eslint-enable eqeqeq, no-nested-ternary, max-len */
 	}
 
@@ -552,7 +552,7 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 
 		/* eslint-disable eqeqeq, no-nested-ternary, max-len */
 		return filter(predicate)
-			.sort((a, b) => a[sortKey] == b[sortKey] ? 0 : a[sortKey] < b[sortKey] ? -1 : +1); // lazy equality for null
+			.sort((a, b) => a[sortKey] == b[sortKey] ? 0 : a[sortKey] < b[sortKey] ? -1 : +1); // nullish test
 		/* eslint-enable eqeqeq, no-nested-ternary, max-len */
 	}
 

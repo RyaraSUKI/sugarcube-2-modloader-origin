@@ -17,7 +17,7 @@ function setPageElement(idOrElement, titles, defaultText) { // eslint-disable-li
 		? idOrElement
 		: document.getElementById(idOrElement);
 
-	if (el == null) { // lazy equality for null
+	if (el == null) { // nullish test
 		return null;
 	}
 
@@ -32,7 +32,7 @@ function setPageElement(idOrElement, titles, defaultText) { // eslint-disable-li
 		}
 	}
 
-	if (defaultText != null) { // lazy equality for null
+	if (defaultText != null) { // nullish test
 		const text = String(defaultText).trim();
 
 		if (text !== '') {

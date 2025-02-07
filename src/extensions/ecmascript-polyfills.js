@@ -95,7 +95,7 @@
 			writable     : true,
 			value        : (() => {
 				function flat(/* depth */) {
-					if (this == null) { // lazy equality for null
+					if (this == null) { // nullish test
 						throw new TypeError('Array.prototype.flat called on null or undefined');
 					}
 
@@ -139,7 +139,7 @@
 			writable     : true,
 
 			value(/* callback [, thisArg] */) {
-				if (this == null) { // lazy equality for null
+				if (this == null) { // nullish test
 					throw new TypeError('Array.prototype.flatMap called on null or undefined');
 				}
 
@@ -157,7 +157,7 @@
 			writable     : true,
 
 			value(/* needle [, fromIndex] */) {
-				if (this == null) { // lazy equality for null
+				if (this == null) { // nullish test
 					throw new TypeError('Array.prototype.includes called on null or undefined');
 				}
 
@@ -254,7 +254,7 @@
 			writable     : true,
 
 			value(obj) {
-				if (obj == null) { // lazy equality for null
+				if (obj == null) { // nullish test
 					throw new TypeError('Object.getOwnPropertyDescriptors object parameter is null or undefined');
 				}
 
@@ -333,7 +333,7 @@
 			writable     : true,
 
 			value(length, padding) {
-				if (this == null) { // lazy equality for null
+				if (this == null) { // nullish test
 					throw new TypeError('String.prototype.padStart called on null or undefined');
 				}
 
@@ -362,7 +362,7 @@
 			writable     : true,
 
 			value(length, padding) {
-				if (this == null) { // lazy equality for null
+				if (this == null) { // nullish test
 					throw new TypeError('String.prototype.padEnd called on null or undefined');
 				}
 
@@ -388,7 +388,7 @@
 			writable     : true,
 
 			value() {
-				if (this == null) { // lazy equality for null
+				if (this == null) { // nullish test
 					throw new TypeError('String.prototype.trimStart called on null or undefined');
 				}
 
@@ -403,7 +403,7 @@
 			writable     : true,
 
 			value() {
-				if (this == null) { // lazy equality for null
+				if (this == null) { // nullish test
 					throw new TypeError('String.prototype.trimLeft called on null or undefined');
 				}
 
@@ -421,7 +421,7 @@
 			writable     : true,
 
 			value() {
-				if (this == null) { // lazy equality for null
+				if (this == null) { // nullish test
 					throw new TypeError('String.prototype.trimEnd called on null or undefined');
 				}
 
@@ -436,7 +436,7 @@
 			writable     : true,
 
 			value() {
-				if (this == null) { // lazy equality for null
+				if (this == null) { // nullish test
 					throw new TypeError('String.prototype.trimRight called on null or undefined');
 				}
 

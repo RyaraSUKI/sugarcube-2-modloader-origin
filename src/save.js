@@ -185,7 +185,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 		const details = { type : saveType };
 		let desc;
 
-		if (description != null) { // lazy equality for null
+		if (description != null) { // nullish test
 			desc = String(description).trim();
 		}
 
@@ -626,7 +626,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 	*******************************************************************************/
 
 	function diskExport(filename) {
-		if (filename == null) { // lazy equality for null
+		if (filename == null) { // nullish test
 			throw new Error('Save.browser.export filename parameter is required');
 		}
 
@@ -685,7 +685,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 					}
 
 					if (
-						bundle == null // lazy equality for null
+						bundle == null // nullish test
 						|| typeof bundle !== 'object'
 						|| !Object.hasOwn(bundle, 'auto')
 						|| !(bundle.auto instanceof Array)
@@ -767,7 +767,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function diskSave(filename, metadata) {
-		if (filename == null) { // lazy equality for null
+		if (filename == null) { // nullish test
 			throw new Error('Save.disk.save filename parameter is required');
 		}
 
@@ -834,7 +834,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 			}
 
 			if (
-				bundle == null // lazy equality for null
+				bundle == null // nullish test
 				|| typeof bundle !== 'object'
 				|| !Object.hasOwn(bundle, 'auto')
 				|| !(bundle.auto instanceof Array)
@@ -930,7 +930,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 			state : State.marshalForSave()
 		});
 
-		if (Config.saves.version != null) { // lazy equality for null
+		if (Config.saves.version != null) { // nullish test
 			save.version = Config.saves.version;
 		}
 
@@ -958,7 +958,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 		if (BUILD_DEBUG) { console.log('[Save/unmarshal()]'); }
 
 		if (
-			save == null // lazy equality for null
+			save == null // nullish test
 			|| typeof save !== 'object'
 			|| !Object.hasOwn(save, 'id')
 			|| !Object.hasOwn(save, 'state')

@@ -112,7 +112,7 @@ var LoadScreen = (() => { // eslint-disable-line no-unused-vars, no-var
 	function loadScreenUnlock(id) {
 		if (BUILD_DEBUG) { console.log(`[LoadScreen/loadScreenUnlock(id: ${id})]`); }
 
-		if (id == null) { // lazy equality for null
+		if (id == null) { // nullish test
 			throw new Error('LoadScreen.unlock called with a null or undefined ID');
 		}
 

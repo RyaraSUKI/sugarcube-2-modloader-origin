@@ -61,7 +61,7 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 			});
 
 			// No destination specified.  Create a fragment to act as the output buffer.
-			if (destination == null) { // lazy equality for null
+			if (destination == null) { // nullish test
 				this.output = document.createDocumentFragment();
 			}
 
@@ -93,7 +93,7 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 					_callDepth === 1
 					&& (
 						Object.hasOwn(this.options, 'cleanup')
-						&& this.options.cleanup != null // lazy equality for null
+						&& this.options.cleanup != null // nullish test
 							? this.options.cleanup
 							: Config.cleanupWikifierOutput
 					)
@@ -197,14 +197,14 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 					// Call the parser.
 					parsersProfile.parsers[matchingParser].handler(this);
 
-					if (TempState.break != null) { // lazy equality for null
+					if (TempState.break != null) { // nullish test
 						break;
 					}
 				}
 			} while (terminatorMatch || parserMatch);
 
 			// Output any text after the last match.
-			if (TempState.break == null) { // lazy equality for null
+			if (TempState.break == null) { // nullish test
 				if (this.nextMatch < this.source.length) {
 					this.outputText(this.output, this.nextMatch, this.source.length);
 					this.nextMatch = this.source.length;
@@ -275,7 +275,7 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 		static createInternalLink(destination, passage, text, callback) {
 			const $link = jQuery(document.createElement('a'));
 
-			if (passage != null) { // lazy equality for null
+			if (passage != null) { // nullish test
 				$link.attr('data-passage', passage);
 
 				if (Story.has(passage)) {
@@ -320,7 +320,7 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 				.text(text)
 				.appendTo(destination);
 
-			if (url != null) { // lazy equality for null
+			if (url != null) { // nullish test
 				$link.attr({
 					href     : url,
 					tabindex : 0 // for accessibility
@@ -670,7 +670,7 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 
 		evalPassageId : {
 			value(passage) {
-				if (passage == null || Story.has(passage)) { // lazy equality for null; `0` is a valid name, so we cannot simply evaluate `passage`
+				if (passage == null || Story.has(passage)) { // nullish test; `0` is a valid name, so we cannot simply evaluate `passage`
 					return passage;
 				}
 

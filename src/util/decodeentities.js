@@ -38,7 +38,7 @@ var decodeEntities = (() => { // eslint-disable-line no-unused-vars, no-var
 	});
 
 	function decodeEntities(str) {
-		if (str == null) { // lazy equality for null
+		if (str == null) { // nullish test
 			return '';
 		}
 

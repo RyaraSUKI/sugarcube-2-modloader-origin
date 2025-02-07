@@ -112,7 +112,7 @@
 			let opts = options;
 			let fn   = handler;
 
-			if (fn == null) { // lazy equality for null
+			if (fn == null) { // nullish test
 				fn   = opts;
 				opts = undefined;
 			}
@@ -144,7 +144,7 @@
 			this.filter('button').prop('type', 'button');
 
 			// Set `role`.
-			if (opts.role != null) { // lazy equality for null
+			if (opts.role != null) { // nullish test
 				this.attr('role', opts.role);
 			}
 
@@ -174,17 +174,17 @@
 			this.attr('tabindex', opts.tabindex);
 
 			// Set `aria-controls`.
-			if (opts.controls != null) { // lazy equality for null
+			if (opts.controls != null) { // nullish test
 				this.attr('aria-controls', opts.controls);
 			}
 
 			// Set `aria-pressed`.
-			if (opts.pressed != null) { // lazy equality for null
+			if (opts.pressed != null) { // nullish test
 				this.attr('aria-pressed', opts.pressed);
 			}
 
 			// Set `aria-label` and `title`.
-			if (opts.label != null) { // lazy equality for null
+			if (opts.label != null) { // nullish test
 				this.attr({
 					'aria-label' : opts.label,
 					title        : opts.label

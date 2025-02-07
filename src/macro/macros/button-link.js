@@ -68,7 +68,7 @@ Macro.add(['button', 'link'], {
 			passage = this.args.length > 1 ? this.args[1] : undefined;
 		}
 
-		if (passage != null) { // lazy equality for null
+		if (passage != null) { // nullish test
 			$link.attr('data-passage', passage);
 
 			if (Story.has(passage)) {
@@ -90,13 +90,13 @@ Macro.add(['button', 'link'], {
 			.addClass(`macro-${this.name}`)
 			.ariaClick({
 				namespace : '.macros',
-				role      : passage != null ? 'link' : 'button', // lazy equality for null
-				one       : passage != null // lazy equality for null
+				role      : passage != null ? 'link' : 'button', // nullish test
+				one       : passage != null // nullish test
 			}, this.shadowHandler(
 				this.payload[0].contents !== ''
 					? () => Wikifier.wikifyEval(this.payload[0].contents.trim())
 					: null,
-				passage != null // lazy equality for null
+				passage != null // nullish test
 					? () => Engine.play(passage)
 					: null
 			))

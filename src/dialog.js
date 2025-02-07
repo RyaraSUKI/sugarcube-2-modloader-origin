@@ -179,7 +179,7 @@ var Dialog = (() => { // eslint-disable-line no-unused-vars, no-var
 	*/
 	function onResize(top) {
 		if ($dialog.css('display') === 'block') {
-			$dialog.css(calcInset(top != null ? top : DEFAULT_TOP)); // lazy equality for null
+			$dialog.css(calcInset(top != null ? top : DEFAULT_TOP)); // nullish test
 		}
 	}
 
@@ -282,13 +282,13 @@ var Dialog = (() => { // eslint-disable-line no-unused-vars, no-var
 
 		$title
 			.empty()
-			.append((title != null ? String(title) : '') || '\u00A0'); // lazy equality for null
+			.append((title != null ? String(title) : '') || '\u00A0'); // nullish test
 
 		$body
 			.empty()
 			.removeClass();
 
-		if (classNames != null) { // lazy equality for null
+		if (classNames != null) { // nullish test
 			$dialog.attr('data-class', classNames);
 			$body.addClass(classNames);
 		}
@@ -330,7 +330,7 @@ var Dialog = (() => { // eslint-disable-line no-unused-vars, no-var
 		const { top } = Object.assign({ top : DEFAULT_TOP }, options);
 
 		// Record the given close callback.
-		if (onClose != null) { // lazy equality for null
+		if (onClose != null) { // nullish test
 			const closeType = getTypeOf(onClose);
 
 			if (closeType !== 'function') {

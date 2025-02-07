@@ -1055,7 +1055,7 @@
 		handler(w) {
 			const result = State.getVar(w.matchText);
 
-			if (result == null) { // lazy equality for null
+			if (result == null) { // nullish test
 				jQuery(document.createTextNode(w.matchText)).appendTo(w.output);
 			}
 			else {
@@ -1606,7 +1606,7 @@
 		processDataAttributes(el, tagName) {
 			let passage = el.getAttribute('data-passage');
 
-			if (passage == null) { // lazy equality for null
+			if (passage == null) { // nullish test
 				return;
 			}
 
@@ -1636,7 +1636,7 @@
 					let setter = el.getAttribute('data-setter');
 					let setFn;
 
-					if (setter != null) { // lazy equality for null
+					if (setter != null) { // nullish test
 						setter = String(setter).trim();
 
 						if (setter !== '') {
@@ -1849,7 +1849,7 @@
 		processDataAttributes(el, tagName) {
 			let passage = el.getAttribute('data-passage');
 
-			if (passage == null) { // lazy equality for null
+			if (passage == null) { // nullish test
 				return;
 			}
 
@@ -1906,7 +1906,7 @@
 					let setter = el.getAttribute('data-setter');
 					let setFn;
 
-					if (setter != null) { // lazy equality for null
+					if (setter != null) { // nullish test
 						setter = String(setter).trim();
 
 						if (setter !== '') {

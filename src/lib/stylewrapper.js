@@ -19,7 +19,7 @@ var StyleWrapper = (() => { // eslint-disable-line no-unused-vars, no-var
 
 	class StyleWrapper {
 		constructor(style) {
-			if (style == null) { // lazy equality for null
+			if (style == null) { // nullish test
 				throw new TypeError('StyleWrapper style parameter must be an HTMLStyleElement object');
 			}
 

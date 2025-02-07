@@ -192,7 +192,7 @@
 		writable     : true,
 
 		value(/* variadic */) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.concatUnique called on null or undefined');
 			}
 
@@ -232,7 +232,7 @@
 		writable     : true,
 
 		value(/* needle [, fromIndex ] */) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.count called on null or undefined');
 			}
 
@@ -259,7 +259,7 @@
 		writable     : true,
 
 		value(predicate, thisArg) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.countWith called on null or undefined');
 			}
 			if (typeof predicate !== 'function') {
@@ -293,7 +293,7 @@
 		writable     : true,
 
 		value(/* needles */) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.deleteAll called on null or undefined');
 			}
 
@@ -351,7 +351,7 @@
 		writable     : true,
 
 		value(/* indices */) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.deleteAt called on null or undefined');
 			}
 
@@ -399,7 +399,7 @@
 		writable     : true,
 
 		value(/* needles */) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.deleteFirst called on null or undefined');
 			}
 
@@ -446,7 +446,7 @@
 		writable     : true,
 
 		value(/* needles */) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.deleteLast called on null or undefined');
 			}
 
@@ -493,7 +493,7 @@
 		writable     : true,
 
 		value(predicate, thisArg) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.deleteWith called on null or undefined');
 			}
 			if (typeof predicate !== 'function') {
@@ -535,7 +535,7 @@
 		writable     : true,
 
 		value() {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.first called on null or undefined');
 			}
 
@@ -557,7 +557,7 @@
 		writable     : true,
 
 		value(/* needles */) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.includesAll called on null or undefined');
 			}
 
@@ -591,7 +591,7 @@
 		writable     : true,
 
 		value(/* needles */) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.includesAny called on null or undefined');
 			}
 
@@ -625,7 +625,7 @@
 		writable     : true,
 
 		value() {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.last called on null or undefined');
 			}
 
@@ -648,7 +648,7 @@
 		writable     : true,
 
 		value(/* DEPRECATED: [min ,] max */) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.pluck called on null or undefined');
 			}
 
@@ -675,7 +675,7 @@
 		writable     : true,
 
 		value(wantSize) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.pluckMany called on null or undefined');
 			}
 
@@ -720,7 +720,7 @@
 		writable     : true,
 
 		value(/* variadic */) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.pushUnique called on null or undefined');
 			}
 
@@ -754,7 +754,7 @@
 		writable     : true,
 
 		value(/* DEPRECATED: [min ,] max */) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.random called on null or undefined');
 			}
 
@@ -781,7 +781,7 @@
 		writable     : true,
 
 		value(wantSize) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.randomMany called on null or undefined');
 			}
 
@@ -830,7 +830,7 @@
 		writable     : true,
 
 		value() {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.shuffle called on null or undefined');
 			}
 
@@ -865,7 +865,7 @@
 		writable     : true,
 
 		value() {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.toShuffled called on null or undefined');
 			}
 
@@ -882,7 +882,7 @@
 		writable     : true,
 
 		value() {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.toUnique called on null or undefined');
 			}
 
@@ -899,7 +899,7 @@
 		writable     : true,
 
 		value(/* variadic */) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.unshiftUnique called on null or undefined');
 			}
 
@@ -939,7 +939,7 @@
 		writable     : true,
 
 		value(/* variadic */) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Function.prototype.partial called on null or undefined');
 			}
 
@@ -1072,7 +1072,7 @@
 				return format.replace(_formatRegExp, (match, index, align) => {
 					let retval = args[index];
 
-					if (retval == null) { // lazy equality for null
+					if (retval == null) { // nullish test
 						return '';
 					}
 
@@ -1100,7 +1100,7 @@
 		writable     : true,
 
 		value(/* needle [, fromIndex ] */) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('String.prototype.count called on null or undefined');
 			}
 
@@ -1132,7 +1132,7 @@
 		writable     : true,
 
 		value() {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('String.prototype.first called on null or undefined');
 			}
 
@@ -1154,7 +1154,7 @@
 		writable     : true,
 
 		value() {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('String.prototype.last called on null or undefined');
 			}
 
@@ -1177,7 +1177,7 @@
 		writable     : true,
 
 		value(startAt, delCount, replacement) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('String.prototype.splice called on null or undefined');
 			}
 
@@ -1233,7 +1233,7 @@
 		writable     : true,
 
 		value(/* [ separator [, limit ]] */) {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('String.prototype.splitOrEmpty called on null or undefined');
 			}
 
@@ -1255,7 +1255,7 @@
 		writable     : true,
 
 		value() {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('String.prototype.toLocaleUpperFirst called on null or undefined');
 			}
 
@@ -1277,7 +1277,7 @@
 		writable     : true,
 
 		value() {
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('String.prototype.toUpperFirst called on null or undefined');
 			}
 
@@ -1306,7 +1306,7 @@
 		value(/* needles */) {
 			console.warn('[DEPRECATED] <Array>.delete() is deprecated.');
 
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Array.prototype.delete called on null or undefined');
 			}
 
@@ -1358,7 +1358,7 @@
 		value(/* min, max */) {
 			console.warn('[DEPRECATED] <Number>.clamp() is deprecated.');
 
-			if (this == null) { // lazy equality for null
+			if (this == null) { // nullish test
 				throw new TypeError('Number.prototype.clamp called on null or undefined');
 			}
 

@@ -202,23 +202,23 @@
 				}
 
 				try {
-					if (volume != null) { // lazy equality for null
+					if (volume != null) { // nullish test
 						selected.volume(volume);
 					}
 
-					if (time != null) { // lazy equality for null
+					if (time != null) { // nullish test
 						selected.time(time);
 					}
 
-					if (mute != null) { // lazy equality for null
+					if (mute != null) { // nullish test
 						selected.mute(mute);
 					}
 
-					if (loop != null) { // lazy equality for null
+					if (loop != null) { // nullish test
 						selected.loop(loop);
 					}
 
-					if (passage != null) { // lazy equality for null
+					if (passage != null) { // nullish test
 						const nsEnded = `ended.macros.macro-${this.name}_goto`;
 						selected
 							.off(nsEnded)
@@ -552,15 +552,15 @@
 				}
 
 				try {
-					if (mute != null) { // lazy equality for null
+					if (mute != null) { // nullish test
 						SimpleAudio.mute(mute);
 					}
 
-					if (muteOnHide != null) { // lazy equality for null
+					if (muteOnHide != null) { // nullish test
 						SimpleAudio.muteOnHidden(muteOnHide);
 					}
 
-					if (volume != null) { // lazy equality for null
+					if (volume != null) { // nullish test
 						SimpleAudio.volume(volume);
 					}
 
@@ -743,19 +743,19 @@
 				}
 
 				try {
-					if (volume != null) { // lazy equality for null
+					if (volume != null) { // nullish test
 						list.volume(volume);
 					}
 
-					if (mute != null) { // lazy equality for null
+					if (mute != null) { // nullish test
 						list.mute(mute);
 					}
 
-					if (loop != null) { // lazy equality for null
+					if (loop != null) { // nullish test
 						list.loop(loop);
 					}
 
-					if (shuffle != null) { // lazy equality for null
+					if (shuffle != null) { // nullish test
 						list.shuffle(shuffle);
 					}
 

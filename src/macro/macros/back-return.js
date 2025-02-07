@@ -66,7 +66,7 @@ Macro.add(['back', 'return'], {
 			}
 		}
 
-		if (passage == null) { // lazy equality for null
+		if (passage == null) { // nullish test
 			// Find the index and title of the most recent moment whose title does not match
 			// that of the active (present) moment's.
 			for (let i = State.length - 2; i >= 0; --i) {
@@ -78,7 +78,7 @@ Macro.add(['back', 'return'], {
 			}
 
 			// If we failed to find a passage and we're `<<return>>`, fallback to `State.expired`.
-			if (passage == null && this.name === 'return') { // lazy equality for null
+			if (passage == null && this.name === 'return') { // nullish test
 				for (let i = State.expired.length - 1; i >= 0; --i) {
 					if (State.expired[i] !== State.passage) {
 						passage = State.expired[i];
@@ -108,7 +108,7 @@ Macro.add(['back', 'return'], {
 			}
 		}
 
-		if (passage == null) { // lazy equality for null
+		if (passage == null) { // nullish test
 			return this.error('cannot find passage');
 		}
 

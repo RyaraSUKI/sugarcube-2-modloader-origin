@@ -107,7 +107,7 @@ var Setting = (() => { // eslint-disable-line no-unused-vars, no-var
 			load();
 		}
 		else {
-			if (name == null || !has(name)) { // lazy equality for null
+			if (name == null || !has(name)) { // nullish test
 				throw new Error(`nonexistent setting "${name}"`);
 			}
 
@@ -151,7 +151,7 @@ var Setting = (() => { // eslint-disable-line no-unused-vars, no-var
 			throw new Error(`missing parameters, no ${errors.join(' or ')} specified`);
 		}
 
-		if (def == null) { // lazy equality for null
+		if (def == null) { // nullish test
 			def = {}; // eslint-disable-line no-param-reassign
 		}
 		else if (typeof def !== 'object') {
@@ -220,7 +220,7 @@ var Setting = (() => { // eslint-disable-line no-unused-vars, no-var
 
 				definition.list = Object.freeze(def.list);
 
-				if (def.default == null) { // lazy equality for null
+				if (def.default == null) { // nullish test
 					definition.default = def.list[0];
 				}
 				else {
@@ -300,7 +300,7 @@ var Setting = (() => { // eslint-disable-line no-unused-vars, no-var
 				definition.min = def.min;
 				definition.step = def.step;
 
-				if (def.default == null) { // lazy equality for null
+				if (def.default == null) { // nullish test
 					definition.default = def.max;
 				}
 				else {

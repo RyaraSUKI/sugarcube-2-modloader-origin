@@ -47,7 +47,7 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 				Returns a decoded version of the passed Twine 1 passage store encoded string.
 			*/
 			function decodePassageText(str) {
-				if (str == null) { // lazy equality for null
+				if (str == null) { // nullish test
 					return '';
 				}
 
@@ -72,7 +72,7 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 				Returns a decoded version of the passed Twine 2 passage store encoded string.
 			*/
 			function decodePassageText(str) {
-				if (str == null) { // lazy equality for null
+				if (str == null) { // nullish test
 					return '';
 				}
 
@@ -154,7 +154,7 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 
 		// TODO: (v3) This should be → `get source`.
 		get text() {
-			if (this.element == null) { // lazy equality for null
+			if (this.element == null) { // nullish test
 				const passage = encodeMarkup(this.name);
 				const mesg    = `${L10n.get('errorViewTitle')}: ${L10n.get('errorNonexistentPassage', { passage })}`;
 				return `<div class="error-view"><span class="error">${mesg}</span></div>`;
@@ -165,7 +165,7 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 
 		// TODO: (v3) This should be → `get text`.
 		processText() {
-			if (this.element == null) { // lazy equality for null
+			if (this.element == null) { // nullish test
 				return this.text;
 			}
 

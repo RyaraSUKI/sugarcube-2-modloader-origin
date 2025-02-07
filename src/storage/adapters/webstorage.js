@@ -107,7 +107,7 @@ SimpleStore.adapters.push((() => {
 			// QUESTION: Has `<Storage>.getItem()` ever returned any value other than
 			// `null` for non-existent keys?  I seem to recall a browser bug where
 			// `undefined` was returned, but I can't find any details about it now.
-			return value == null ? null : WebStorageAdapter._deserialize(value); // lazy equality for null
+			return value == null ? null : WebStorageAdapter._deserialize(value); // nullish test
 		}
 
 		set(key, value) {

@@ -12,7 +12,7 @@
 	object with such a property, or the value itself.
 */
 function getErrorMessage(O) { // eslint-disable-line no-unused-vars
-	if (O == null) { // lazy equality for null
+	if (O == null) { // nullish test
 		return 'unknown error';
 	}
 

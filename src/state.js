@@ -63,7 +63,7 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 
 		if (BUILD_DEBUG) { console.log('\tsession state:', state); }
 
-		if (state == null) { // lazy equality for null
+		if (state == null) { // nullish test
 			return false;
 		}
 
@@ -103,7 +103,7 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 		Restores the story state from a marshaled story state serialization object.
 	*/
 	function stateUnmarshal(state, noDelta) {
-		if (state == null) { // lazy equality for null
+		if (state == null) { // nullish test
 			throw new Error('state object is null or undefined');
 		}
 
@@ -180,7 +180,7 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 		Returns whether a passage with the given title has been played (expired + in-play history moments).
 	*/
 	function stateHasPlayed(title) {
-		if (title == null || title === '') { // lazy equality for null
+		if (title == null || title === '') { // nullish test
 			return false;
 		}
 
@@ -204,8 +204,8 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 	*/
 	function momentCreate(title, variables) {
 		return {
-			title     : title == null ? '' : String(title),       // lazy equality for null
-			variables : variables == null ? {} : clone(variables) // lazy equality for null
+			title     : title == null ? '' : String(title),       // nullish test
+			variables : variables == null ? {} : clone(variables) // nullish test
 		};
 	}
 
@@ -243,7 +243,7 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 		and triggers a history update event.
 	*/
 	function momentActivate(moment) {
-		if (moment == null) { // lazy equality for null
+		if (moment == null) { // nullish test
 			throw new Error('moment activation attempted with null or undefined');
 		}
 
@@ -379,7 +379,7 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 		Returns whether a moment with the given title exists within the history.
 	*/
 	function historyHas(title) {
-		if (historyIsEmpty() || title == null || title === '') { // lazy equality for null
+		if (historyIsEmpty() || title == null || title === '') { // nullish test
 			return false;
 		}
 
@@ -433,7 +433,7 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 		if (BUILD_DEBUG) { console.log(`[State/historyGoTo(index: ${index})]`); }
 
 		if (
-			index == null /* lazy equality for null */
+			index == null /* nullish test */
 			|| index < 0
 			|| index >= historySize()
 			|| index === _activeIndex
@@ -453,7 +453,7 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 	function historyGo(offset) {
 		if (BUILD_DEBUG) { console.log(`[State/historyGo(offset: ${offset})]`); }
 
-		if (offset == null || offset === 0) { // lazy equality for null
+		if (offset == null || offset === 0) { // nullish test
 			return false;
 		}
 

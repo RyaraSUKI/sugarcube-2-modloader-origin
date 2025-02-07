@@ -178,7 +178,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 		navigation : Object.freeze({
 			get override() { return _navigationOverride; },
 			set override(value) {
-				if (!(value == null || value instanceof Function)) { // lazy equality for null
+				if (!(value == null || value instanceof Function)) { // nullish test
 					throw new TypeError(`Config.navigation.override must be a function or null/undefined (received: ${getTypeOf(value)})`);
 				}
 
@@ -199,7 +199,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 
 			get onProcess() { return _passagesOnProcess; },
 			set onProcess(value) {
-				if (value != null) { // lazy equality for null
+				if (value != null) { // nullish test
 					const valueType = getTypeOf(value);
 
 					if (valueType !== 'function') {
@@ -213,7 +213,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 			// TODO: (v3) This should be under Navigation settings → `Config.navigation.(start|startingPassage)`.
 			get start() { return _passagesStart; },
 			set start(value) {
-				if (value != null) { // lazy equality for null
+				if (value != null) { // nullish test
 					const valueType = getTypeOf(value);
 
 					if (valueType !== 'string') {
@@ -227,7 +227,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 			// TODO: (v3) This should be under Navigation settings → `Config.navigation.transitionOut`.
 			get transitionOut() { return _passagesTransitionOut; },
 			set transitionOut(value) {
-				if (value != null) { // lazy equality for null
+				if (value != null) { // nullish test
 					const valueType = getTypeOf(value);
 
 					if (
@@ -294,7 +294,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 		saves : Object.freeze({
 			get descriptions() { return _savesDescriptions; },
 			set descriptions(value) {
-				if (!(value == null || value instanceof Function)) { // lazy equality for null
+				if (!(value == null || value instanceof Function)) { // nullish test
 					throw new TypeError(`Config.saves.descriptions must be a function or null/undefined (received: ${getTypeOf(value)})`);
 				}
 
@@ -312,7 +312,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 
 			get isAllowed() { return _savesIsAllowed; },
 			set isAllowed(value) {
-				if (!(value == null || value instanceof Function)) { // lazy equality for null
+				if (!(value == null || value instanceof Function)) { // nullish test
 					throw new TypeError(`Config.saves.isAllowed must be a function or null/undefined (received: ${getTypeOf(value)})`);
 				}
 
@@ -345,7 +345,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 
 			get metadata() { return _savesMetadata; },
 			set metadata(value) {
-				if (!(value == null || value instanceof Function)) { // lazy equality for null
+				if (!(value == null || value instanceof Function)) { // nullish test
 					throw new TypeError(`Config.saves.metadata must be a function or null/undefined (received: ${getTypeOf(value)})`);
 				}
 
@@ -368,7 +368,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 			set autoload(value) {
 				console.warn(errSavesAutoloadDeprecated);
 
-				if (value != null) { // lazy equality for null
+				if (value != null) { // nullish test
 					const valueType = getTypeOf(value);
 
 					if (

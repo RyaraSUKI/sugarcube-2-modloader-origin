@@ -124,7 +124,7 @@ Macro.add('for', {
 					first = false;
 				}
 
-				if (TempState.break != null) { // lazy equality for null
+				if (TempState.break != null) { // nullish test
 					if (TempState.break === 1) {
 						TempState.break = null;
 					}
@@ -192,7 +192,7 @@ Macro.add('for', {
 					first = false;
 				}
 
-				if (TempState.break != null) { // lazy equality for null
+				if (TempState.break != null) { // nullish test
 					if (TempState.break === 1) {
 						TempState.break = null;
 					}

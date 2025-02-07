@@ -103,7 +103,7 @@ var settings = Setting.create();
 // Setup object.
 var setup = {};
 
-// Persistant storage manager object.
+// Persistent storage manager object.
 var storage = null;
 
 /*

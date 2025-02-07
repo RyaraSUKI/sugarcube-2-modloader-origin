@@ -275,7 +275,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		// Sanity checks.
-		if (Config.passages.start == null) { // lazy equality for null
+		if (Config.passages.start == null) { // nullish test
 			throw new Error('starting passage not selected');
 		}
 		if (!Story.has(Config.passages.start)) {
@@ -716,7 +716,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 			let debugView;
 
 			// Prepend the `PassageReady` debug view.
-			if (passageReadyOutput != null) { // lazy equality for null
+			if (passageReadyOutput != null) { // nullish test
 				debugView = new DebugView(
 					document.createDocumentFragment(),
 					'special',
@@ -729,7 +729,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 			}
 
 			// Append the `PassageDone` debug view.
-			if (passageDoneOutput != null) { // lazy equality for null
+			if (passageDoneOutput != null) { // nullish test
 				debugView = new DebugView(
 					document.createDocumentFragment(),
 					'special',

@@ -478,7 +478,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 			if (typeof toVol !== 'number') {
 				throw new TypeError('toVolume parameter must be a number');
 			}
-			if (fromVol != null && typeof fromVol !== 'number') { // lazy equality for null
+			if (fromVol != null && typeof fromVol !== 'number') { // nullish test
 				throw new TypeError('fromVolume parameter must be a number');
 			}
 
@@ -496,7 +496,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 
 			this.fadeStop();
 
-			const from = Math.clamp(fromVol == null ? this.volume() : fromVol, 0, 1); // lazy equality for null
+			const from = Math.clamp(fromVol == null ? this.volume() : fromVol, 0, 1); // nullish test
 			const to   = Math.clamp(toVol, 0, 1);
 
 			if (from === to) {
@@ -577,7 +577,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		loop(loop) {
-			if (loop == null) { // lazy equality for null
+			if (loop == null) { // nullish test
 				return this.audio.loop;
 			}
 
@@ -587,7 +587,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		mute(mute) {
-			if (mute == null) { // lazy equality for null
+			if (mute == null) { // nullish test
 				return this._mute;
 			}
 
@@ -601,7 +601,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		rate(rate) {
-			if (rate == null) { // lazy equality for null
+			if (rate == null) { // nullish test
 				return this._rate;
 			}
 
@@ -638,7 +638,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		time(time) {
-			if (time == null) { // lazy equality for null
+			if (time == null) { // nullish test
 				return this.audio.currentTime;
 			}
 
@@ -677,7 +677,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		volume(volume) {
-			if (volume == null) { // lazy equality for null
+			if (volume == null) { // nullish test
 				return this._volume;
 			}
 
@@ -879,7 +879,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		_create(trackList) {
 			// Map the array of tracks to playlist track objects.
 			this._finalize(trackList.map(trackObj => {
-				if (typeof trackObj !== 'object') { // lazy equality for null
+				if (typeof trackObj !== 'object') { // nullish test
 					throw new Error('tracks parameter array members must be objects');
 				}
 
@@ -1055,7 +1055,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 			if (typeof toVol !== 'number') {
 				throw new TypeError('toVolume parameter must be a number');
 			}
-			if (fromVol != null && typeof fromVol !== 'number') { // lazy equality for null
+			if (fromVol != null && typeof fromVol !== 'number') { // nullish test
 				throw new TypeError('fromVolume parameter must be a number');
 			}
 
@@ -1072,7 +1072,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 			const adjToVol = Math.clamp(toVol, 0, 1) * this.current.volume;
 			let adjFromVol;
 
-			if (fromVol != null) { // lazy equality for null
+			if (fromVol != null) { // nullish test
 				adjFromVol = Math.clamp(fromVol, 0, 1) * this.current.volume;
 			}
 
@@ -1096,7 +1096,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		loop(loop) {
-			if (loop == null) { // lazy equality for null
+			if (loop == null) { // nullish test
 				return this._loop;
 			}
 
@@ -1106,7 +1106,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		mute(mute) {
-			if (mute == null) { // lazy equality for null
+			if (mute == null) { // nullish test
 				return this._mute;
 			}
 
@@ -1120,7 +1120,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		rate(rate) {
-			if (rate == null) { // lazy equality for null
+			if (rate == null) { // nullish test
 				return this._rate;
 			}
 
@@ -1138,7 +1138,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		shuffle(shuffle) {
-			if (shuffle == null) { // lazy equality for null
+			if (shuffle == null) { // nullish test
 				return this._shuffle;
 			}
 
@@ -1161,7 +1161,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		volume(volume) {
-			if (volume == null) { // lazy equality for null
+			if (volume == null) { // nullish test
 				return this._volume;
 			}
 
@@ -1349,7 +1349,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		fade(duration, toVol, fromVol) {
-			if (duration == null || toVol == null) { // lazy equality for null
+			if (duration == null || toVol == null) { // nullish test
 				throw new Error('fade requires parameters');
 			}
 
@@ -1357,7 +1357,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		fadeIn(duration, fromVol) {
-			if (duration == null) { // lazy equality for null
+			if (duration == null) { // nullish test
 				throw new Error('fadeIn requires a parameter');
 			}
 
@@ -1365,7 +1365,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		fadeOut(duration, fromVol) {
-			if (duration == null) { // lazy equality for null
+			if (duration == null) { // nullish test
 				throw new Error('fadeOut requires a parameter');
 			}
 
@@ -1377,7 +1377,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		loop(loop) {
-			if (loop == null) { // lazy equality for null
+			if (loop == null) { // nullish test
 				throw new Error('loop requires a parameter');
 			}
 
@@ -1386,7 +1386,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		mute(mute) {
-			if (mute == null) { // lazy equality for null
+			if (mute == null) { // nullish test
 				throw new Error('mute requires a parameter');
 			}
 
@@ -1395,7 +1395,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		rate(rate) {
-			if (rate == null) { // lazy equality for null
+			if (rate == null) { // nullish test
 				throw new Error('rate requires a parameter');
 			}
 
@@ -1404,7 +1404,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		time(time) {
-			if (time == null) { // lazy equality for null
+			if (time == null) { // nullish test
 				throw new Error('time requires a parameter');
 			}
 
@@ -1413,7 +1413,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		volume(volume) {
-			if (volume == null) { // lazy equality for null
+			if (volume == null) { // nullish test
 				throw new Error('volume requires a parameter');
 			}
 
@@ -1744,10 +1744,10 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 				}
 
 				return {
-					own    : own != null ? own : false, // lazy equality for null,
-					// rate   : rate != null ? rate : track.rate(), // lazy equality for null,
+					own    : own != null ? own : false, // nullish test,
+					// rate   : rate != null ? rate : track.rate(), // nullish test,
 					track,
-					volume : volume != null ? volume : track.volume() // lazy equality for null
+					volume : volume != null ? volume : track.volume() // nullish test
 				};
 			}));
 		}
@@ -1956,7 +1956,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function masterMute(mute) {
-		if (mute == null) { // lazy equality for null
+		if (mute == null) { // nullish test
 			return _masterMute;
 		}
 
@@ -1970,7 +1970,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 			return false;
 		}
 
-		if (mute == null) { // lazy equality for null
+		if (mute == null) { // nullish test
 			return _masterMuteOnHidden;
 		}
 
@@ -1995,7 +1995,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function masterRate(rate) {
-		if (rate == null) { // lazy equality for null
+		if (rate == null) { // nullish test
 			return _masterRate;
 		}
 
@@ -2016,7 +2016,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function masterVolume(volume) {
-		if (volume == null) { // lazy equality for null
+		if (volume == null) { // nullish test
 			return _masterVolume;
 		}
 

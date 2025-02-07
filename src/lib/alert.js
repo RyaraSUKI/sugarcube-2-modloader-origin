@@ -41,7 +41,7 @@ var Alert = (() => { // eslint-disable-line no-unused-vars, no-var
 			isExLike ? String(error.message).replace(errorPrologRegExp, '') : String(error)
 		).trim() || 'unknown error';
 
-		if (where != null) { // lazy equality for null
+		if (where != null) { // nullish test
 			mesg += ` [${where}]`;
 		}
 
@@ -86,12 +86,12 @@ var Alert = (() => { // eslint-disable-line no-unused-vars, no-var
 
 			// Uncaught exceptions during play may be recoverable/ignorable.
 			if (document.readyState === 'complete') {
-				mesg(null, error != null ? error : what, false, true); // lazy equality for null
+				mesg(null, error != null ? error : what, false, true); // nullish test
 			}
 
 			// Uncaught exceptions during startup should be fatal.
 			else {
-				mesg(null, error != null ? error : what, true, true); // lazy equality for null
+				mesg(null, error != null ? error : what, true, true); // nullish test
 				window.onerror = origOnError;
 
 				if (typeof window.onerror === 'function') {

@@ -88,7 +88,7 @@ Macro.add(['numberbox', 'textbox'], {
 					ev.preventDefault();
 					State.setVar(varName, asNumber ? Number(this.value) : this.value);
 
-					if (passage != null) { // lazy equality for null
+					if (passage != null) { // nullish test
 						Engine.play(passage);
 					}
 				}

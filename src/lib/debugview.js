@@ -37,8 +37,8 @@ var DebugView = (() => { // eslint-disable-line no-unused-vars, no-var
 				.attr({
 					title,
 					'aria-label' : title,
-					'data-type'  : type != null ? type : '', // lazy equality for null
-					'data-name'  : name != null ? name : ''  // lazy equality for null
+					'data-type'  : type != null ? type : '', // nullish test
+					'data-name'  : name != null ? name : ''  // nullish test
 				})
 				.addClass('debug');
 
@@ -58,14 +58,14 @@ var DebugView = (() => { // eslint-disable-line no-unused-vars, no-var
 			return this.view.getAttribute('data-type');
 		}
 		set type(type) {
-			this.view.setAttribute('data-type', type != null ? type : ''); // lazy equality for null
+			this.view.setAttribute('data-type', type != null ? type : ''); // nullish test
 		}
 
 		get name() {
 			return this.view.getAttribute('data-name');
 		}
 		set name(name) {
-			this.view.setAttribute('data-name', name != null ? name : ''); // lazy equality for null
+			this.view.setAttribute('data-name', name != null ? name : ''); // nullish test
 		}
 
 		get title() {
@@ -81,7 +81,7 @@ var DebugView = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		modes(options) {
-			if (options == null) { // lazy equality for null
+			if (options == null) { // nullish test
 				const current = {};
 
 				this.view.className.splitOrEmpty(/\s+/).forEach(name => {

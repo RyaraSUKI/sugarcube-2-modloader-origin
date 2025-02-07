@@ -220,11 +220,11 @@ SimpleStore.adapters.push((() => {
 
 			let payload = `${encodeURIComponent(prefixedKey)}=`;
 
-			if (value != null) { // lazy equality for null
+			if (value != null) { // nullish test
 				payload += encodeURIComponent(value);
 			}
 
-			if (expiry != null) { // lazy equality for null
+			if (expiry != null) { // nullish test
 				payload += `; expires=${expiry}`;
 			}
 
