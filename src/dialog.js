@@ -120,7 +120,7 @@ var Dialog = (() => { // eslint-disable-line no-unused-vars, no-var
 	/*
 		Calculate the inset values, in pixels, required to fit the dialog within
 		the current viewport based on the size of its contents and the viewport's
-		dimentions.
+		dimensions.
 	*/
 	function calcInset(top) {
 		const $window = jQuery(window);
@@ -236,6 +236,8 @@ var Dialog = (() => { // eslint-disable-line no-unused-vars, no-var
 			.removeAttr('data-dialog');
 
 		// Clear the dialog's content.
+		$dialog
+			.removeAttr('data-class');
 		$title
 			.empty();
 		$body
