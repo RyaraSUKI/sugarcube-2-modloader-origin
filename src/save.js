@@ -377,8 +377,8 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		return newest.type === Type.Auto
-			? storage.get(getAutoInfoKeyFromIndex(newest.index))
-			: storage.get(getSlotInfoKeyFromIndex(newest.index));
+			? { index : newest.index, ...storage.get(getAutoInfoKeyFromIndex(newest.index)) }
+			: { index : newest.index, ...storage.get(getSlotInfoKeyFromIndex(newest.index)) };
 	}
 
 	function browserSize() {
