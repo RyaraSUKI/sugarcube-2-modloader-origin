@@ -187,7 +187,7 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 					// Figure out which parser matched.
 					let matchingParser;
 
-					for (let i = 1, iend = parserMatch.length; i < iend; ++i) {
+					for (let i = 1, pMLength = parserMatch.length; i < pMLength; ++i) {
 						if (parserMatch[i]) {
 							matchingParser = i - 1;
 							break; // stop once we've found the matching parser
