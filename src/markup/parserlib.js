@@ -286,7 +286,7 @@
 			const openTag  = this.working.name;
 			const closeTag = `/${openTag}`;
 			const closeAlt = `end${openTag}`;
-			const bodyTags = Array.isArray(macro.tags) ? macro.tags : false;
+			const bodyTags = macro.tags instanceof Array ? macro.tags : false;
 			const payload  = [];
 			let end          = -1;
 			let opened       = 1;
@@ -334,7 +334,7 @@
 						}
 
 						if (opened === 1 && bodyTags) {
-							for (let i = 0, iend = bodyTags.length; i < iend; ++i) {
+							for (let i = 0, bTLength = bodyTags.length; i < bTLength; ++i) {
 								if (tagName === bodyTags[i]) {
 									payload.push({
 										source    : curSource,
@@ -396,7 +396,7 @@
 			if (typeof macro.skipArgs !== 'undefined') {
 				const sa = macro.skipArgs;
 
-				return typeof sa === 'boolean' && sa || Array.isArray(sa) && sa.includes(tagName);
+				return typeof sa === 'boolean' && sa || sa instanceof Array && sa.includes(tagName);
 			}
 			/* legacy */
 			else if (typeof macro.skipArg0 !== 'undefined') {
