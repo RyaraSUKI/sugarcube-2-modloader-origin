@@ -43,6 +43,24 @@ var Outliner = (() => { // eslint-disable-line no-unused-vars, no-var
 			'mousedown.style-outliner keydown.style-outliner',
 			ev => {
 				if (ev.type !== lastEvent) {
+					// // Attempt to prevent `keydown` events from changing outline
+					// // status when `lastEvent` is `mousedown`.
+					// //
+					// // NOTE: Commenting this for now, as I can't seem to get it
+					// // to work correctly.
+					// const target = ev.originalEvent.target;
+					//
+					// if (
+					// 	(
+					// 		target.nodeName.toUpperCase() === 'INPUT' && target.getAttribute('type').toUpperCase() === 'TEXT'
+					// 		|| target.nodeName.toUpperCase() === 'TEXTAREA'
+					// 		|| target.isContentEditable
+					// 	)
+					// 	&& lastEvent === 'mousedown'
+					// ) {
+					// 	return;
+					// }
+
 					lastEvent = ev.type;
 
 					if (ev.type === 'keydown') {
