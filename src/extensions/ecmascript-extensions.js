@@ -307,9 +307,9 @@
 				return [];
 			}
 
-			const needles       = Array.prototype.concat.apply([], arguments);
-			const needlesLength = needles.length;
 			const indices       = [];
+			const needles       = [];
+			const needlesLength = Array.prototype.push.apply(needles, arguments);
 
 			for (let i = 0; i < length; ++i) {
 				const value = this[i];
@@ -414,8 +414,10 @@
 			}
 
 			const splice  = Array.prototype.splice;
-			const needles = Array.prototype.concat.apply([], arguments);
 			const result  = [];
+			const needles = [];
+
+			Array.prototype.push.apply(needles, arguments);
 
 			// Find and remove the first instance of each needle.
 			for (let i = 0; i < length && needles.length > 0; ++i) {
@@ -461,8 +463,10 @@
 			}
 
 			const splice  = Array.prototype.splice;
-			const needles = Array.prototype.concat.apply([], arguments);
 			const result  = [];
+			const needles = [];
+
+			Array.prototype.push.apply(needles, arguments);
 
 			// Find and remove the last instance of each needle.
 			for (let i = length - 1; i >= 0 && needles.length > 0; --i) {
