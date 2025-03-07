@@ -1343,7 +1343,7 @@
 
 	/*
 		[DEPRECATED] Removes and returns all instances of the given elements from the array.
-		*/
+	*/
 	Object.defineProperty(Array.prototype, 'delete', {
 		configurable : true,
 		writable     : true,
