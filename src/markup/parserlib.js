@@ -7,8 +7,8 @@
 
 ***********************************************************************************************************************/
 /*
-	global Config, DebugView, EOF, Engine, Lexer, Macro, MacroContext, Patterns, Scripting, State, Story, Template,
-	       Wikifier, stringFrom, appendError
+	global Config, DebugView, Engine, Lexer, Macro, MacroContext, Patterns, Scripting, State, Story, Template,
+	       Wikifier, WikifierUtil, appendError, enumFrom, hasBlockContext, stringFrom
 */
 /* eslint "no-param-reassign": [ 2, { "props" : false } ] */
 
@@ -43,7 +43,7 @@
 		terminator : '^<<<\\n',
 
 		handler(w) {
-			if (!Wikifier.helpers.hasBlockContext(w.output.childNodes)) {
+			if (!hasBlockContext(w.output.childNodes)) {
 				jQuery(w.output).append(document.createTextNode(w.matchText));
 				return;
 			}
@@ -65,7 +65,7 @@
 		terminator : '\\n',
 
 		handler(w) {
-			if (!Wikifier.helpers.hasBlockContext(w.output.childNodes)) {
+			if (!hasBlockContext(w.output.childNodes)) {
 				jQuery(w.output).append(document.createTextNode(w.matchText));
 				return;
 			}
@@ -408,14 +408,18 @@
 		},
 
 		parseArgs : (() => {
+			// Lexing constant.
+			const EOF = Lexer.EOF;
+
 			// Lex item types object.
-			const Item = Lexer.enumFromNames([
+			const Item = enumFrom([
 				'Error',        // error
 				'Bareword',     // bare identifier
 				'Expression',   // expression (backquoted)
 				'String',       // quoted string (single or double)
 				'SquareBracket' // [[…]] or [img[…]]
 			]);
+
 			const spaceRe    = new RegExp(Patterns.space);
 			const notSpaceRe = new RegExp(Patterns.notSpace);
 			const varTest    = new RegExp(`^${Patterns.variable}`);
@@ -670,7 +674,7 @@
 						}
 
 						case Item.SquareBracket: {
-							const markup = Wikifier.helpers.parseSquareBracketedMarkup({
+							const markup = WikifierUtil.parseSquareBracketedMarkup({
 								source     : arg,
 								matchStart : 0
 							});
@@ -688,11 +692,11 @@
 								// .isLink, [.text], [.forceInternal], .link, [.setter]
 								arg = { isLink : true };
 								arg.count    = Object.hasOwn(markup, 'text') ? 2 : 1;
-								arg.link     = Wikifier.helpers.evalPassageId(markup.link);
-								arg.text     = Object.hasOwn(markup, 'text') ? Wikifier.helpers.evalText(markup.text) : arg.link;
+								arg.link     = WikifierUtil.evalPassageName(markup.link);
+								arg.text     = Object.hasOwn(markup, 'text') ? WikifierUtil.evalText(markup.text) : arg.link;
 								arg.external = !markup.forceInternal && Wikifier.isExternalLink(arg.link);
 								arg.setFn    = Object.hasOwn(markup, 'setter')
-									? Wikifier.helpers.shadowHandler(Scripting.desugar(markup.setter))
+									? WikifierUtil.shadowHandler(Scripting.desugar(markup.setter))
 									: null;
 							}
 							else if (markup.isImage) {
@@ -714,23 +718,23 @@
 									}
 
 									return imgObj;
-								})(Wikifier.helpers.evalPassageId(markup.source));
+								})(WikifierUtil.evalPassageName(markup.source));
 
 								if (Object.hasOwn(markup, 'align')) {
 									arg.align = markup.align;
 								}
 
 								if (Object.hasOwn(markup, 'text')) {
-									arg.title = Wikifier.helpers.evalText(markup.text);
+									arg.title = WikifierUtil.evalText(markup.text);
 								}
 
 								if (Object.hasOwn(markup, 'link')) {
-									arg.link     = Wikifier.helpers.evalPassageId(markup.link);
+									arg.link     = WikifierUtil.evalPassageName(markup.link);
 									arg.external = !markup.forceInternal && Wikifier.isExternalLink(arg.link);
 								}
 
 								arg.setFn = Object.hasOwn(markup, 'setter')
-									? Wikifier.helpers.shadowHandler(Scripting.desugar(markup.setter))
+									? WikifierUtil.shadowHandler(Scripting.desugar(markup.setter))
 									: null;
 							}
 
@@ -754,7 +758,7 @@
 		match    : '\\[\\[[^[]',
 
 		handler(w) {
-			const markup = Wikifier.helpers.parseSquareBracketedMarkup(w);
+			const markup = WikifierUtil.parseSquareBracketedMarkup(w);
 
 			if (Object.hasOwn(markup, 'error')) {
 				w.outputText(w.output, w.matchStart, w.nextMatch);
@@ -764,10 +768,10 @@
 			w.nextMatch = markup.pos;
 
 			// text=(text), forceInternal=(~), link=link, setter=(setter)
-			const link  = Wikifier.helpers.evalPassageId(markup.link);
-			const text  = Object.hasOwn(markup, 'text') ? Wikifier.helpers.evalText(markup.text) : link;
+			const link  = WikifierUtil.evalPassageName(markup.link);
+			const text  = Object.hasOwn(markup, 'text') ? WikifierUtil.evalText(markup.text) : link;
 			const setFn = Object.hasOwn(markup, 'setter')
-				? Wikifier.helpers.shadowHandler(Scripting.desugar(markup.setter))
+				? WikifierUtil.shadowHandler(Scripting.desugar(markup.setter))
 				: null;
 
 			// Debug view setup.
@@ -801,7 +805,7 @@
 		match    : '\\[[<>]?[Ii][Mm][Gg]\\[',
 
 		handler(w) {
-			const markup = Wikifier.helpers.parseSquareBracketedMarkup(w);
+			const markup = WikifierUtil.parseSquareBracketedMarkup(w);
 
 			if (Object.hasOwn(markup, 'error')) {
 				w.outputText(w.output, w.matchStart, w.nextMatch);
@@ -825,13 +829,13 @@
 
 			// align=(left|right), alt=(alternate), source=source, forceInternal=(~), link=(link), setter=(setter)
 			const setFn = Object.hasOwn(markup, 'setter')
-				? Wikifier.helpers.shadowHandler(Scripting.desugar(markup.setter))
+				? WikifierUtil.shadowHandler(Scripting.desugar(markup.setter))
 				: null;
 			let el     = (Config.debug ? debugView : w).output;
 			let source;
 
 			if (Object.hasOwn(markup, 'link')) {
-				const link = Wikifier.helpers.evalPassageId(markup.link);
+				const link = WikifierUtil.evalPassageName(markup.link);
 
 				if (markup.forceInternal || !Wikifier.isExternalLink(link)) {
 					el = Wikifier.createInternalLink(el, link, null, setFn);
@@ -846,7 +850,7 @@
 			el = jQuery(document.createElement('img'))
 				.appendTo(el)
 				.get(0);
-			source = Wikifier.helpers.evalPassageId(markup.source);
+			source = WikifierUtil.evalPassageName(markup.source);
 
 			// Check for image passage transclusion.
 			if (source.slice(0, 5) !== 'data:' && Story.has(source)) {
@@ -861,7 +865,7 @@
 			el.src = source;
 
 			if (Object.hasOwn(markup, 'text')) {
-				el.alt = Wikifier.helpers.evalText(markup.text);
+				el.alt = WikifierUtil.evalText(markup.text);
 			}
 
 			if (Object.hasOwn(markup, 'align')) {
@@ -951,7 +955,7 @@
 		blockRe    : /\s*\n/gm,
 
 		handler(w) {
-			const css = Wikifier.helpers.inlineCss(w);
+			const css = WikifierUtil.inlineCss(w);
 
 			this.blockRe.lastIndex = w.nextMatch; // must follow the call to `inlineCss()`
 
@@ -1127,7 +1131,7 @@
 		terminator : '\\n',
 
 		handler(w) {
-			if (!Wikifier.helpers.hasBlockContext(w.output.childNodes)) {
+			if (!hasBlockContext(w.output.childNodes)) {
 				jQuery(w.output).append(document.createTextNode(w.matchText));
 				return;
 			}
@@ -1150,7 +1154,7 @@
 		rowTypes       : { c : 'caption', f : 'tfoot', h : 'thead', '' : 'tbody' }, // eslint-disable-line id-length
 
 		handler(w) {
-			if (!Wikifier.helpers.hasBlockContext(w.output.childNodes)) {
+			if (!hasBlockContext(w.output.childNodes)) {
 				jQuery(w.output).append(document.createTextNode(w.matchText));
 				return;
 			}
@@ -1243,7 +1247,7 @@
 					else {
 						++w.nextMatch;
 
-						const css = Wikifier.helpers.inlineCss(w);
+						const css = WikifierUtil.inlineCss(w);
 						let spaceLeft  = false;
 						let spaceRight = false;
 						let $cell;
@@ -1312,7 +1316,7 @@
 		terminator : '\\n',
 
 		handler(w) {
-			if (!Wikifier.helpers.hasBlockContext(w.output.childNodes)) {
+			if (!hasBlockContext(w.output.childNodes)) {
 				jQuery(w.output).append(document.createTextNode(w.matchText));
 				return;
 			}
@@ -1476,7 +1480,7 @@
 					this.imageMarkup.lastIndex = 0;
 
 					css = css.replace(this.imageMarkup, wikiImage => {
-						const markup = Wikifier.helpers.parseSquareBracketedMarkup({
+						const markup = WikifierUtil.parseSquareBracketedMarkup({
 							source     : wikiImage,
 							matchStart : 0
 						});
@@ -1485,7 +1489,7 @@
 							return wikiImage;
 						}
 
-						let source = Wikifier.helpers.evalPassageId(markup.source);
+						let source = WikifierUtil.evalPassageName(markup.source);
 
 						// Handle image passage transclusion.
 						if (source.slice(0, 5) !== 'data:' && Story.has(source)) {
@@ -1610,7 +1614,7 @@
 				return;
 			}
 
-			const evaluated = Wikifier.helpers.evalPassageId(passage);
+			const evaluated = WikifierUtil.evalPassageName(passage);
 
 			if (evaluated !== passage) {
 				passage = evaluated;
@@ -1640,7 +1644,7 @@
 						setter = String(setter).trim();
 
 						if (setter !== '') {
-							setFn = Wikifier.helpers.shadowHandler(Scripting.desugar(setter));
+							setFn = WikifierUtil.shadowHandler(Scripting.desugar(setter));
 						}
 					}
 
@@ -1853,7 +1857,7 @@
 				return;
 			}
 
-			const evaluated = Wikifier.helpers.evalPassageId(passage);
+			const evaluated = WikifierUtil.evalPassageName(passage);
 
 			if (evaluated !== passage) {
 				passage = evaluated;
@@ -1910,7 +1914,7 @@
 						setter = String(setter).trim();
 
 						if (setter !== '') {
-							setFn = Wikifier.helpers.shadowHandler(Scripting.desugar(setter));
+							setFn = WikifierUtil.shadowHandler(Scripting.desugar(setter));
 						}
 					}
 

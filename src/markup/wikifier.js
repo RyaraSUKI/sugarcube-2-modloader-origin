@@ -7,8 +7,8 @@
 
 ***********************************************************************************************************************/
 /*
-	global Config, EOF, Engine, Lexer, Patterns, Scripting, State, Story, TempState, convertBreaks,
-	       cssPropToDOMProp, errorPrologRegExp, getTypeOf, isExternalLink
+	global Config, Engine, Patterns, Scripting, State, Story, TempState, WikifierUtil,
+	       convertBreaks, errorPrologRegExp, getTypeOf, hasBlockContext, isExternalLink
 */
 
 /*
@@ -346,27 +346,27 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 			/*
 				GlobalOption Functions.
 			*/
-			function optionLength() {
+			function length() {
 				return _optionsStack.length;
 			}
 
-			function optionGetter() {
+			function getter() {
 				return Object.assign({}, ..._optionsStack);
 			}
 
-			function optionClear() {
+			function clear() {
 				_optionsStack = [];
 			}
 
-			function optionGet(index) {
+			function get(index) {
 				return _optionsStack[index];
 			}
 
-			function optionPop() {
+			function pop() {
 				return _optionsStack.pop();
 			}
 
-			function optionPush(options) {
+			function push(options) {
 				if (typeof options !== 'object' || options === null) {
 					throw new TypeError(`Wikifier.Option.push options parameter must be an object (received: ${getTypeOf(options)})`);
 				}
@@ -379,12 +379,12 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 				Exports.
 			*/
 			return Object.preventExtensions(Object.create(null, {
-				length  : { get : optionLength },
-				options : { get : optionGetter },
-				clear   : { value : optionClear },
-				get     : { value : optionGet },
-				pop     : { value : optionPop },
-				push    : { value : optionPush }
+				length  : { get : length },
+				options : { get : getter },
+				clear   : { value : clear },
+				get     : { value : get },
+				pop     : { value : pop },
+				push    : { value : push }
 			}));
 		})()
 	});
@@ -406,11 +406,11 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 			/*
 				Parser Functions.
 			*/
-			function parsersGetter() {
+			function getter() {
 				return _parsers;
 			}
 
-			function parsersAdd(parser) {
+			function add(parser) {
 				// Parser object sanity checks.
 				if (typeof parser !== 'object') {
 					throw new Error('Wikifier.Parser.add parser parameter must be an object');
@@ -437,12 +437,12 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 					throw new Error('parser object "handler" property must be a function');
 				}
 
-				if (Object.hasOwn(parser, 'profiles') && !Array.isArray(parser.profiles)) {
+				if (Object.hasOwn(parser, 'profiles') && !(parser.profiles instanceof Array)) {
 					throw new Error('parser object "profiles" property must be an array');
 				}
 
 				// Check for an existing parser with the same name.
-				if (parsersHas(parser.name)) {
+				if (has(parser.name)) {
 					throw new Error(`cannot clobber existing parser "${parser.name}"`);
 				}
 
@@ -450,7 +450,7 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 				_parsers.push(parser);
 			}
 
-			function parsersDelete(name) {
+			function delete$(name) {
 				const parser = _parsers.find(parser => parser.name === name);
 
 				if (parser) {
@@ -458,15 +458,15 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 				}
 			}
 
-			function parsersIsEmpty() {
+			function isEmpty() {
 				return _parsers.length === 0;
 			}
 
-			function parsersHas(name) {
+			function has(name) {
 				return !!_parsers.find(parser => parser.name === name);
 			}
 
-			function parsersGet(name) {
+			function get(name) {
 				return _parsers.find(parser => parser.name === name) || null;
 			}
 
@@ -522,16 +522,16 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 				/*
 					Parser Containers.
 				*/
-				parsers : { get : parsersGetter },
+				parsers : { get : getter },
 
 				/*
 					Parser Functions.
 				*/
-				add     : { value : parsersAdd },
-				delete  : { value : parsersDelete },
-				isEmpty : { value : parsersIsEmpty },
-				has     : { value : parsersHas },
-				get     : { value : parsersGet },
+				add     : { value : add },
+				delete  : { value : delete$ },
+				isEmpty : { value : isEmpty },
+				has     : { value : has },
+				get     : { value : get },
 
 				/*
 					Parser Profile.
@@ -562,655 +562,28 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 	*******************************************************************************/
 
 	Object.defineProperties(Wikifier, {
-		helpers : { value : {} },
-
 		/*
 			Legacy Aliases.
 		*/
-		isExternalLink : { value : isExternalLink },
+		helpers : {
+			value : {
+				createShadowSetterCallback : { value : WikifierUtil.shadowHandler },              // SEE: `markup/wikifier-util.js`
+				evalPassageId              : { value : WikifierUtil.evalPassageName },            // SEE: `markup/wikifier-util.js`
+				evalText                   : { value : WikifierUtil.evalText },                   // SEE: `markup/wikifier-util.js`
+				hasBlockContext            : { value : hasBlockContext },                         // SEE: `util/hasblockcontext.js`
+				inlineCss                  : { value : WikifierUtil.inlineCss },                  // SEE: `markup/wikifier-util.js`
+				parseSquareBracketedMarkup : { value : WikifierUtil.parseSquareBracketedMarkup }, // SEE: `markup/wikifier-util.js`
+				shadowHandler              : { value : WikifierUtil.shadowHandler }               // SEE: `markup/wikifier-util.js`
+			}
+		},
+
+		isExternalLink : { value : isExternalLink },            // SEE: `util/isexternallink.js`
 		getValue       : { value : State.getVar },              // SEE: `state.js`.
 		setValue       : { value : State.setVar },              // SEE: `state.js`.
 		parse          : { value : Scripting.desugar },         // SEE: `markup/scripting.js`.
 		evalExpression : { value : Scripting.evalTwineScript }, // SEE: `markup/scripting.js`.
 		evalStatements : { value : Scripting.evalTwineScript }, // SEE: `markup/scripting.js`.
 		textPrimitives : { value : Patterns }                   // SEE: `lib/patterns.js`.
-	});
-
-
-	/*******************************************************************************
-		Helper Static Methods.
-	*******************************************************************************/
-
-	Object.defineProperties(Wikifier.helpers, {
-		inlineCss : {
-			value : (() => {
-				const lookaheadRe = new RegExp(Patterns.inlineCss, 'gm');
-				const idOrClassRe = new RegExp(`(${Patterns.cssIdOrClassSigil})(${Patterns.anyLetter}+)`, 'g');
-
-				function helperInlineCss(w) {
-					const css = { classes : [], id : '', styles : {} };
-					let matched;
-
-					do {
-						lookaheadRe.lastIndex = w.nextMatch;
-
-						const match = lookaheadRe.exec(w.source);
-
-						matched = match && match.index === w.nextMatch;
-
-						if (matched) {
-							if (match[1]) {
-								css.styles[cssPropToDOMProp(match[1])] = match[2].trim();
-							}
-							else if (match[3]) {
-								css.styles[cssPropToDOMProp(match[3])] = match[4].trim();
-							}
-							else if (match[5]) {
-								let subMatch;
-
-								idOrClassRe.lastIndex = 0; // NOTE: Guard against buggy implementations.
-
-								while ((subMatch = idOrClassRe.exec(match[5])) !== null) {
-									if (subMatch[1] === '.') {
-										css.classes.push(subMatch[2]);
-									}
-									else {
-										css.id = subMatch[2];
-									}
-								}
-							}
-
-							w.nextMatch = lookaheadRe.lastIndex; // eslint-disable-line no-param-reassign
-						}
-					} while (matched);
-
-					return css;
-				}
-
-				return helperInlineCss;
-			})()
-		},
-
-		evalText : {
-			value(text) {
-				let result;
-
-				try {
-					result = Scripting.evalTwineScript(text);
-
-					/*
-						Attempt to prevent the leakage of auto-globals by enforcing that
-						the resultant value be either a string or a number.
-
-						NOTE: This is not a foolproof solution to the problem of auto-global
-						leakage.  Various auto-globals, which return strings or numbers, can
-						still leak through—e.g. `window.status` → string.
-					*/
-					switch (typeof result) {
-						case 'string':
-							if (result.trim() === '') {
-								result = text;
-							}
-							break;
-						case 'number':
-							result = String(result);
-							break;
-						default:
-							result = text;
-							break;
-					}
-				}
-				catch (ex) {
-					result = text;
-				}
-
-				return result;
-			}
-		},
-
-		evalPassageId : {
-			value(passage) {
-				if (passage == null || Story.has(passage)) { // nullish test; `0` is a valid name, so we cannot simply evaluate `passage`
-					return passage;
-				}
-
-				return Wikifier.helpers.evalText(passage);
-			}
-		},
-
-		hasBlockContext : {
-			value(nodes) {
-				const hasGCS = typeof window.getComputedStyle === 'function';
-
-				for (let i = nodes.length - 1; i >= 0; --i) {
-					const node = nodes[i];
-
-					switch (node.nodeType) {
-						case Node.ELEMENT_NODE: {
-							const tagName = node.nodeName.toUpperCase();
-
-							if (tagName === 'BR') {
-								return true;
-							}
-
-							const styles = hasGCS ? window.getComputedStyle(node, null) : node.currentStyle;
-
-							if (styles && styles.display) {
-								if (styles.display === 'none') {
-									continue;
-								}
-
-								return styles.display === 'block';
-							}
-
-							/*
-								WebKit/Blink-based browsers do not attach any computed style
-								information to elements until they're inserted into the DOM
-								(and probably visible), not even the default browser styles
-								and any user styles.  So, we make an assumption based on the
-								element.
-							*/
-							switch (tagName) {
-								case 'ADDRESS':
-								case 'ARTICLE':
-								case 'ASIDE':
-								case 'BLOCKQUOTE':
-								case 'CENTER':
-								case 'DIV':
-								case 'DL':
-								case 'FIGURE':
-								case 'FOOTER':
-								case 'FORM':
-								case 'H1':
-								case 'H2':
-								case 'H3':
-								case 'H4':
-								case 'H5':
-								case 'H6':
-								case 'HEADER':
-								case 'HR':
-								case 'MAIN':
-								case 'NAV':
-								case 'OL':
-								case 'P':
-								case 'PRE':
-								case 'SECTION':
-								case 'TABLE':
-								case 'UL':
-									return true;
-							}
-
-							return false;
-						}
-
-						case Node.COMMENT_NODE:
-							continue;
-
-						default:
-							return false;
-					}
-				}
-
-				return true;
-			}
-		},
-
-		shadowHandler : {
-			value : (() => {
-				let macroParser = null;
-
-				function cacheMacroParser() {
-					if (!macroParser) {
-						macroParser = Wikifier.Parser.get('macro');
-
-						if (!macroParser) {
-							throw new Error('cannot find "macro" parser');
-						}
-					}
-
-					return macroParser;
-				}
-
-				function helperShadowHandler(code) {
-					const shadowStore = Object.create(null);
-
-					if (!macroParser) {
-						cacheMacroParser();
-					}
-
-					if (macroParser.context) {
-						macroParser.context.shadowView.forEach(varName => {
-							const varKey = varName.slice(1);
-							const store  = varName[0] === '$' ? State.variables : State.temporary;
-							shadowStore[varName] = store[varKey];
-						});
-					}
-
-					return function () {
-						const shadowNames = Object.keys(shadowStore);
-						const valueCache  = shadowNames.length > 0 ? {} : null;
-
-						/*
-							There's no catch clause because this try/finally is here simply to ensure that
-							proper cleanup is done in the event that an exception is thrown during the
-							evaluation.
-						*/
-						try {
-							/*
-								Cache the existing values of the variables to be shadowed and assign the
-								shadow values.
-							*/
-							shadowNames.forEach(varName => {
-								const varKey = varName.slice(1);
-								const store  = varName[0] === '$' ? State.variables : State.temporary;
-
-								if (Object.hasOwn(store, varKey)) {
-									valueCache[varKey] = store[varKey];
-								}
-
-								store[varKey] = shadowStore[varName];
-							});
-
-							// Evaluate the JavaScript.
-							return Scripting.evalJavaScript(code);
-						}
-						finally {
-							// Revert the variable shadowing.
-							shadowNames.forEach(varName => {
-								const varKey = varName.slice(1);
-								const store  = varName[0] === '$' ? State.variables : State.temporary;
-
-								/*
-									Update the shadow store with the variable's current value, in case it
-									was modified during the callback.
-								*/
-								shadowStore[varName] = store[varKey];
-
-								if (Object.hasOwn(valueCache, varKey)) {
-									store[varKey] = valueCache[varKey];
-								}
-								else {
-									delete store[varKey];
-								}
-							});
-						}
-					};
-				}
-
-				return helperShadowHandler;
-			})()
-		},
-
-		/* legacy */
-		// createShadowSetterCallback : {
-		// 	value : Wikifier.helpers.shadowHandler
-		// },
-		/* /legacy */
-
-		parseSquareBracketedMarkup : {
-			value : (() => {
-				/* eslint-disable no-param-reassign */
-				// Lex item types object.
-				const Item = Lexer.enumFromNames([
-					'Error',     // error
-					'DelimLTR',  // '|' or '->'
-					'DelimRTL',  // '<-'
-					'InnerMeta', // ']['
-					'ImageMeta', // '[img[', '[<img[', or '[>img['
-					'LinkMeta',  // '[['
-					'Link',      // link destination
-					'RightMeta', // ']]'
-					'Setter',    // setter expression
-					'Source',    // image source
-					'Text'       // link text or image alt text
-				]);
-
-				// Delimiter state object.
-				const Delim = Lexer.enumFromNames([
-					'None', // no delimiter encountered
-					'LTR',  // '|' or '->'
-					'RTL'   // '<-'
-				]);
-
-				// Lexing functions.
-				function slurpQuote(lexer, endQuote) {
-					loop: for (;;) {
-						/* eslint-disable indent */
-						switch (lexer.next()) {
-						case '\\':
-							{
-								const ch = lexer.next();
-
-								if (ch !== EOF && ch !== '\n') {
-									break;
-								}
-							}
-							/* falls through */
-						case EOF:
-						case '\n':
-							return EOF;
-
-						case endQuote:
-							break loop;
-						}
-						/* eslint-enable indent */
-					}
-
-					return lexer.pos;
-				}
-
-				function lexLeftMeta(lexer) {
-					if (!lexer.accept('[')) {
-						return lexer.error(Item.Error, 'malformed square-bracketed markup');
-					}
-
-					// Is link markup.
-					if (lexer.accept('[')) {
-						lexer.data.isLink = true;
-						lexer.emit(Item.LinkMeta);
-					}
-
-					// May be image markup.
-					else {
-						lexer.accept('<>'); // aligner syntax
-
-						if (!lexer.accept('Ii') || !lexer.accept('Mm') || !lexer.accept('Gg') || !lexer.accept('[')) {
-							return lexer.error(Item.Error, 'malformed square-bracketed markup');
-						}
-
-						lexer.data.isLink = false;
-						lexer.emit(Item.ImageMeta);
-					}
-
-					lexer.depth = 2; // account for both initial left square brackets
-					return lexCoreComponents;
-				}
-
-				function lexCoreComponents(lexer) {
-					const what = lexer.data.isLink ? 'link' : 'image';
-					let delim = Delim.None;
-
-					for (;;) {
-						switch (lexer.next()) {
-							case EOF:
-							case '\n':
-								return lexer.error(Item.Error, `unterminated ${what} markup`);
-
-							case '"':
-								/*
-									This is not entirely reliable within sections that allow raw strings, since
-									it's possible, however unlikely, for a raw string to contain unpaired double
-									quotes.  The likelihood is low enough, however, that I'm deeming the risk as
-									acceptable—for now, at least.
-								*/
-								if (slurpQuote(lexer, '"') === EOF) {
-									return lexer.error(Item.Error, `unterminated double quoted string in ${what} markup`);
-								}
-								break;
-
-							case '|': // possible pipe ('|') delimiter
-								if (delim === Delim.None) {
-									delim = Delim.LTR;
-									lexer.backup();
-									lexer.emit(Item.Text);
-									lexer.forward();
-									lexer.emit(Item.DelimLTR);
-									// lexer.ignore();
-								}
-								break;
-
-							case '-': // possible right arrow ('->') delimiter
-								if (delim === Delim.None && lexer.peek() === '>') {
-									delim = Delim.LTR;
-									lexer.backup();
-									lexer.emit(Item.Text);
-									lexer.forward(2);
-									lexer.emit(Item.DelimLTR);
-									// lexer.ignore();
-								}
-								break;
-
-							case '<': // possible left arrow ('<-') delimiter
-								if (delim === Delim.None && lexer.peek() === '-') {
-									delim = Delim.RTL;
-									lexer.backup();
-									lexer.emit(lexer.data.isLink ? Item.Link : Item.Source);
-									lexer.forward(2);
-									lexer.emit(Item.DelimRTL);
-									// lexer.ignore();
-								}
-								break;
-
-							case '[':
-								++lexer.depth;
-								break;
-
-							case ']': {
-								--lexer.depth;
-
-								if (lexer.depth === 1) {
-									switch (lexer.peek()) {
-										case '[':
-											++lexer.depth;
-											lexer.backup();
-
-											if (delim === Delim.RTL) {
-												lexer.emit(Item.Text);
-											}
-											else {
-												lexer.emit(lexer.data.isLink ? Item.Link : Item.Source);
-											}
-
-											lexer.forward(2);
-											lexer.emit(Item.InnerMeta);
-											// lexer.ignore();
-											return lexer.data.isLink ? lexSetter : lexImageLink;
-
-										case ']':
-											--lexer.depth;
-											lexer.backup();
-
-											if (delim === Delim.RTL) {
-												lexer.emit(Item.Text);
-											}
-											else {
-												lexer.emit(lexer.data.isLink ? Item.Link : Item.Source);
-											}
-
-											lexer.forward(2);
-											lexer.emit(Item.RightMeta);
-											// lexer.ignore();
-											return null;
-
-										default:
-											return lexer.error(Item.Error, `malformed ${what} markup`);
-									}
-								}
-
-								break;
-							}
-						}
-					}
-				}
-
-				function lexImageLink(lexer) {
-					const what = lexer.data.isLink ? 'link' : 'image';
-
-					for (;;) {
-						switch (lexer.next()) {
-							case EOF:
-							case '\n':
-								return lexer.error(Item.Error, `unterminated ${what} markup`);
-
-							case '"':
-								/*
-									This is not entirely reliable within sections that allow raw strings, since
-									it's possible, however unlikely, for a raw string to contain unpaired double
-									quotes.  The likelihood is low enough, however, that I'm deeming the risk as
-									acceptable—for now, at least.
-								*/
-								if (slurpQuote(lexer, '"') === EOF) {
-									return lexer.error(Item.Error, `unterminated double quoted string in ${what} markup link component`);
-								}
-								break;
-
-							case '[':
-								++lexer.depth;
-								break;
-
-							case ']': {
-								--lexer.depth;
-
-								if (lexer.depth === 1) {
-									switch (lexer.peek()) {
-										case '[': {
-											++lexer.depth;
-											lexer.backup();
-											lexer.emit(Item.Link);
-											lexer.forward(2);
-											lexer.emit(Item.InnerMeta);
-											// lexer.ignore();
-											return lexSetter;
-										}
-
-										case ']': {
-											--lexer.depth;
-											lexer.backup();
-											lexer.emit(Item.Link);
-											lexer.forward(2);
-											lexer.emit(Item.RightMeta);
-											// lexer.ignore();
-											return null;
-										}
-
-										default:
-											return lexer.error(Item.Error, `malformed ${what} markup`);
-									}
-								}
-
-								break;
-							}
-						}
-					}
-				}
-
-				function lexSetter(lexer) {
-					const what = lexer.data.isLink ? 'link' : 'image';
-
-					for (;;) {
-						switch (lexer.next()) {
-							case EOF:
-							case '\n':
-								return lexer.error(Item.Error, `unterminated ${what} markup`);
-
-							case '"':
-								if (slurpQuote(lexer, '"') === EOF) {
-									return lexer.error(Item.Error, `unterminated double quoted string in ${what} markup setter component`);
-								}
-								break;
-
-							case "'":
-								if (slurpQuote(lexer, "'") === EOF) {
-									return lexer.error(Item.Error, `unterminated single quoted string in ${what} markup setter component`);
-								}
-								break;
-
-							case '[':
-								++lexer.depth;
-								break;
-
-							case ']': {
-								--lexer.depth;
-
-								if (lexer.depth === 1) {
-									if (lexer.peek() !== ']') {
-										return lexer.error(Item.Error, `malformed ${what} markup`);
-									}
-
-									--lexer.depth;
-									lexer.backup();
-									lexer.emit(Item.Setter);
-									lexer.forward(2);
-									lexer.emit(Item.RightMeta);
-									// lexer.ignore();
-									return null;
-								}
-
-								break;
-							}
-						}
-					}
-				}
-
-				// Parse function.
-				function parseSquareBracketedMarkup(w) {
-					// Initialize the lexer.
-					const lexer  = new Lexer(w.source, lexLeftMeta);
-
-					// Set the initial positions within the source string.
-					lexer.start = lexer.pos = w.matchStart;
-
-					// Lex the raw argument string.
-					const markup = {};
-					const items  = lexer.run();
-					const last   = items.last();
-
-					if (last && last.type === Item.Error) {
-						markup.error = last.message;
-					}
-					else {
-						items.forEach(item => {
-							const text = item.text.trim();
-
-							switch (item.type) {
-								case Item.ImageMeta:
-									markup.isImage = true;
-
-									if (text[1] === '<') {
-										markup.align = 'left';
-									}
-									else if (text[1] === '>') {
-										markup.align = 'right';
-									}
-									break;
-
-								case Item.LinkMeta:
-									markup.isLink = true;
-									break;
-
-								case Item.Link:
-									if (text[0] === '~') {
-										markup.forceInternal = true;
-										markup.link = text.slice(1);
-									}
-									else {
-										markup.link = text;
-									}
-									break;
-
-								case Item.Setter:
-									markup.setter = text;
-									break;
-
-								case Item.Source:
-									markup.source = text;
-									break;
-
-								case Item.Text:
-									markup.text = text;
-									break;
-							}
-						});
-					}
-
-					markup.pos = lexer.pos;
-					return markup;
-				}
-
-				return parseSquareBracketedMarkup;
-				/* eslint-enable no-param-reassign */
-			})()
-		}
 	});
 
 

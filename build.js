@@ -47,6 +47,7 @@ const CONFIG = {
 			'src/state.js',
 			'src/markup/scripting.js',
 			'src/markup/lexer.js',
+			'src/markup/wikifier-util.js',
 			'src/markup/wikifier.js',
 			'src/markup/parserlib.js',
 			'src/markup/template.js',
