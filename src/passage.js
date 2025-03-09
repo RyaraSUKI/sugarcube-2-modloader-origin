@@ -19,14 +19,14 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 			twine.*    → special tag
 			widget     → special tag
 	*/
-	let tagsToSkip;
+	let tagsToSkipRE;
 
 	// Passage store text content decoding function.
 	let decodePassageText;
 
 	// For Twine 1.
 	if (BUILD_TWINE1) {
-		tagsToSkip = /^(?:debug|nobr|passage|script|stylesheet|widget|twine\..*)$/i;
+		tagsToSkipRE = /^(?:debug|nobr|passage|script|stylesheet|widget|twine\..*)$/i;
 
 		decodePassageText = (() => {
 			const encodedMap   = enumFrom({
@@ -62,7 +62,7 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 	// For Twine 2.
 	else {
-		tagsToSkip = /^(?:debug|nobr|passage|widget|twine\..*)$/i;
+		tagsToSkipRE = /^(?:debug|nobr|passage|widget|twine\..*)$/i;
 
 		decodePassageText = (() => {
 			const encodedRE    = /\r/g;
@@ -92,16 +92,23 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 	*******************************************************************************/
 
 	class Passage {
+		// Private fields.
+		#element;
+
+		// Public fields.
+		name;
+		id;
+		tags;
+		classes;
+
 		constructor(name, el) {
+			// Passage data element (within the story data element; i.e. T1: '[tiddler]', T2: 'tw-passagedata').
+			this.#element = el ?? null;
+
 			Object.defineProperties(this, {
 				// Passage title.
 				name : {
 					value : decodeEntities(name)
-				},
-
-				// Passage data element (within the story data element; i.e. T1: '[tiddler]', T2: 'tw-passagedata').
-				element : {
-					value : el || null
 				},
 
 				// Passage tags array (unique).
@@ -131,19 +138,10 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 							so we only need to filter and map here.
 						*/
 						this.tags
-							.filter(tag => !tagsToSkip.test(tag))
+							.filter(tag => !tagsToSkipRE.test(tag))
 							.map(tag => createSlug(tag))
 					)())
-				},
-
-				/* legacy */
-				domId : {
-					get() { return this.id; }
-				},
-				title : {
-					get() { return this.name; }
 				}
-				/* /legacy */
 			});
 		}
 
@@ -154,18 +152,18 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 
 		// TODO: (v3) This should be → `get source`.
 		get text() {
-			if (this.element == null) { // nullish test
+			if (this.#element == null) { // nullish test
 				const passage = encodeMarkup(this.name);
 				const mesg    = `${L10n.get('errorViewTitle')}: ${L10n.get('errorNonexistentPassage', { passage })}`;
 				return `<div class="error-view"><span class="error">${mesg}</span></div>`;
 			}
 
-			return decodePassageText(this.element.textContent);
+			return decodePassageText(this.#element.textContent);
 		}
 
 		// TODO: (v3) This should be → `get text`.
 		processText() {
-			if (this.element == null) { // nullish test
+			if (this.#element == null) { // nullish test
 				return this.text;
 			}
 
@@ -202,6 +200,9 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		/* legacy */
+		get domId() { return this.id; }
+		get title() { return this.name; }
+
 		description() { // eslint-disable-line class-methods-use-this
 			return `${L10n.get('textTurn')} ${State.turns}`;
 		}

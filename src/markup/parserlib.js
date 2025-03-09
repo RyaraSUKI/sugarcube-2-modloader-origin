@@ -204,8 +204,8 @@
 								/*
 									Set up the raw arguments string.
 								*/
-								const prevRawArgs = w._rawArgs;
-								w._rawArgs = rawArgs;
+								const prevRawArgs = w._deprecated_rawArgs_;
+								w._deprecated_rawArgs_ = rawArgs; // eslint-disable-line camelcase
 
 								/*
 									Call the handler.
@@ -218,7 +218,7 @@
 									macro.handler(w.output, name, args, w, payload);
 								}
 								finally {
-									w._rawArgs = prevRawArgs;
+									w._deprecated_rawArgs_ = prevRawArgs; // eslint-disable-line camelcase
 								}
 							}
 						}

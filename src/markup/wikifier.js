@@ -17,6 +17,8 @@
 /* eslint-disable max-len */
 var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 	// Wikifier call depth.
+	//
+	// TODO: Should `_callDepth` be a static field of `Wikifier`?
 	let _callDepth = 0;
 
 
@@ -25,6 +27,24 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 	*******************************************************************************/
 
 	class Wikifier {
+		// Public fields.
+		source;      // The source text to process.
+		options;     // Our options.
+		output;      // Our output element or document fragment.
+		matchText;   // The current text that matched (the selected parser).
+		matchLength; // The length of the current text match.
+		matchStart;  // The starting position of the current text match.
+		nextMatch;   // The current position of parser (approximately: matchStart + matchLength).
+
+		// Private fields.
+		/* legacy */
+		#rawArgs = '';
+		/* /legacy */
+
+		// Static fields.
+		// static Option; // To be added later.
+		// static Parser; // To be added later.
+
 		constructor(destination, source, options) {
 			if (Wikifier.Parser.Profile.isEmpty()) {
 				Wikifier.Parser.Profile.compile();
@@ -51,12 +71,6 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 				output : {
 					writable : true,
 					value    : null
-				},
-
-				// Macro parser ('macro') related properties.
-				_rawArgs : {
-					writable : true,
-					value    : ''
 				}
 			});
 
@@ -238,8 +252,15 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 		*/
 		rawArgs() {
 			console.warn('[DEPRECATED] Wikifier.rawArgs() is deprecated.');
-
-			return this._rawArgs;
+			return this.#rawArgs;
+		}
+		get _deprecated_rawArgs_() { // eslint-disable-line camelcase
+			// console.warn('[DEPRECATED] Wikifier.rawArgs is deprecated.');
+			return this.#rawArgs;
+		}
+		set _deprecated_rawArgs_(value) { // eslint-disable-line camelcase
+			// console.warn('[DEPRECATED] Wikifier.rawArgs is deprecated.');
+			return this.#rawArgs += value;
 		}
 
 		/*
@@ -249,7 +270,7 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 		fullArgs() {
 			console.warn('[DEPRECATED] Wikifier.fullArgs() is deprecated.');
 
-			return Scripting.desugar(this._rawArgs);
+			return Scripting.desugar(this.#rawArgs);
 		}
 
 		/*

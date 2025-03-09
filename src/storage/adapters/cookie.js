@@ -22,18 +22,22 @@ SimpleStore.adapters.push((() => {
 	*******************************************************************************/
 
 	class CookieAdapter {
+		// Private fields.
+		#prefix;   // Our database prefix.
+		#prefixRE; // The regular expression that matches our prefix.
+
+		// Public fields.
+		name;       // Our name.
+		id;         // Our storage ID.
+		persistent; // Are we a persistent store?
+
 		constructor(storageId, persistent) {
 			const prefix = `${storageId}${persistent ? '!' : '*'}.`;
 
+			this.#prefix   = prefix;
+			this.#prefixRE = new RegExp(`^${RegExp.escape(prefix)}`);
+
 			Object.defineProperties(this, {
-				_prefix : {
-					value : prefix
-				},
-
-				_prefixRe : {
-					value : new RegExp(`^${RegExp.escape(prefix)}`)
-				},
-
 				name : {
 					value : 'cookie'
 				},
@@ -68,7 +72,7 @@ SimpleStore.adapters.push((() => {
 				const kvPair = cookies[i].split('=');
 				const key    = decodeURIComponent(kvPair[0]);
 
-				if (this._prefixRe.test(key)) {
+				if (this.#prefixRE.test(key)) {
 					// NOTE: All stored values are serialized and an empty string will
 					// always serialize to a non-empty string.  Therefore, receiving an
 					// empty string here denotes a deleted value rather than a serialized
@@ -76,7 +80,7 @@ SimpleStore.adapters.push((() => {
 					const value = decodeURIComponent(kvPair[1]);
 
 					if (value !== '') {
-						keys.push(key.replace(this._prefixRe, ''));
+						keys.push(key.replace(this.#prefixRE, ''));
 					}
 				}
 			}
@@ -91,7 +95,7 @@ SimpleStore.adapters.push((() => {
 				return false;
 			}
 
-			return CookieAdapter._getCookie(this._prefix + key) !== null;
+			return CookieAdapter._getCookie(this.#prefix + key) !== null;
 		}
 
 		get(key) {
@@ -101,7 +105,7 @@ SimpleStore.adapters.push((() => {
 				return null;
 			}
 
-			const value = CookieAdapter._getCookie(this._prefix + key);
+			const value = CookieAdapter._getCookie(this.#prefix + key);
 
 			return value === null ? null : CookieAdapter._deserialize(value);
 		}
@@ -115,7 +119,7 @@ SimpleStore.adapters.push((() => {
 
 			try {
 				CookieAdapter._setCookie(
-					this._prefix + key,
+					this.#prefix + key,
 					CookieAdapter._serialize(value),
 
 					// An undefined expiry denotes a session cookie.
@@ -150,7 +154,7 @@ SimpleStore.adapters.push((() => {
 
 			try {
 				CookieAdapter._setCookie(
-					this._prefix + key,
+					this.#prefix + key,
 
 					// Use `undefined` as the value.
 					undefined,

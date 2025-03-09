@@ -18,33 +18,33 @@ SimpleStore.adapters.push((() => {
 	*******************************************************************************/
 
 	class WebStorageAdapter {
+		// Private fields.
+		#engine;   // Our database engine.
+		#prefix;   // Our database prefix.
+		#prefixRE; // The regular expression that matches our prefix.
+
+		// Public fields.
+		name;       // Our name.
+		id;         // Our storage ID.
+		persistent; // Are we a persistent store?
+
 		constructor(storageId, persistent) {
 			const prefix = `${storageId}.`;
-			let engine = null;
-			let name   = null;
+			let name;
 
 			if (persistent) {
-				engine = window.localStorage;
-				name   = 'localStorage';
+				this.#engine = window.localStorage;
+				name = 'localStorage';
 			}
 			else {
-				engine = window.sessionStorage;
-				name   = 'sessionStorage';
+				this.#engine = window.sessionStorage;
+				name = 'sessionStorage';
 			}
 
+			this.#prefix   = prefix;
+			this.#prefixRE = new RegExp(`^${RegExp.escape(prefix)}`);
+
 			Object.defineProperties(this, {
-				_engine : {
-					value : engine
-				},
-
-				_prefix : {
-					value : prefix
-				},
-
-				_prefixRe : {
-					value : new RegExp(`^${RegExp.escape(prefix)}`)
-				},
-
 				name : {
 					value : name
 				},
@@ -62,8 +62,8 @@ SimpleStore.adapters.push((() => {
 		get size() {
 			if (BUILD_DEBUG) { console.log(`[<SimpleStore:${this.name}>.size : Number]`); }
 
-			// WARNING: Do not return `this._engine.length` here as that will return the
-			// length of the entire store, rather than just our prefixed keys.
+			// WARNING: Do not return `this._engine.length` here as that will return
+			// the length of the entire store, rather than just our prefixed keys.
 			return this.keys().length;
 		}
 
@@ -72,11 +72,11 @@ SimpleStore.adapters.push((() => {
 
 			const keys = [];
 
-			for (let i = 0; i < this._engine.length; ++i) {
-				const key = this._engine.key(i);
+			for (let i = 0; i < this.#engine.length; ++i) {
+				const key = this.#engine.key(i);
 
-				if (this._prefixRe.test(key)) {
-					keys.push(key.replace(this._prefixRe, ''));
+				if (this.#prefixRE.test(key)) {
+					keys.push(key.replace(this.#prefixRE, ''));
 				}
 			}
 
@@ -90,9 +90,9 @@ SimpleStore.adapters.push((() => {
 				return false;
 			}
 
-			// NOTE: Do not call `this._engine.getItem()` and check its value here as we
-			// do not need to be making copies of values.
-			return Object.hasOwn(this._engine, this._prefix + key);
+			// NOTE: Do not call `this._engine.getItem()` and check its value here as
+			// we do not need to be making copies of values.
+			return Object.hasOwn(this.#engine, this.#prefix + key);
 		}
 
 		get(key) {
@@ -102,7 +102,7 @@ SimpleStore.adapters.push((() => {
 				return null;
 			}
 
-			const value = this._engine.getItem(this._prefix + key);
+			const value = this.#engine.getItem(this.#prefix + key);
 
 			// QUESTION: Has `<Storage>.getItem()` ever returned any value other than
 			// `null` for non-existent keys?  I seem to recall a browser bug where
@@ -118,7 +118,7 @@ SimpleStore.adapters.push((() => {
 			}
 
 			try {
-				this._engine.setItem(this._prefix + key, WebStorageAdapter._serialize(value));
+				this.#engine.setItem(this.#prefix + key, WebStorageAdapter._serialize(value));
 			}
 			catch (ex) {
 				// If the exception is a quota exceeded error, massage it into something
@@ -144,7 +144,7 @@ SimpleStore.adapters.push((() => {
 				return false;
 			}
 
-			this._engine.removeItem(this._prefix + key);
+			this.#engine.removeItem(this.#prefix + key);
 
 			return true;
 		}
