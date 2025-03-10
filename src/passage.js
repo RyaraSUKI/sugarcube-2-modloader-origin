@@ -6,7 +6,7 @@
 	Use of this source code is governed by a BSD 2-clause "Simplified" License, which may be found in the LICENSE file.
 
 ***********************************************************************************************************************/
-/* global Config, L10n, State, Wikifier, createSlug, decodeEntities, encodeMarkup, enumFrom */
+/* global Config, L10n, State, Wikifier, createSlug, decodeEntities, encodeMarkup */
 
 var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 	/*
@@ -29,19 +29,17 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 		tagsToSkipRE = /^(?:debug|nobr|passage|script|stylesheet|widget|twine\..*)$/i;
 
 		decodePassageText = (() => {
-			const encodedMap   = enumFrom({
-				'\\n' : '\n',
-				'\\t' : '\t',
-				'\\s' : '\\',
-				'\\'  : '\\',
-				'\r'  : ''
-			});
-			const encodedRE    = new RegExp(`(?:${
-				Object.keys(encodedMap)
-					.map(ch => RegExp.escape(ch))
-					.join('|')
+			const encodedCharsTable = new Map([
+				['\\n', '\n'],
+				['\\t', '\t'],
+				['\\s', '\\'],
+				['\\',  '\\'],
+				['\r',  '']
+			]);
+			const encodedCharsRE    = new RegExp(`(?:${
+				Array.from(encodedCharsTable.keys()).map(ch => RegExp.escape(ch)).join('|')
 			})`, 'g');
-			const hasEncodedRE = new RegExp(encodedRE.source); // to drop the global flag
+			const hasEncodedCharsRE = new RegExp(encodedCharsRE.source); // to drop the global flag
 
 			/*
 				Returns a decoded version of the passed Twine 1 passage store encoded string.
@@ -52,8 +50,8 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 				}
 
 				const val = String(str);
-				return val && hasEncodedRE.test(val)
-					? val.replace(encodedRE, esc => encodedMap[esc])
+				return val && hasEncodedCharsRE.test(val)
+					? val.replace(encodedCharsRE, esc => encodedCharsTable.get(esc))
 					: val;
 			}
 
@@ -65,8 +63,8 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 		tagsToSkipRE = /^(?:debug|nobr|passage|widget|twine\..*)$/i;
 
 		decodePassageText = (() => {
-			const encodedRE    = /\r/g;
-			const hasEncodedRE = new RegExp(encodedRE.source); // to drop the global flag
+			const encodedCharRE    = /\r/g;
+			const hasEncodedCharRE = new RegExp(encodedCharRE.source); // to drop the global flag
 
 			/*
 				Returns a decoded version of the passed Twine 2 passage store encoded string.
@@ -77,8 +75,8 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 				}
 
 				const val = String(str);
-				return val && hasEncodedRE.test(val)
-					? val.replace(encodedRE, '')
+				return val && hasEncodedCharRE.test(val)
+					? val.replace(encodedCharRE, '')
 					: val;
 			}
 

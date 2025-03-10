@@ -6,7 +6,6 @@
 	Use of this source code is governed by a BSD 2-clause "Simplified" License, which may be found in the LICENSE file.
 
 ***********************************************************************************************************************/
-/* global enumFrom */
 
 /*
 	Returns an entity encoded version of the given string.
@@ -16,14 +15,14 @@
 var encodeEntities = (() => { // eslint-disable-line no-unused-vars, no-var
 	const htmlCharsRE    = /[&<>"'`]/g;
 	const hasHtmlCharsRE = new RegExp(htmlCharsRE.source); // to drop the global flag
-	const htmlCharsTable = enumFrom({
-		'&' : '&amp;',
-		'<' : '&lt;',
-		'>' : '&gt;',
-		'"' : '&quot;',
-		"'" : '&#39;',
-		'`' : '&#96;'
-	});
+	const htmlCharsTable = new Map([
+		['&', '&amp;'],
+		['<', '&lt;'],
+		['>', '&gt;'],
+		['"', '&quot;'],
+		["'", '&#39;'],
+		['`', '&#96;']
+	]);
 
 	function encodeEntities(str) {
 		if (str == null) { // nullish test
@@ -32,7 +31,7 @@ var encodeEntities = (() => { // eslint-disable-line no-unused-vars, no-var
 
 		const val = String(str);
 		return val && hasHtmlCharsRE.test(val)
-			? val.replace(htmlCharsRE, ch => htmlCharsTable[ch])
+			? val.replace(htmlCharsRE, ch => htmlCharsTable.get(ch))
 			: val;
 	}
 

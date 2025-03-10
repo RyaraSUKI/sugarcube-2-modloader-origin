@@ -6,7 +6,7 @@
 	Use of this source code is governed by a BSD 2-clause "Simplified" License, which may be found in the LICENSE file.
 
 ***********************************************************************************************************************/
-/* global Engine, Patterns, State, Story, enumFrom, getTypeOf, now, parseURL, stringFrom */
+/* global Engine, Patterns, State, Story, getTypeOf, now, parseURL, stringFrom */
 
 var Scripting = (() => { // eslint-disable-line no-unused-vars, no-var
 	/* eslint-disable no-unused-vars */
@@ -513,33 +513,31 @@ var Scripting = (() => { // eslint-disable-line no-unused-vars, no-var
 		to their native JavaScript counterparts.
 	*/
 	const desugar = (() => {
-		const tokenTable = enumFrom({
-			/* eslint-disable quote-props */
+		const tokenTable = new Map([
 			// Story $variable sigil-prefix.
-			'$'     : 'State.variables.',
+			['$',     'State.variables.'],
 			// Temporary _variable sigil-prefix.
-			'_'     : 'State.temporary.',
+			['_',     'State.temporary.'],
 			// Assignment operator.
-			'to'    : '=',
+			['to',    '='],
 			// Equality operators.
-			'eq'    : '==',
-			'neq'   : '!=',
-			'is'    : '===',
-			'isnot' : '!==',
+			['eq',    '=='],
+			['neq',   '!='],
+			['is',    '==='],
+			['isnot', '!=='],
 			// Relational operators.
-			'gt'    : '>',
-			'gte'   : '>=',
-			'lt'    : '<',
-			'lte'   : '<=',
+			['gt',    '>'],
+			['gte',   '>='],
+			['lt',    '<'],
+			['lte',   '<='],
 			// Logical operators.
-			'and'   : '&&',
-			'or'    : '||',
+			['and',   '&&'],
+			['or',    '||'],
 			// Unary operators.
-			'not'   : '!',
-			'def'   : '"undefined" !== typeof',
-			'ndef'  : '"undefined" === typeof'
-			/* eslint-enable quote-props */
-		});
+			['not',   '!'],
+			['def',   '"undefined" !== typeof'],
+			['ndef',  '"undefined" === typeof']
+		]);
 		const desugarRE = new RegExp([
 			'(?:""|\'\'|``)',                                     //   Empty quotes (incl. template literal)
 			'(?:"(?:\\\\.|[^"\\\\])+")',                          //   Double quoted, non-empty
@@ -593,13 +591,15 @@ var Scripting = (() => { // eslint-disable-line no-unused-vars, no-var
 
 					// If the finalized token has a mapping, replace it within the code string
 					// with its counterpart.
-					if (tokenTable[token]) {
+					const replacement = tokenTable.get(token);
+
+					if (replacement) {
 						code = code.splice(
-							match.index,      // starting index
-							token.length,     // replace how many
-							tokenTable[token] // replacement string
+							match.index,  // starting index
+							token.length, // replace how many
+							replacement   // replacement string
 						);
-						desugarRE.lastIndex += tokenTable[token].length - token.length;
+						desugarRE.lastIndex += replacement.length - token.length;
 					}
 				}
 			}
