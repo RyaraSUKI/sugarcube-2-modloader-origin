@@ -43,10 +43,11 @@ var Outliner = (() => { // eslint-disable-line no-unused-vars, no-var
 			'mousedown.style-outliner keydown.style-outliner',
 			ev => {
 				if (ev.type !== lastEvent) {
+					/* eslint-disable max-len */
 					// // Attempt to prevent `keydown` events from changing outline
 					// // status when `lastEvent` is `mousedown`.
 					// //
-					// // NOTE: Commenting this for now, as I can't seem to get it
+					// // NOTE: Commenting this out for now, as I can't seem to get it
 					// // to work correctly.
 					// const target = ev.originalEvent.target;
 					//
@@ -60,6 +61,7 @@ var Outliner = (() => { // eslint-disable-line no-unused-vars, no-var
 					// ) {
 					// 	return;
 					// }
+					/* eslint-enable max-len */
 
 					lastEvent = ev.type;
 
