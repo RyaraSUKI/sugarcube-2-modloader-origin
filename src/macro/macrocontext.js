@@ -29,6 +29,7 @@ class MacroContext { // eslint-disable-line no-unused-vars
 	#debugView;        // Our debug view (if enabled).
 	#debugViewEnabled; // Is the debug view enabled?
 
+
 	constructor(contextData) {
 		const context = Object.assign({
 			parent      : null,
@@ -84,6 +85,9 @@ class MacroContext { // eslint-disable-line no-unused-vars
 		this.#debugView        = null;
 		this.#debugViewEnabled = Config.debug;
 	}
+
+
+	// Public methods.
 
 	get output() {
 		return this.#debugViewEnabled ? this.debugView.output : this.#output;
@@ -201,16 +205,12 @@ class MacroContext { // eslint-disable-line no-unused-vars
 				const macroParser = Wikifier.Parser.get('macro');
 				let contextCache;
 
-				/*
-					There's no catch clause because this try/finally is here simply to ensure that
-					proper cleanup is done in the event that an exception is thrown during the
-					callback.
-				*/
+				// There's no catch clause because this try/finally is here simply to ensure that
+				// proper cleanup is done in the event that an exception is thrown during the
+				// callback.
 				try {
-					/*
-						Cache the existing values of the variables to be shadowed and assign the
-						shadow values.
-					*/
+					// Cache the existing values of the variables to be shadowed and assign the
+					// shadow values.
 					shadowNames.forEach(varName => {
 						const varKey = varName.slice(1);
 						const store  = varName[0] === '$' ? State.variables : State.temporary;
@@ -240,10 +240,8 @@ class MacroContext { // eslint-disable-line no-unused-vars
 						const varKey = varName.slice(1);
 						const store  = varName[0] === '$' ? State.variables : State.temporary;
 
-						/*
-							Update the shadow store with the variable's current value, in case it
-							was modified during the callback.
-						*/
+						// Update the shadow store with the variable's current value, in case it
+						// was modified during the callback.
 						shadowStore[varName] = store[varKey];
 
 						if (Object.hasOwn(valueCache, varKey)) {
@@ -290,6 +288,26 @@ class MacroContext { // eslint-disable-line no-unused-vars
 	error(message, source) {
 		return appendError(this.#output, `<<${this.displayName}>>: ${message}`, source ? source : this.source);
 	}
+
+	wiki(...sources) {
+		// Bail out if there are no content sources.
+		if (sources.length === 0) {
+			return this;
+		}
+
+		// Wikify the content sources into a fragment.
+		const frag = document.createDocumentFragment();
+		sources.forEach(content => new Wikifier(frag, content));
+
+		// Append the fragment to our output.
+		this.output.appendChild(frag);
+
+		// Return `this` for further chaining.
+		return this;
+	}
+
+
+	// Deprecated methods.
 
 	/* legacy */
 	contextHas(...args) {
