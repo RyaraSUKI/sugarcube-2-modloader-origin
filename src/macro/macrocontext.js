@@ -79,7 +79,7 @@ class MacroContext { // eslint-disable-line no-unused-vars
 				value : context.parser
 			}
 		});
-		
+
 		this.#output           = context.parser.output;
 		this.#shadows          = null;
 		this.#debugView        = null;
@@ -119,7 +119,7 @@ class MacroContext { // eslint-disable-line no-unused-vars
 
 	contextFilter(predicate, thisArg) {
 		if (typeof predicate !== 'function') {
-			throw new TypeError('<MacroContext>.contextFilter() predicate parameter must be a function');
+			throw new TypeError('predicate parameter must be a function');
 		}
 
 		const result = [];
@@ -135,7 +135,7 @@ class MacroContext { // eslint-disable-line no-unused-vars
 
 	contextFind(predicate, thisArg) {
 		if (typeof predicate !== 'function') {
-			throw new TypeError('<MacroContext>.contextFind() predicate parameter must be a function');
+			throw new TypeError('predicate parameter must be a function');
 		}
 
 		for (let context = this.parent; context !== null; context = context.parent) {
@@ -147,7 +147,7 @@ class MacroContext { // eslint-disable-line no-unused-vars
 
 	contextSome(predicate, thisArg) {
 		if (typeof predicate !== 'function') {
-			throw new TypeError('<MacroContext>.contextSome() predicate parameter must be a function');
+			throw new TypeError('predicate parameter must be a function');
 		}
 
 		for (let context = this.parent; context !== null; context = context.parent) {
@@ -292,7 +292,7 @@ class MacroContext { // eslint-disable-line no-unused-vars
 	wiki(...sources) {
 		// Bail out if there are no content sources.
 		if (sources.length === 0) {
-			return this;
+			return;
 		}
 
 		// Wikify the content sources into a fragment.
@@ -301,9 +301,6 @@ class MacroContext { // eslint-disable-line no-unused-vars
 
 		// Append the fragment to our output.
 		this.output.appendChild(frag);
-
-		// Return `this` for further chaining.
-		return this;
 	}
 
 
