@@ -21,6 +21,14 @@ For example, you might use the story variable `$name` to store the main player c
 
 Values may be of most primitive types and some object types, see [Supported Types](#twinescript-supported-types) for more information.
 
+<div role="note"><b>Note:</b>
+ <p>There are two other variables where you may store values:</p>
+ <ul>
+		<li>The <a href="#special-variable-setup"><code>setup</code></a> object provided by SugarCube.  Used for storing non-persistent values and completely safe to use.</li>
+		<li>The <code>window</code> object provided by the browser.  Used for storing non-persistent values, however, care <em>must</em> be taken not to overwrite any of its many predefined properties.  Additionally, any property defined on it becomes an auto-global—e.g., <code>window.characterClasses</code> can be accessed as <code>characterClasses</code> regardless of scope.</li>
+	</ul>
+</div>
+
 ### Variable Names
 
 The names of both story and temporary variables have a certain format that they must follow—which signifies that they are variables and not some other kind of data.
