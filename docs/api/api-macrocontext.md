@@ -305,7 +305,7 @@ Wikifies the given content source(s) and appends the result to the macro's outpu
 this.wiki('Who //are// you?'); // Outputs "Who <em>are</em> you?"
 ```
 
-##### Basic usage
+##### Using multiple content sources
 
 ```javascript
 this.wiki(
