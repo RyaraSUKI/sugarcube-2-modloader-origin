@@ -351,13 +351,10 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function browserContinue() {
-		let newest;
+		const newest = browserNewest();
 
-		try {
-			newest = browserNewest();
-		}
-		catch (ex) {
-			return Promise.reject(ex);
+		if (!newest) {
+			return Promise.reject(new Error(L10n.get('saveErrorNonexistent')));
 		}
 
 		return newest.type === Type.Auto
@@ -373,7 +370,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 		const newest = findNewest();
 
 		if (newest.index === -1) {
-			throw new Error(L10n.get('saveErrorNonexistent'));
+			return null;
 		}
 
 		return newest.type === Type.Auto
