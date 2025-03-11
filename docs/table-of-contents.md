@@ -385,6 +385,7 @@
 * [`<MacroContext>.contextSome()`](#macrocontext-api-prototype-method-contextsome)
 * [`<MacroContext>.error()`](#macrocontext-api-prototype-method-error)
 * [`<MacroContext>.shadowHandler()`](#macrocontext-api-prototype-method-shadowhandler)
+* [`<MacroContext>.wiki()`](#macrocontext-api-prototype-method-wiki)
 
 ## [`Passage` API](#passage-api)
 
