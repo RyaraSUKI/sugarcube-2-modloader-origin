@@ -2,11 +2,11 @@
 
 	macro/macros/back-return.js
 
-	Copyright © 2013–2024 Thomas Michael Edwards <thomasmedwards@gmail.com>. All rights reserved.
+	Copyright © 2013–2025 Thomas Michael Edwards <thomasmedwards@gmail.com>. All rights reserved.
 	Use of this source code is governed by a BSD 2-clause "Simplified" License, which may be found in the LICENSE file.
 
 ***********************************************************************************************************************/
-/* global Engine, L10n, Macro, State, Story */
+/* global Engine, L10n, Macro, State, Story, getTypeOf */
 
 /*
 	<<back>> & <<return>>
@@ -18,6 +18,7 @@ Macro.add(['back', 'return'], {
 		let content;
 
 		if (this.args.length > 0) {
+			// Argument is an object.
 			if (typeof this.args[0] === 'object') {
 				// Argument was in wiki image syntax.
 				if (this.args[0].isImage) {
@@ -30,8 +31,8 @@ Macro.add(['back', 'return'], {
 						$image.attr('data-passage', this.args[0].passage);
 					}
 
-					if (Object.hasOwn(this.args[0], 'title')) {
-						$image.attr('title', this.args[0].title);
+					if (Object.hasOwn(this.args[0], 'text')) {
+						$image.attr('alt', this.args[0].text);
 					}
 
 					if (Object.hasOwn(this.args[0], 'align')) {
@@ -43,9 +44,13 @@ Macro.add(['back', 'return'], {
 					}
 				}
 				// Argument was in wiki link syntax.
-				else {
+				else if (this.args[0].isLink) {
 					content = document.createTextNode(this.args[0].text);
 					passage = this.args[0].link;
+				}
+				// Argument was some other kind of object.
+				else {
+					return this.error(`link argument was of an incompatible type: ${getTypeOf(this.args[0])}`);
 				}
 			}
 			// Argument was simply the link text.
@@ -59,7 +64,7 @@ Macro.add(['back', 'return'], {
 				const forbidden = $frag.getForbiddenInteractiveContentTagNames();
 
 				if (forbidden.length > 0) {
-					throw new Error(`text content contains restricted elements: <${forbidden.join('>, <')}>`);
+					return this.error(`link argument contains restricted elements: <${forbidden.join('>, <')}>`);
 				}
 
 				passage = this.args.length > 1 ? this.args[1] : undefined;

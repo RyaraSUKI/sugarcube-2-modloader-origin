@@ -7,8 +7,8 @@
 
 ***********************************************************************************************************************/
 /*
-	global Config, DebugView, Engine, Lexer, Macro, MacroContext, Patterns, Scripting, State, Story, Template,
-	       Wikifier, WikifierUtil, appendError, enumFrom, hasBlockContext, stringFrom
+	global Config, DebugView, Engine, Lexer, Macro, MacroContext, Patterns, Scripting, State, Story,
+	       Template, Wikifier, WikifierUtil, appendError, enumFrom, hasBlockContext, stringFrom
 */
 /* eslint "no-param-reassign": [ 2, { "props" : false } ] */
 
@@ -679,7 +679,7 @@
 								matchStart : 0
 							});
 
-							if (Object.hasOwn(markup, 'error')) {
+							if (markup.error) {
 								throw new Error(`unable to parse macro argument "${arg}": ${markup.error}`);
 							}
 
@@ -689,9 +689,10 @@
 
 							// Convert to a link or image object.
 							if (markup.isLink) {
-								// .isLink, [.text], [.forceInternal], .link, [.setter]
-								arg = { isLink : true };
-								arg.count    = Object.hasOwn(markup, 'text') ? 2 : 1;
+								// From: .isLink, .link, [.text], [.forceInternal], [.setter]
+								// To  : .link, .text, .external, .setFn
+								arg = Object.create(null);
+								arg.isLink   = true;
 								arg.link     = WikifierUtil.evalPassageName(markup.link);
 								arg.text     = Object.hasOwn(markup, 'text') ? WikifierUtil.evalText(markup.text) : arg.link;
 								arg.external = !markup.forceInternal && Wikifier.isExternalLink(arg.link);
@@ -700,42 +701,37 @@
 									: null;
 							}
 							else if (markup.isImage) {
-								// .isImage, [.align], [.title], .source, [.forceInternal], [.link], [.setter]
-								arg = (source => {
-									const imgObj = {
-										source,
-										isImage : true
-									};
+								// From: .isImage, .source, [.align], [.text], [.link], [.forceInternal], [.setter]
+								// To  : .source, [.passage], [.align], [.text], [.link, .external, .setFn]
+								arg = Object.create(null);
+								arg.isImage = true;
+								arg.source  = WikifierUtil.evalPassageName(markup.source);
 
-									// Check for Twine 1.4 Base64 image passage transclusion.
-									if (source.slice(0, 5) !== 'data:' && Story.has(source)) {
-										const passage = Story.get(source);
+								// Handle image passage transclusion.
+								if (arg.source.slice(0, 5) !== 'data:' && Story.has(arg.source)) {
+									const passage = Story.get(arg.source);
 
-										if (passage.tags.includes('Twine.image')) {
-											imgObj.source  = passage.text;
-											imgObj.passage = passage.name;
-										}
+									if (passage.tags.includes('Twine.image')) {
+										arg.source  = passage.text;
+										arg.passage = passage.name;
 									}
-
-									return imgObj;
-								})(WikifierUtil.evalPassageName(markup.source));
+								}
 
 								if (Object.hasOwn(markup, 'align')) {
 									arg.align = markup.align;
 								}
 
 								if (Object.hasOwn(markup, 'text')) {
-									arg.title = WikifierUtil.evalText(markup.text);
+									arg.text = WikifierUtil.evalText(markup.text);
 								}
 
 								if (Object.hasOwn(markup, 'link')) {
 									arg.link     = WikifierUtil.evalPassageName(markup.link);
 									arg.external = !markup.forceInternal && Wikifier.isExternalLink(arg.link);
+									arg.setFn    = Object.hasOwn(markup, 'setter')
+										? WikifierUtil.shadowHandler(Scripting.desugar(markup.setter))
+										: null;
 								}
-
-								arg.setFn = Object.hasOwn(markup, 'setter')
-									? WikifierUtil.shadowHandler(Scripting.desugar(markup.setter))
-									: null;
 							}
 
 							break;
@@ -852,7 +848,7 @@
 				.get(0);
 			source = WikifierUtil.evalPassageName(markup.source);
 
-			// Check for image passage transclusion.
+			// Handle image passage transclusion.
 			if (source.slice(0, 5) !== 'data:' && Story.has(source)) {
 				const passage = Story.get(source);
 

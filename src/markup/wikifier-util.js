@@ -409,7 +409,7 @@ var WikifierUtil = (() => { // eslint-disable-line no-unused-vars, no-var
 			lexer.start = lexer.pos = w.matchStart;
 
 			// Lex the raw argument string.
-			const markup = {};
+			const markup = Object.create(null);
 			const items  = lexer.run();
 			const last   = items.last();
 
