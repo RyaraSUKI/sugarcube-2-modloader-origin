@@ -76,43 +76,29 @@ class MacroContext { // eslint-disable-line no-unused-vars
 
 			parser : {
 				value : context.parser
-			},
-
-			_output : {
-				value : context.parser.output
-			},
-
-			_shadows : {
-				writable : true,
-				value    : null
-			},
-
-			_debugView : {
-				writable : true,
-				value    : null
-			},
-
-			_debugViewEnabled : {
-				writable : true,
-				value    : Config.debug
 			}
 		});
+		
+		this.#output           = context.parser.output;
+		this.#shadows          = null;
+		this.#debugView        = null;
+		this.#debugViewEnabled = Config.debug;
 	}
 
 	get output() {
-		return this._debugViewEnabled ? this.debugView.output : this._output;
+		return this.#debugViewEnabled ? this.debugView.output : this.#output;
 	}
 
 	get shadows() {
-		return Array.from(this._shadows);
+		return Array.from(this.#shadows);
 	}
 
 	get shadowView() {
 		const view = new Set();
 
 		for (let context = this; context !== null; context = context.parent) {
-			if (context._shadows) {
-				context._shadows.forEach(name => view.add(name));
+			if (context.#shadows) {
+				context.#shadows.forEach(name => view.add(name));
 			}
 		}
 
@@ -120,8 +106,8 @@ class MacroContext { // eslint-disable-line no-unused-vars
 	}
 
 	get debugView() {
-		if (this._debugViewEnabled) {
-			return this._debugView !== null ? this._debugView : this.createDebugView();
+		if (this.#debugViewEnabled) {
+			return this.#debugView !== null ? this.#debugView : this.createDebugView();
 		}
 
 		return null;
@@ -170,8 +156,8 @@ class MacroContext { // eslint-disable-line no-unused-vars
 	}
 
 	addShadow(...names) {
-		if (!this._shadows) {
-			this._shadows = new Set();
+		if (!this.#shadows) {
+			this.#shadows = new Set();
 		}
 
 		const varRe = new RegExp(`^${Patterns.variable}$`);
@@ -187,7 +173,7 @@ class MacroContext { // eslint-disable-line no-unused-vars
 					throw new Error(`invalid variable name "${name}"`);
 				}
 
-				this._shadows.add(name);
+				this.#shadows.add(name);
 			});
 	}
 
@@ -277,32 +263,32 @@ class MacroContext { // eslint-disable-line no-unused-vars
 	}
 
 	createDebugView(name, title) {
-		this._debugView = new DebugView(
-			this._output,
+		this.#debugView = new DebugView(
+			this.#output,
 			'macro',
 			name ? name : this.displayName,
 			title ? title : this.source
 		);
 
 		if (this.payload !== null && this.payload.length > 0) {
-			this._debugView.modes({ nonvoid : true });
+			this.#debugView.modes({ nonvoid : true });
 		}
 
-		this._debugViewEnabled = true;
-		return this._debugView;
+		this.#debugViewEnabled = true;
+		return this.#debugView;
 	}
 
 	removeDebugView() {
-		if (this._debugView !== null) {
-			this._debugView.remove();
-			this._debugView = null;
+		if (this.#debugView !== null) {
+			this.#debugView.remove();
+			this.#debugView = null;
 		}
 
-		this._debugViewEnabled = false;
+		this.#debugViewEnabled = false;
 	}
 
 	error(message, source) {
-		return appendError(this._output, `<<${this.displayName}>>: ${message}`, source ? source : this.source);
+		return appendError(this.#output, `<<${this.displayName}>>: ${message}`, source ? source : this.source);
 	}
 
 	/* legacy */
