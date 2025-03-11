@@ -2047,7 +2047,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 
 	function _newTrack(sources) {
 		return new AudioTrack(sources.map(source => {
-			// Handle audio passages.
+			// Handle audio passage transclusion.
 			if (source.slice(0, 5) !== 'data:' && Story.has(source)) {
 				const passage = Story.get(source);
 

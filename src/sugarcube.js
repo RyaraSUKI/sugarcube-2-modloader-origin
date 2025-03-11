@@ -109,12 +109,12 @@ var storage = null;
 /*
 	Legacy variables.
 */
-var macros      = {};      // Legacy macros object.
+var macros      = {}; // Legacy macros object.
 var postdisplay = {}; // Post-display task callbacks object.
-var postrender  = {};  // Post-render task callbacks object.
-var predisplay  = {};  // Pre-display task callbacks object.
-var prehistory  = {};  // Pre-history task callbacks object.
-var prerender   = {};   // Pre-render task callbacks object.
+var postrender  = {}; // Post-render task callbacks object.
+var predisplay  = {}; // Pre-display task callbacks object.
+var prehistory  = {}; // Pre-history task callbacks object.
+var prerender   = {}; // Pre-render task callbacks object.
 /* eslint-enable no-unused-vars */
 
 /*
@@ -184,7 +184,7 @@ jQuery(() => {
 
 		// Initialize the databases.
 		try {
-			SugarCube.storage = storage = SimpleStore.create(Story.id, true); // eslint-disable-line no-undef
+			SugarCube.storage = storage = SimpleStore.create(Story.id, true);  // eslint-disable-line no-undef
 			SugarCube.session = session = SimpleStore.create(Story.id, false); // eslint-disable-line no-undef
 		}
 		catch (ex) {
