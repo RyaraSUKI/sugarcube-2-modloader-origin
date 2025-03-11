@@ -2,7 +2,7 @@
 
 	markup/parserlib.js
 
-	Copyright © 2013–2024 Thomas Michael Edwards <thomasmedwards@gmail.com>. All rights reserved.
+	Copyright © 2013–2025 Thomas Michael Edwards <thomasmedwards@gmail.com>. All rights reserved.
 	Use of this source code is governed by a BSD 2-clause "Simplified" License, which may be found in the LICENSE file.
 
 ***********************************************************************************************************************/
@@ -764,11 +764,8 @@
 			w.nextMatch = markup.pos;
 
 			// text=(text), forceInternal=(~), link=link, setter=(setter)
-			const link  = WikifierUtil.evalPassageName(markup.link);
-			const text  = Object.hasOwn(markup, 'text') ? WikifierUtil.evalText(markup.text) : link;
-			const setFn = Object.hasOwn(markup, 'setter')
-				? WikifierUtil.shadowHandler(Scripting.desugar(markup.setter))
-				: null;
+			const link = WikifierUtil.evalPassageName(markup.link);
+			const text = Object.hasOwn(markup, 'text') ? WikifierUtil.evalText(markup.text) : link;
 
 			// Debug view setup.
 			const output = (Config.debug
@@ -777,6 +774,10 @@
 			).output;
 
 			if (markup.forceInternal || !Wikifier.isExternalLink(link)) {
+				const setFn = Object.hasOwn(markup, 'setter')
+					? WikifierUtil.shadowHandler(Scripting.desugar(markup.setter))
+					: null;
+
 				Wikifier.createInternalLink(output, link, text, setFn);
 			}
 			else {
@@ -824,9 +825,6 @@
 			}
 
 			// align=(left|right), alt=(alternate), source=source, forceInternal=(~), link=(link), setter=(setter)
-			const setFn = Object.hasOwn(markup, 'setter')
-				? WikifierUtil.shadowHandler(Scripting.desugar(markup.setter))
-				: null;
 			let el     = (Config.debug ? debugView : w).output;
 			let source;
 
@@ -834,6 +832,10 @@
 				const link = WikifierUtil.evalPassageName(markup.link);
 
 				if (markup.forceInternal || !Wikifier.isExternalLink(link)) {
+					const setFn = Object.hasOwn(markup, 'setter')
+						? WikifierUtil.shadowHandler(Scripting.desugar(markup.setter))
+						: null;
+
 					el = Wikifier.createInternalLink(el, link, null, setFn);
 				}
 				else {
