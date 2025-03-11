@@ -26,7 +26,7 @@ For instance, you may use ***one*** of the following examples—they both do the
 
 **Via JavaScript** (Twine&nbsp;2: the Story JavaScript, Twine&nbsp;1/Twee: a `script`-tagged passage)
 
-```js
+```javascript
 $(document).on(':passagestart', function (ev) {
 	if (!ev.passage.tags.includes('noreturn')) {
 		State.variables.return = ev.passage.name;

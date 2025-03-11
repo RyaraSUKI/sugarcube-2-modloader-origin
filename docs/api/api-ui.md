@@ -15,21 +15,23 @@ Opens the built-in alert dialog, displaying the given message to the player.
 
 #### Parameters:
 
-* **`message`:** (*string*) The message to display to the player.
-* **`options`:** (optional, *null* | *object*) The options object.  See [`Dialog.open()`](#dialog-api-method-open) for more information.
-* **`closeFn`:** (optional, *null* | *function*) The function to execute whenever the dialog is closed.
+* **`message`:** (`string`) The message to display to the player.
+* **`options`:** (optional, `null` | `Object`) The options object.  See [`Dialog.open()`](#dialog-api-method-open) for more information.
+* **`closeFn`:** (optional, `null` | `Function`) The function to execute whenever the dialog is closed.
 
 #### Returns: *none*
 
+#### Throws: *none*
+
 #### Examples:
 
-```js
+```javascript
 UI.alert("You smell of elderberries!");
 ```
 
 <!-- *********************************************************************** -->
 
-### `UI.restart([options])` {#ui-api-method-restart}
+### `UI.restart([options [, closeFn]])` {#ui-api-method-restart}
 
 Opens the built-in restart dialog, prompting the player to restart the story.
 
@@ -39,13 +41,16 @@ Opens the built-in restart dialog, prompting the player to restart the story.
 
 #### Parameters:
 
-* **`options`:** (optional, *null* | *object*) The options object.  See [`Dialog.open()`](#dialog-api-method-open) for more information.
+* **`options`:** (optional, `null` | `Object`) The options object.  See [`Dialog.open()`](#dialog-api-method-open) for more information.
+* **`closeFn`:** (optional, `null` | `Function`) The function to execute whenever the dialog is closed.
 
 #### Returns: *none*
 
+#### Throws: *none*
+
 #### Examples:
 
-```js
+```javascript
 UI.restart();
 ```
 
@@ -61,14 +66,16 @@ Opens the built-in saves dialog.
 
 #### Parameters:
 
-* **`options`:** (optional, *null* | *object*) The options object.  See [`Dialog.open()`](#dialog-api-method-open) for more information.
-* **`closeFn`:** (optional, *null* | *function*) The function to execute whenever the dialog is closed.
+* **`options`:** (optional, `null` | `Object`) The options object.  See [`Dialog.open()`](#dialog-api-method-open) for more information.
+* **`closeFn`:** (optional, `null` | `Function`) The function to execute whenever the dialog is closed.
 
 #### Returns: *none*
 
+#### Throws: *none*
+
 #### Examples:
 
-```js
+```javascript
 UI.saves();
 ```
 
@@ -84,14 +91,16 @@ Opens the built-in settings dialog, which is populated from the [`Setting` API](
 
 #### Parameters:
 
-* **`options`:** (optional, *null* | *object*) The options object.  See [`Dialog.open()`](#dialog-api-method-open) for more information.
-* **`closeFn`:** (optional, *null* | *function*) The function to execute whenever the dialog is closed.
+* **`options`:** (optional, `null` | `Object`) The options object.  See [`Dialog.open()`](#dialog-api-method-open) for more information.
+* **`closeFn`:** (optional, `null` | `Function`) The function to execute whenever the dialog is closed.
 
 #### Returns: *none*
 
+#### Throws: *none*
+
 #### Examples:
 
-```js
+```javascript
 UI.settings();
 ```
 
@@ -114,9 +123,11 @@ Triggers a [`:uiupdate` event](#events-system-event-uiupdate) that causes the up
 
 #### Returns: *none*
 
+#### Throws: *none*
+
 #### Examples:
 
-```js
+```javascript
 UI.update();
 ```
 

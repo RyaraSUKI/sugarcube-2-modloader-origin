@@ -33,7 +33,7 @@ A save data object has the following properties:
 * **`desc`:** (`string`) The save's description.
 * **`id`:** (`string`) The save ID.  See the [`Config.saves.id`](#config-api-property-saves-id) for details.
 * **`metadata`:** (optional, `any`) The save's metadata, which *must* be JSON-serializable.  Exists only if specified.  See the appropriate save API or [`Config.saves.metadata`](#config-api-property-saves-metadata) for details.
-* **`state`:** (`object`) The marshaled story state.  See below for details.
+* **`state`:** (`Object`) The marshaled story state.  See below for details.
 * **`type`:** (`Save.Type`) The save's type.  See [`Save.Type`](#save-api-constants-type) for details.
 * **`version`:** (optional, `any`) The save's version.  Exists only if specified.  See [`Config.saves.version`](#config-api-property-saves-version) for details.
 
@@ -42,7 +42,7 @@ A save data object has the following properties:
 The marshaled story state object, from the **`state`** property, has the following properties:
 
 * **`expired`:** (optional, `Array<string>`) The array of expired moment passage titles.  Exists only if any moments have expired.
-* **`history`:** (`Array<object>`) The array of moment objects.  See below for details.
+* **`history`:** (`Array<Object>`) The array of moment objects.  See below for details.
 * **`index`:** (`integer`) The index of the active moment.
 * **`seed`:** (optional, `string`) The seed of the seedable PRNG.  Exists only if enabled.
 
@@ -52,7 +52,7 @@ Each moment object, from the **`history`** property's array, has the following p
 
 * **`pull`:** (optional, `integer`) The current pull count of the seedable PRNG.  Exists only if enabled.
 * **`title`:** (`string`) The name of the associated passage.
-* **`variables`:** (`object`) The current variable store object, which contains sigil-less name &#x21D2; value pairs—e.g., `$foo` exists as the property `foo`.
+* **`variables`:** (`Object`) The current variable store object, which contains sigil-less name &#x21D2; value pairs—e.g., `$foo` exists as the property `foo`.
 
 <!-- *********************************************************************** -->
 
@@ -128,17 +128,17 @@ The `integer` count of existing browser saves.
 
 #### Examples:
 
-```js
+```javascript
 console.log(`There are currently ${Save.browser.size} browser saves`);
 ```
 
-```js
+```javascript
 if (Save.browser.size > 0) {
 	/* Browser saves exist. */
 }
 ```
 
-```js
+```javascript
 if (Save.browser.size === 0) {
 	/* No browser saves exist. */
 }
@@ -162,7 +162,7 @@ Deletes all existing browser saves, both auto and slot.
 
 #### Examples:
 
-```js
+```javascript
 Save.browser.clear();
 ```
 
@@ -198,7 +198,7 @@ A `Promise` that simply resolves, or rejects with an error if the save could not
 
 Load the most recent browser save.  This should be sufficient in the majority of cases.
 
-```js
+```javascript
 if (Save.browser.size > 0) {
 	Save.browser.continue()
 		.then(() => {
@@ -236,7 +236,7 @@ Boolean `true` if any browser saves are enabled, elsewise `false`.
 
 #### Examples:
 
-```js
+```javascript
 if (Save.browser.isEnabled()) {
 	/* Some browser saves are enabled. */
 }
@@ -244,7 +244,7 @@ if (Save.browser.isEnabled()) {
 
 <!-- *********************************************************************** -->
 
-### `Save.browser.newest()` → `object` {#save-api-browser-method-newest}
+### `Save.browser.newest()` → `Object` | `null` {#save-api-browser-method-newest}
 
 Details the most recent browser save, either auto or slot.
 
@@ -258,13 +258,11 @@ Details the most recent browser save, either auto or slot.
 
 The [descriptor object](#save-api-objects-descriptor) for the save if it exists, elsewise `null`.
 
-#### Throws:
-
-An `Error` instance.
+#### Throws: *none*
 
 #### Examples:
 
-```js
+```javascript
 console.log('Descriptor of the most recent save:', Save.browser.newest());
 ```
 
@@ -290,17 +288,17 @@ The `integer` count of existing browser auto saves.
 
 #### Examples:
 
-```js
+```javascript
 console.log(`There are currently ${Save.browser.auto.size} browser auto saves`);
 ```
 
-```js
+```javascript
 if (Save.browser.auto.size > 0) {
 	/* Browser auto saves exist. */
 }
 ```
 
-```js
+```javascript
 if (Save.browser.auto.size === 0) {
 	/* No browser auto saves exist. */
 }
@@ -324,7 +322,7 @@ Deletes all existing auto saves.
 
 #### Examples:
 
-```js
+```javascript
 Save.browser.auto.clear();
 ```
 
@@ -352,7 +350,7 @@ An `Error` instance.
 
 Delete the auto save at the given index, handling failure.
 
-```js
+```javascript
 try {
 	Save.browser.auto.delete(index);
 }
@@ -365,7 +363,7 @@ catch (error) {
 
 <!-- *********************************************************************** -->
 
-### `Save.browser.auto.entries()` → `Array<object>` {#save-api-browser-auto-method-entries}
+### `Save.browser.auto.entries()` → `Array<Object>` {#save-api-browser-auto-method-entries}
 
 Provides an array of details about all auto saves.
 
@@ -380,7 +378,7 @@ Provides an array of details about all auto saves.
 An `Array` of `{ index, info }` generic objects, or an empty `Array` if no auto saves exist.
 
 * **`index`:** (`integer`) The auto save's index (`0`-based).
-* **`info`:** (`object`) The [save's descriptor object](#save-api-objects-descriptor).
+* **`info`:** (`Object`) The [save's descriptor object](#save-api-objects-descriptor).
 
 #### Throws:
 
@@ -388,7 +386,7 @@ An `Error` instance.
 
 #### Examples:
 
-```js
+```javascript
 Save.browser.auto.entries().forEach(function (entry) {
 	console.log(`Descriptor of the auto save at index ${entry.index}:`, entry.info);
 });
@@ -396,7 +394,7 @@ Save.browser.auto.entries().forEach(function (entry) {
 
 <!-- *********************************************************************** -->
 
-### `Save.browser.auto.get(index)` → `object` {#save-api-browser-auto-method-get}
+### `Save.browser.auto.get(index)` → `Object` {#save-api-browser-auto-method-get}
 
 Details the auto save at the given index.
 
@@ -418,7 +416,7 @@ An `Error` instance.
 
 #### Examples:
 
-```js
+```javascript
 console.log(`Descriptor of the auto save at index ${index}:`, Save.browser.auto.get(index));
 ```
 
@@ -446,7 +444,7 @@ An `Error` instance.
 
 #### Examples:
 
-```js
+```javascript
 if (Save.browser.auto.has(index)) {
 	/* The auto save at the given index exists. */
 }
@@ -466,13 +464,13 @@ Determines whether auto saves are enabled.
 
 #### Returns:
 
-Boolean `true` if auto saves are anabled, elsewise `false`.
+Boolean `true` if auto saves are enabled, elsewise `false`.
 
 #### Throws: *none*
 
 #### Examples:
 
-```js
+```javascript
 if (Save.browser.auto.isEnabled()) {
 	/* Auto saves are enabled. */
 }
@@ -508,7 +506,7 @@ A `Promise` that simply resolves, or rejects with an error if the save could not
 
 Load auto save index `0`.  This should be sufficient in the majority of cases.
 
-```js
+```javascript
 Save.browser.auto.load(0)
 	.then(() => {
 		/* Success.  Show the passage. */
@@ -548,7 +546,7 @@ An `Error` instance.
 
 Save an auto save with the default description and no metadata, handling failure.
 
-```js
+```javascript
 try {
 	Save.browser.auto.save();
 }
@@ -561,7 +559,7 @@ catch (error) {
 
 Save an auto save with a description and no metadata, handling failure.
 
-```js
+```javascript
 try {
 	Save.browser.auto.save("In the wilds");
 }
@@ -574,7 +572,7 @@ catch (error) {
 
 Save an auto save with the default description and metadata, handling failure.
 
-```js
+```javascript
 try {
 	const saveMetadata = {
 		chars : ['Celes', 'Locke', 'Edward'],
@@ -591,7 +589,7 @@ catch (error) {
 
 Save an auto save with a description and metadata, handling failure.
 
-```js
+```javascript
 try {
 	const saveMetadata = {
 		chars : ['Celes', 'Locke', 'Edward'],
@@ -628,17 +626,17 @@ The `integer` count of existing browser slot saves.
 
 #### Examples:
 
-```js
+```javascript
 console.log(`There are currently ${Save.browser.slot.size} browser slot saves`);
 ```
 
-```js
+```javascript
 if (Save.browser.slot.size > 0) {
 	/* Browser slot saves exist. */
 }
 ```
 
-```js
+```javascript
 if (Save.browser.slot.size === 0) {
 	/* No browser slot saves exist. */
 }
@@ -662,7 +660,7 @@ Deletes all existing slot saves.
 
 #### Examples:
 
-```js
+```javascript
 Save.browser.slot.clear();
 ```
 
@@ -690,7 +688,7 @@ An `Error` instance.
 
 Delete the slot save at the given index, handling failure.
 
-```js
+```javascript
 try {
 	Save.browser.slot.delete(index);
 }
@@ -703,7 +701,7 @@ catch (error) {
 
 <!-- *********************************************************************** -->
 
-### `Save.browser.slot.entries()` → `Array<object>` {#save-api-browser-slot-method-entries}
+### `Save.browser.slot.entries()` → `Array<Object>` {#save-api-browser-slot-method-entries}
 
 Provides an array of details about all slot saves.
 
@@ -718,7 +716,7 @@ Provides an array of details about all slot saves.
 An `Array` of `{ index, info }` generic objects, or an empty `Array` if no slot saves exist.
 
 * **`index`:** (`integer`) The slot save's index (`0`-based).
-* **`info`:** (`object`) The [save's descriptor object](#save-api-objects-descriptor).
+* **`info`:** (`Object`) The [save's descriptor object](#save-api-objects-descriptor).
 
 #### Throws:
 
@@ -726,7 +724,7 @@ An `Error` instance.
 
 #### Examples:
 
-```js
+```javascript
 Save.browser.slot.entries().forEach(function (entry) {
 	console.log(`Descriptor of the slot save at index ${entry.index}:`, entry.info);
 });
@@ -734,7 +732,7 @@ Save.browser.slot.entries().forEach(function (entry) {
 
 <!-- *********************************************************************** -->
 
-### `Save.browser.slot.get(index)` → `object` {#save-api-browser-slot-method-get}
+### `Save.browser.slot.get(index)` → `Object` {#save-api-browser-slot-method-get}
 
 Details the slot save at the given index.
 
@@ -756,7 +754,7 @@ An `Error` instance.
 
 #### Examples:
 
-```js
+```javascript
 console.log(`Descriptor of the slot save at index ${index}:`, Save.browser.slot.get(index));
 ```
 
@@ -784,7 +782,7 @@ An `Error` instance.
 
 #### Examples:
 
-```js
+```javascript
 if (Save.browser.slot.has(index)) {
 	/* The slot save at the given index exists. */
 }
@@ -804,13 +802,13 @@ Determines whether slot saves are enabled.
 
 #### Returns:
 
-Boolean `true` if slot saves are anabled, elsewise `false`.
+Boolean `true` if slot saves are enabled, elsewise `false`.
 
 #### Throws: *none*
 
 #### Examples:
 
-```js
+```javascript
 if (Save.browser.slot.isEnabled()) {
 	/* Slot saves are enabled. */
 }
@@ -846,7 +844,7 @@ A `Promise` that simply resolves, or rejects with an error if the save could not
 
 Load slot save index `0`.  This should be sufficient in the majority of cases.
 
-```js
+```javascript
 Save.browser.slot.load(0)
 	.then(() => {
 		/* Success.  Show the passage. */
@@ -887,7 +885,7 @@ An `Error` instance.
 
 Save to slot save index `0` with the default description and no metadata, handling failure.
 
-```js
+```javascript
 try {
 	Save.browser.slot.save(0);
 }
@@ -900,7 +898,7 @@ catch (error) {
 
 Save to slot save index `0` with a description and no metadata, handling failure.
 
-```js
+```javascript
 try {
 	Save.browser.slot.save(0, "In the wilds");
 }
@@ -913,7 +911,7 @@ catch (error) {
 
 Save to slot save index `0` with the default description and metadata, handling failure.
 
-```js
+```javascript
 try {
 	const saveMetadata = {
 		chars : ['Celes', 'Locke', 'Edward'],
@@ -930,7 +928,7 @@ catch (error) {
 
 Save to slot save index `0` with a description and metadata, handling failure.
 
-```js
+```javascript
 try {
 	const saveMetadata = {
 		chars : ['Celes', 'Locke', 'Edward'],
@@ -975,7 +973,7 @@ An `Error` instance.
 
 Export all saves as a bundle with a base filename, handling failure.
 
-```js
+```javascript
 try {
 	Save.disk.export('The 6th Fantasy');
 }
@@ -1020,7 +1018,7 @@ A `Promise` that simply resolves, or rejects with an error if the browser saves 
 
 Import the saves bundle from disk, only handling failure.  This should be sufficient in the majority of cases.
 
-```js
+```javascript
 jQuery(document.createElement('input'))
 	.prop({
 		id   : 'saves-import-file',
@@ -1040,7 +1038,7 @@ jQuery(document.createElement('input'))
 
 Import the saves bundle from disk, handling both success and failure.
 
-```js
+```javascript
 jQuery(document.createElement('input'))
 	.prop({
 		id   : 'saves-import-file',
@@ -1095,7 +1093,7 @@ A `Promise` that resolves with the save's metadata (`any`), or rejects with an e
 
 Load the disk save.  This should be sufficient in the majority of cases.
 
-```js
+```javascript
 jQuery(document.createElement('input'))
 	.prop({
 		id   : 'saves-disk-load-file',
@@ -1167,7 +1165,7 @@ An `Error` instance.
 
 Save with a base filename and no metadata, handling failure.
 
-```js
+```javascript
 try {
 	Save.disk.save("The 6th Fantasy");
 }
@@ -1180,7 +1178,7 @@ catch (error) {
 
 Save with a base filename and metadata, handling failure.
 
-```js
+```javascript
 try {
 	const saveMetadata = {
 		chars : ['Celes', 'Locke', 'Edward'],
@@ -1223,7 +1221,7 @@ An `Error` instance.
 
 Export all saves as a bundle, handling failure.
 
-```js
+```javascript
 try {
 	const base64Save = Save.base64.export();
 	/* Do something with the saves bundle. */
@@ -1265,7 +1263,7 @@ A `Promise` that simply resolves, or rejects with an error if the browser saves 
 
 Import the saves bundle, only handling failure.  This should be sufficient in the majority of cases.
 
-```js
+```javascript
 Save.base64.import(base64Bundle)
 	.catch(error => {
 		/* Failure.  Handle the error. */
@@ -1276,7 +1274,7 @@ Save.base64.import(base64Bundle)
 
 Import the saves bundle, handling both success and failure.
 
-```js
+```javascript
 Save.base64.import(base64Bundle)
 	.then(() => {
 		/* Success.  Do something special. */
@@ -1318,7 +1316,7 @@ A `Promise` that resolves with the save's metadata (`any`), or rejects with an e
 
 Load the save string.  This should be sufficient in the majority of cases.
 
-```js
+```javascript
 Save.base64.load(base64Save)
 	.then(metadata => {
 		/* Success.  Show the passage. */
@@ -1359,7 +1357,7 @@ An `Error` instance.
 
 Save without metadata, handling failure.
 
-```js
+```javascript
 try {
 	const base64Save = Save.base64.save();
 	/* Do something with the save. */
@@ -1373,7 +1371,7 @@ catch (error) {
 
 Save with metadata, handling failure.
 
-```js
+```javascript
 try {
 	const saveMetadata = {
 		chars : ['Celes', 'Locke', 'Edward'],
@@ -1411,7 +1409,7 @@ The `integer` count of currently registered on-load handlers.
 
 #### Examples:
 
-```js
+```javascript
 console.log('There are %d onLoad handlers registered.', Save.onLoad.size);
 ```
 
@@ -1427,7 +1425,7 @@ Performs any required processing before the save data is loaded—e.g., upgradin
 
 #### Parameters:
 
-* **`handler`:** (*function*) The handler function to be executed upon the loading of a save.
+* **`handler`:** (`Function`) The handler function to be executed upon the loading of a save.
 
 #### Returns: *none*
 
@@ -1437,13 +1435,13 @@ An `Error` instance.
 
 #### Handler parameters:
 
-* **`save`:** (`object`) The [save object](#save-api-save-objects) to be processed.
+* **`save`:** (`Object`) The [save object](#save-api-save-objects) to be processed.
 
 #### Examples:
 
 ##### Basic usage
 
-```js
+```javascript
 Save.onLoad.add(function (save) {
 	/* code to process the save object before it's loaded */
 });
@@ -1451,7 +1449,7 @@ Save.onLoad.add(function (save) {
 
 ##### Using save objects' `type` property and the `Save.Type` pseudo-enumeration
 
-```js
+```javascript
 Save.onLoad.add(function (save) {
 	switch (save.type) {
 		case Save.Type.Auto: {
@@ -1495,7 +1493,7 @@ Deletes all currently registered on-load handlers.
 
 #### Examples:
 
-```js
+```javascript
 Save.onLoad.clear();
 ```
 
@@ -1511,7 +1509,7 @@ Deletes the specified on-load handler.
 
 #### Parameters:
 
-* **`handler`:** (*function*) The handler function to be deleted.
+* **`handler`:** (`Function`) The handler function to be deleted.
 
 #### Returns:
 
@@ -1521,7 +1519,7 @@ Boolean `true` if the handler existed, elsewise `false`.
 
 #### Examples:
 
-```js
+```javascript
 // Given:
 // 	let myOnLoadHandler = function (save) {
 // 		/* code to process the save object before it's loaded */
@@ -1547,7 +1545,7 @@ The `integer` count of currently registered on-save handlers.
 
 #### Examples:
 
-```js
+```javascript
 console.log('There are %d onSave handlers registered.', Save.onSave.size);
 ```
 
@@ -1564,7 +1562,7 @@ Performs any required processing before the save data is saved.  The handler is 
 
 #### Parameters:
 
-* **`handler`:** (*function*) The handler function to be executed upon the saving of a save.
+* **`handler`:** (`Function`) The handler function to be executed upon the saving of a save.
 
 #### Returns: *none*
 
@@ -1574,13 +1572,13 @@ An `Error` instance.
 
 #### Handler parameters:
 
-* **`save`:** (`object`) The [save object](#save-api-save-objects) to be processed.
+* **`save`:** (`Object`) The [save object](#save-api-save-objects) to be processed.
 
 #### Examples:
 
 ##### Basic usage
 
-```js
+```javascript
 Save.onSave.add(function (save) {
 	/* code to process the save object before it's saved */
 });
@@ -1588,7 +1586,7 @@ Save.onSave.add(function (save) {
 
 ##### Using save objects' `type` property and the `Save.Type` pseudo-enumeration
 
-```js
+```javascript
 Save.onSave.add(function (save) {
 	switch (save.type) {
 		case Save.Type.Auto: {
@@ -1632,7 +1630,7 @@ Deletes all currently registered on-save handlers.
 
 #### Examples:
 
-```js
+```javascript
 Save.onSave.clear();
 ```
 
@@ -1648,7 +1646,7 @@ Deletes the specified on-save handler.
 
 #### Parameters:
 
-* **`handler`:** (*function*) The handler function to be deleted.
+* **`handler`:** (`Function`) The handler function to be deleted.
 
 #### Returns:
 
@@ -1658,7 +1656,7 @@ Boolean `true` if the handler existed, elsewise `false`.
 
 #### Examples:
 
-```js
+```javascript
 // Given:
 // 	let myOnSaveHandler = function (save) {
 // 		/* code to process the save object before it's saved */
@@ -1733,7 +1731,7 @@ This method has been deprecated and should no longer be used.  See the <a href="
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`Save.autosave.get()` → `object`</span> {#save-api-method-autosave-get}
+### <span class="deprecated">`Save.autosave.get()` → `Object`</span> {#save-api-method-autosave-get}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This method has been deprecated and should no longer be used.  See the <a href="#save-api-browser-auto-method-get"><code>Save.browser.auto.get()</code></a> method for its replacement.
@@ -1842,7 +1840,7 @@ This method has been deprecated and should no longer be used.  See the <a href="
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`Save.slots.get(slot)` → `object`</span> {#save-api-method-slots-get}
+### <span class="deprecated">`Save.slots.get(slot)` → `Object`</span> {#save-api-method-slots-get}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This method has been deprecated and should no longer be used.  See the <a href="#save-api-browser-slot-method-get"><code>Save.browser.slot.get()</code></a> method for its replacement.

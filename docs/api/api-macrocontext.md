@@ -11,7 +11,7 @@ Macro handlers are called with no arguments, but with their `this` set to a macr
 
 <!-- *********************************************************************** -->
 
-### `<MacroContext>.args` → *Array&lt;any&gt;* {#macrocontext-api-prototype-property-args}
+### `<MacroContext>.args` → `Array<any>` {#macrocontext-api-prototype-property-args}
 
 An array of discrete arguments parsed from the argument string.
 
@@ -19,9 +19,13 @@ An array of discrete arguments parsed from the argument string.
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+The `Array` of arguments.
+
 #### Examples:
 
-```
+```javascript
 // Given: <<someMacro "a" "b" "c">>
 this.args.length  // Returns 3
 this.args[0]      // Returns 'a'
@@ -31,7 +35,7 @@ this.args[2]      // Returns 'c'
 
 <!-- *********************************************************************** -->
 
-### `<MacroContext>.args.full` → *string* {#macrocontext-api-prototype-property-args-full}
+### `<MacroContext>.args.full` → `string` {#macrocontext-api-prototype-property-args-full}
 
 The argument string after converting all TwineScript syntax elements into their native JavaScript counterparts.
 
@@ -39,16 +43,20 @@ The argument string after converting all TwineScript syntax elements into their 
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+The processed argument `string`.
+
 #### Examples:
 
-```
+```javascript
 // Given: <<if $a is "b">>
 this.args.full  // Returns 'State.variables.a === "b"'
 ```
 
 <!-- *********************************************************************** -->
 
-### `<MacroContext>.args.raw` → *string* {#macrocontext-api-prototype-property-args-raw}
+### `<MacroContext>.args.raw` → `string` {#macrocontext-api-prototype-property-args-raw}
 
 The unprocessed argument string.
 
@@ -56,16 +64,20 @@ The unprocessed argument string.
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+The unprocessed argument `string`.
+
 #### Examples:
 
-```
+```javascript
 // Given: <<if "a" is "b">>
 this.args.raw  // Returns '"a" is "b"'
 ```
 
 <!-- *********************************************************************** -->
 
-### `<MacroContext>.name` → *string* {#macrocontext-api-prototype-property-name}
+### `<MacroContext>.name` → `string` {#macrocontext-api-prototype-property-name}
 
 The name of the macro.
 
@@ -73,16 +85,20 @@ The name of the macro.
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+The macro's name (`string`).
+
 #### Examples:
 
-```
+```javascript
 // Given: <<someMacro …>>
 this.name  // Returns 'someMacro'
 ```
 
 <!-- *********************************************************************** -->
 
-### `<MacroContext>.output` → *`HTMLElement` object* {#macrocontext-api-prototype-property-output}
+### `<MacroContext>.output` → `HTMLElement` {#macrocontext-api-prototype-property-output}
 
 The current output element.
 
@@ -90,19 +106,42 @@ The current output element.
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+The output element (`HTMLElement`).
+
+#### Examples:
+
+##### Usage with `jQuery`
+
+```javascript
+$(this.output).wiki('Some //awesome// markup!');
+```
+
+##### Usage w/o `jQuery`
+
+```javascript
+new Wikifier(this.output, 'Some //awesome// markup!');
+```
+
+
 <!-- *********************************************************************** -->
 
-### `<MacroContext>.parent` → *null* | *object* {#macrocontext-api-prototype-property-parent}
+### `<MacroContext>.parent` → `Object` | `null` {#macrocontext-api-prototype-property-parent}
 
-The (execution) context object of the macro's parent, or `null` if the macro has no parent.
+The macro context object of the macro's parent, or `null` if the macro has no parent.
 
 #### History:
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+The macro context (`Object`), elsewise `null`.
+
 <!-- *********************************************************************** -->
 
-### `<MacroContext>.parser` → *object* {#macrocontext-api-prototype-property-parser}
+### `<MacroContext>.parser` → `Wikifier` {#macrocontext-api-prototype-property-parser}
 
 The parser instance that generated the macro call.
 
@@ -110,25 +149,33 @@ The parser instance that generated the macro call.
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+The parser instance (`Wikifier`).
+
 <!-- *********************************************************************** -->
 
-### `<MacroContext>.payload` → *null* | *Array&lt;object&gt;* {#macrocontext-api-prototype-property-payload}
+### `<MacroContext>.payload` → `Array<Object>` | `null` {#macrocontext-api-prototype-property-payload}
 
 The text of a container macro parsed into discrete payload objects by tag.  Payload objects have the following properties:
 
-* **`name`:** (*string*) Name of the current tag.
-* **`args`:** (*Array&lt;any&gt;*) The current tag's argument string parsed into an array of discrete arguments.  Equivalent in function to [`<MacroContext>.args`](#macrocontext-api-prototype-property-args).
-	* **`args.full`:** (*string*) The current tag's argument string after converting all TwineScript syntax elements into their native JavaScript counterparts.  Equivalent in function to [`<MacroContext>.args.full`](#macrocontext-api-prototype-property-args-full).
-	* **`args.raw`:** (*string*) The current tag's unprocessed argument string.  Equivalent in function to [`<MacroContext>.args.raw`](#macrocontext-api-prototype-property-args-raw).
-* **`contents`:** (*string*) The current tag's contents—i.e., the text between the current tag and the next.
+* **`name`:** (`string`) Name of the current tag.
+* **`args`:** (`Array<any>`) The current tag's argument string parsed into an array of discrete arguments.  Equivalent in function to [`<MacroContext>.args`](#macrocontext-api-prototype-property-args).
+	* **`args.full`:** (`string`) The current tag's argument string after converting all TwineScript syntax elements into their native JavaScript counterparts.  Equivalent in function to [`<MacroContext>.args.full`](#macrocontext-api-prototype-property-args-full).
+	* **`args.raw`:** (`string`) The current tag's unprocessed argument string.  Equivalent in function to [`<MacroContext>.args.raw`](#macrocontext-api-prototype-property-args-raw).
+* **`contents`:** (`string`) The current tag's contents—i.e., the text between the current tag and the next.
 
 #### History:
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+The `Array<Object>` containing payloads, elsewise `null`.
+
 <!-- *********************************************************************** -->
 
-### `<MacroContext>.self` → *object* {#macrocontext-api-prototype-property-self}
+### `<MacroContext>.self` → `Object` {#macrocontext-api-prototype-property-self}
 
 The macro's definition—created via [`Macro.add()`](#macro-api-method-add).
 
@@ -136,9 +183,13 @@ The macro's definition—created via [`Macro.add()`](#macro-api-method-add).
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+The macro definition (`Object`).
+
 <!-- *********************************************************************** -->
 
-### `<MacroContext>.contextFilter(predicate)` → *Array&lt;object&gt;* {#macrocontext-api-prototype-method-contextfilter}
+### `<MacroContext>.contextFilter(predicate)` → `Array<Object>` {#macrocontext-api-prototype-method-contextfilter}
 
 Returns a new array containing all of the macro's ancestors that passed the test implemented by the given predicate function or an empty array, if no members pass.
 
@@ -148,18 +199,26 @@ Returns a new array containing all of the macro's ancestors that passed the test
 
 #### Parameters:
 
-* **`predicate`:** (*function*) The function used to test each ancestor execution context object, which is passed in as its sole parameter.
+* **`predicate`:** (`Function`) The function used to test each ancestor execution context object, which is passed in as its sole parameter.
+
+#### Returns:
+
+An `Array<Object>` containing the passing ancestors or an empty array, if none pass.
+
+#### Throws:
+
+A `TypeError` instance.
 
 #### Examples:
 
-```
-var isInclude = function (ctx) { return ctx.name === "include"; };
+```javascript
+var isInclude = function (ctx) { return ctx.name === 'include'; };
 this.contextFilter(isInclude); // Returns an array of all <<include>> macro ancestors
 ```
 
 <!-- *********************************************************************** -->
 
-### `<MacroContext>.contextFind(predicate)` → *object* | *undefined* {#macrocontext-api-prototype-method-contextfind}
+### `<MacroContext>.contextFind(predicate)` → `Object` | `undefined` {#macrocontext-api-prototype-method-contextfind}
 
 Returns the first of the macro's ancestors that passed the test implemented by the given predicate function or `undefined`, if no members pass.
 
@@ -169,18 +228,26 @@ Returns the first of the macro's ancestors that passed the test implemented by t
 
 #### Parameters:
 
-* **`predicate`:** (*function*) The function used to test each ancestor execution context object, which is passed in as its sole parameter.
+* **`predicate`:** (`Function`) The function used to test each ancestor execution context object, which is passed in as its sole parameter.
+
+#### Returns:
+
+An `Object` or `undefined`, if no ancestors pass.
+
+#### Throws:
+
+A `TypeError` instance.
 
 #### Examples:
 
-```
-var isInclude = function (ctx) { return ctx.name === "include"; };
+```javascript
+var isInclude = function (ctx) { return ctx.name === 'include'; };
 this.contextFind(isInclude); // Returns the first <<include>> macro ancestor
 ```
 
 <!-- *********************************************************************** -->
 
-### `<MacroContext>.contextSome(predicate)` → *boolean* {#macrocontext-api-prototype-method-contextsome}
+### `<MacroContext>.contextSome(predicate)` → `boolean` {#macrocontext-api-prototype-method-contextsome}
 
 Returns whether any of the macro's ancestors passed the test implemented by the given predicate function.
 
@@ -190,18 +257,26 @@ Returns whether any of the macro's ancestors passed the test implemented by the 
 
 #### Parameters:
 
-* **`predicate`:** (*function*) The function used to test each ancestor execution context object, which is passed in as its sole parameter.
+* **`predicate`:** (`Function`) The function used to test each ancestor execution context object, which is passed in as its sole parameter.
+
+#### Returns:
+
+A `Boolean`.
+
+#### Throws:
+
+A `TypeError` instance.
 
 #### Examples:
 
-```
-var isInclude = function (ctx) { return ctx.name === "include"; };
+```javascript
+var isInclude = function (ctx) { return ctx.name === 'include'; };
 this.contextSome(isInclude);  // Returns true if any ancestor was an <<include>> macro
 ```
 
 <!-- *********************************************************************** -->
 
-### `<MacroContext>.error(message)` → *boolean:false* {#macrocontext-api-prototype-method-error}
+### `<MacroContext>.error(message)` → `boolean` {#macrocontext-api-prototype-method-error}
 
 Renders the message prefixed with the name of the macro and returns `false`.
 
@@ -211,18 +286,24 @@ Renders the message prefixed with the name of the macro and returns `false`.
 
 #### Parameters:
 
-* **`message`:** (*string*) The error message to output.
+* **`message`:** (`string`) The error message to output.
+
+#### Returns:
+
+Boolean `false`.
+
+#### Throws: *none*
 
 #### Examples:
 
-```
+```javascript
 // Given: <<someMacro …>>
-return this.error("oops"); // Outputs '<<someMacro>>: oops'
+return this.error('oops'); // Outputs '<<someMacro>>: oops'
 ```
 
 <!-- *********************************************************************** -->
 
-### `<MacroContext>.shadowHandler(callback [, doneCallback [, startCallback]])` → *function* {#macrocontext-api-prototype-method-shadowhandler}
+### `<MacroContext>.shadowHandler(callback [, doneCallback [, startCallback]])` → `Function` {#macrocontext-api-prototype-method-shadowhandler}
 
 Returns a callback function that wraps the specified callback functions to provide access to the variable shadowing system used by the [`<<capture>>` macro](#macros-macro-capture).
 
@@ -240,15 +321,21 @@ Only useful when you have an asynchronous callback that invokes code/content tha
 
 #### Parameters:
 
-* **`callback`:** (*function*) The main callback function, executed when the wrapper is invoked.  Receives access to variable shadows.
-* **`doneCallback`:** (optional, *function*) The finalization callback function, executed after the main `callback` returns.  Does not receive access to variable shadows.
-* **`startCallback`:** (optional, *function*) The initialization callback function, executed before the main `callback` is invoked.  Does not receive access to variable shadows.
+* **`callback`:** (`Function`) The main callback function, executed when the wrapper is invoked.  Receives access to variable shadows.
+* **`doneCallback`:** (optional, `Function`) The finalization callback function, executed after the main `callback` returns.  Does not receive access to variable shadows.
+* **`startCallback`:** (optional, `Function`) The initialization callback function, executed before the main `callback` is invoked.  Does not receive access to variable shadows.
+
+#### Returns:
+
+A `Function`.
+
+#### Throws: *none*
 
 #### Examples:
 
 ##### Basic usage
 
-```
+```javascript
 $someElement.on('some_event', this.shadowHandler(function (ev) {
 	/* main asynchronous code */
 }));
@@ -256,7 +343,7 @@ $someElement.on('some_event', this.shadowHandler(function (ev) {
 
 ##### With an optional `doneCallback`
 
-```
+```javascript
 $someElement.on('some_event', this.shadowHandler(
 	function (ev) {
 		/* main asynchronous code */
@@ -269,7 +356,7 @@ $someElement.on('some_event', this.shadowHandler(
 
 ##### With an optional `doneCallback` and `startCallback`
 
-```
+```javascript
 $someElement.on('some_event', this.shadowHandler(
 	function (ev) {
 		/* main asynchronous code */
@@ -285,9 +372,9 @@ $someElement.on('some_event', this.shadowHandler(
 
 <!-- *********************************************************************** -->
 
-### `<MacroContext>.wiki(sources…)` → *`MacroContext` object* {#macrocontext-api-prototype-method-wiki}
+### `<MacroContext>.wiki(sources…)` {#macrocontext-api-prototype-method-wiki}
 
-Wikifies the given content source(s) and appends the result to the macro's output.  Returns a reference to the current `MacroContext` object for chaining.
+Wikifies the given content source(s) and appends the result to the macro's output.
 
 #### History:
 
@@ -295,7 +382,11 @@ Wikifies the given content source(s) and appends the result to the macro's outpu
 
 #### Parameters:
 
-* **`sources`:** (*string*…) The list of content sources.
+* **`sources`:** (`string`…) The list of content sources.
+
+#### Returns: *none*
+
+#### Throws: *none*
 
 #### Examples:
 
@@ -316,7 +407,7 @@ this.wiki(
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`<MacroContext>.contextHas(filter)` → *boolean*</span> {#macrocontext-api-prototype-method-contexthas}
+### <span class="deprecated">`<MacroContext>.contextHas(filter)` → `boolean`</span> {#macrocontext-api-prototype-method-contexthas}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This method has been deprecated and should no longer be used.  See the <a href="#macrocontext-api-prototype-method-contextsome"><code>&lt;MacroContext&gt;.contextSome()</code></a> method for its replacement.
@@ -329,7 +420,7 @@ This method has been deprecated and should no longer be used.  See the <a href="
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`<MacroContext>.contextSelect(filter)` → *null* | *object*</span> {#macrocontext-api-prototype-method-contextselect}
+### <span class="deprecated">`<MacroContext>.contextSelect(filter)` → `Object` | `null`</span> {#macrocontext-api-prototype-method-contextselect}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This method has been deprecated and should no longer be used.  See the <a href="#macrocontext-api-prototype-method-contextfind"><code>&lt;MacroContext&gt;.contextFind()</code></a> method for its replacement.
@@ -342,7 +433,7 @@ This method has been deprecated and should no longer be used.  See the <a href="
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`<MacroContext>.contextSelectAll(filter)` → *Array&lt;object&gt;*</span> {#macrocontext-api-prototype-method-contextselectall}
+### <span class="deprecated">`<MacroContext>.contextSelectAll(filter)` → `Array<Object>`</span> {#macrocontext-api-prototype-method-contextselectall}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This method has been deprecated and should no longer be used.  See the <a href="#macrocontext-api-prototype-method-contextfilter"><code>&lt;MacroContext&gt;.contextFilter()</code></a> method for its replacement.
@@ -355,7 +446,7 @@ This method has been deprecated and should no longer be used.  See the <a href="
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`<MacroContext>.createShadowWrapper(callback [, doneCallback [, startCallback]])` → *function*</span> {#macrocontext-api-prototype-method-createshadowwrapper}
+### <span class="deprecated">`<MacroContext>.createShadowWrapper(callback [, doneCallback [, startCallback]])` → `Function`</span> {#macrocontext-api-prototype-method-createshadowwrapper}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This method has been deprecated and should no longer be used.  See the <a href="#macrocontext-api-prototype-method-shadowhandler"><code>&lt;MacroContext&gt;.shadowHandler()</code></a> method for its replacement.

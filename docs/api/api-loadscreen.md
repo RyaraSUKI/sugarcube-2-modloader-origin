@@ -9,7 +9,7 @@ To simply add a delay to the dismissal of the loading screen to hide initial fla
 
 <!-- *********************************************************************** -->
 
-### `LoadScreen.lock()` → *number* {#loadscreen-api-method-lock}
+### `LoadScreen.lock()` → `integer` {#loadscreen-api-method-lock}
 
 Acquire a loading screen lock and, if necessary, display the loading screen.
 
@@ -21,13 +21,15 @@ Acquire a loading screen lock and, if necessary, display the loading screen.
 
 #### Returns:
 
-The (*integer*) lock ID.
+The (`integer`) lock ID.
+
+#### Throws: *none*
 
 #### Examples:
 
 See the [`LoadScreen.unlock()` static method](#loadscreen-api-method-unlock) for additional examples.
 
-```js
+```javascript
 // Lock the loading screen and get the lock ID.
 var lockId = LoadScreen.lock();
 ```
@@ -44,13 +46,15 @@ Release the loading screen lock with the given ID and, if no other locks exist, 
 
 #### Parameters:
 
-* **`lockId`:** (*integer*) The loading screen lock ID.
+* **`lockId`:** (`integer`) The loading screen lock ID.
 
 #### Returns: *none*
 
+#### Throws: *none*
+
 #### Examples:
 
-```js
+```javascript
 // Lock the loading screen and get the lock ID.
 var lockId = LoadScreen.lock();
 

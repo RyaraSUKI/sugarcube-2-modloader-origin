@@ -5,7 +5,7 @@
 
 <!-- *********************************************************************** -->
 
-### `Story.id` → *string* {#story-api-getter-id}
+### `Story.id` → `string` {#story-api-getter-id}
 
 The DOM-compatible ID of the story.
 
@@ -19,7 +19,7 @@ The `string` DOM-compatible ID of the story, created from the slugified story na
 
 <!-- *********************************************************************** -->
 
-### `Story.ifId` → *string* {#story-api-getter-ifid}
+### `Story.ifId` → `string` {#story-api-getter-ifid}
 
 The IFID (Interactive Fiction IDentifier) of the story.
 
@@ -33,7 +33,7 @@ The `string` IFID of the story, or an empty string if no IFID exists.  The Twine
 
 <!-- *********************************************************************** -->
 
-### `Story.name` → *string* {#story-api-getter-name}
+### `Story.name` → `string` {#story-api-getter-name}
 
 The name of the story.
 
@@ -47,7 +47,7 @@ The `string` name of the story.
 
 <!-- *********************************************************************** -->
 
-### `Story.add(descriptor)` → *boolean* {#story-api-method-add}
+### `Story.add(descriptor)` → `boolean` {#story-api-method-add}
 
 Adds the passage to the passage store.
 
@@ -61,15 +61,15 @@ This method cannot add <a href="#code-passages">code passages</a> or passages ta
 
 #### Parameters:
 
-* **`descriptor`:** (*`Object`*) The passage descriptor object.
+* **`descriptor`:** (`Object`) The passage descriptor object.
 
 #### Passage Descriptor:
 
 A passage descriptor object should have the following properties:
 
-* **`name`:** (*`string`*) The passage's name.
-* **`tags`:** (*`string`*) The passage's whitespace separated list of tags.
-* **`text`:** (*`string`*) The passage's text.
+* **`name`:** (`string`) The passage's name.
+* **`tags`:** (`string`) The passage's whitespace separated list of tags.
+* **`text`:** (`string`) The passage's text.
 
 #### Returns:
 
@@ -77,7 +77,7 @@ Boolean `true` if the passage was added, elsewise `false`.
 
 #### Examples:
 
-```js
+```javascript
 // Add a passage
 const descriptor = {
 	name : "Forest 4",
@@ -92,7 +92,7 @@ if (Story.add(descriptor)) {
 
 <!-- *********************************************************************** -->
 
-### `Story.delete(name)` → *boolean* {#story-api-method-delete}
+### `Story.delete(name)` → `boolean` {#story-api-method-delete}
 
 Deletes the `Passage` instance with the given name.
 
@@ -106,7 +106,7 @@ This method cannot add <a href="#code-passages">code passages</a> or passages ta
 
 #### Parameters:
 
-* **`name`:** (*string*) The name of the `Passage` instance.
+* **`name`:** (`string`) The name of the `Passage` instance.
 
 #### Returns:
 
@@ -114,7 +114,7 @@ Boolean `true` if a `Passage` instance with the given name was deleted, elsewise
 
 #### Examples:
 
-```js
+```javascript
 // Delete the Passage instance with the name "The Ducky"
 if (Story.delete("The Ducky")) {
 	/* The "The Ducky" passage was deleted. */
@@ -123,7 +123,7 @@ if (Story.delete("The Ducky")) {
 
 <!-- *********************************************************************** -->
 
-### `Story.filter(predicate [, thisArg])` → *`Array<Passage>`* {#story-api-method-filter}
+### `Story.filter(predicate [, thisArg])` → `Array<Passage>` {#story-api-method-filter}
 
 Searches all `Passage` instances for those that pass the test implemented by the given predicate function.
 
@@ -137,8 +137,8 @@ This method cannot retrieve passages tagged with <a href="#code-tags">code tags<
 
 #### Parameters:
 
-* **`predicate`:** (*function*) The function used to test each `Passage` instance, which is passed into the function as its sole parameter.  If the function returns `true`, then the `Passage` instance is added to the results.
-* **`thisArg`:** (optional, *any*) The value to use as `this` when executing the `predicate` function.
+* **`predicate`:** (`Function`) The function used to test each `Passage` instance, which is passed into the function as its sole parameter.  If the function returns `true`, then the `Passage` instance is added to the results.
+* **`thisArg`:** (optional, `any`) The value to use as `this` when executing the `predicate` function.
 
 #### Returns:
 
@@ -146,7 +146,7 @@ A new `Array<Passage>` filled with all instances that pass the test implemented 
 
 #### Examples:
 
-```js
+```javascript
 // Returns all 'forest'-tagged Passage instances
 Story.filter(function (p) {
 	return p.tags.includes("forest");
@@ -161,7 +161,7 @@ Story.filter(function (p) {
 
 <!-- *********************************************************************** -->
 
-### `Story.find(predicate [, thisArg])` → *`Passage`* {#story-api-method-find}
+### `Story.find(predicate [, thisArg])` → `Passage` {#story-api-method-find}
 
 Searches all `Passage` instances for the first that passes the test implemented by the given predicate function.
 
@@ -175,8 +175,8 @@ This method cannot retrieve passages tagged with <a href="#code-tags">code tags<
 
 #### Parameters:
 
-* **`predicate`:** (*function*) The function used to test each `Passage` object, which is passed into the function as its sole parameter.  If the function returns `true`, then the `Passage` instance is added to the results.
-* **`thisArg`:** (optional, *any*) The value to use as `this` when executing the `predicate` function.
+* **`predicate`:** (`Function`) The function used to test each `Passage` object, which is passed into the function as its sole parameter.  If the function returns `true`, then the `Passage` instance is added to the results.
+* **`thisArg`:** (optional, `any`) The value to use as `this` when executing the `predicate` function.
 
 #### Returns:
 
@@ -184,7 +184,7 @@ The first `Passage` instance that passed the test implemented by the given predi
 
 #### Examples:
 
-```js
+```javascript
 // Returns the first 'forest'-tagged Passage instance
 Story.find(function (p) {
 	return p.tags.includes("forest");
@@ -199,7 +199,7 @@ Story.find(function (p) {
 
 <!-- *********************************************************************** -->
 
-### `Story.get(name)` → *`Passage`* {#story-api-method-get}
+### `Story.get(name)` → `Passage` {#story-api-method-get}
 
 Gets the `Passage` instance with the given name.
 
@@ -213,7 +213,7 @@ This method cannot retrieve passages tagged with <a href="#code-tags">code tags<
 
 #### Parameters:
 
-* **`name`:** (*string*) The name of the `Passage` instance.
+* **`name`:** (`string`) The name of the `Passage` instance.
 
 #### Returns:
 
@@ -221,14 +221,14 @@ The `Passage` instance with the given name, or a new empty `Passage` instance if
 
 #### Examples:
 
-```js
+```javascript
 // Get the Passage instance with the name "The Ducky"
 const theDucky = Story.get("The Ducky");
 ```
 
 <!-- *********************************************************************** -->
 
-### `Story.has(name)` → *boolean* {#story-api-method-has}
+### `Story.has(name)` → `boolean` {#story-api-method-has}
 
 Determines whether a `Passage` instance with the given name exists.
 
@@ -242,7 +242,7 @@ This method does not check passages tagged with <a href="#code-tags">code tags</
 
 #### Parameters:
 
-* **`name`:** (*string*) The name of the `Passage` instance.
+* **`name`:** (`string`) The name of the `Passage` instance.
 
 #### Returns:
 
@@ -250,7 +250,7 @@ Boolean `true` if a `Passage` instance with the given name exists, elsewise `fal
 
 #### Examples:
 
-```js
+```javascript
 // Returns whether a "The Ducky" Passage instance exists
 if (Story.has("The Ducky")) {
 	/* The "The Ducky" passage exists. */
@@ -259,7 +259,7 @@ if (Story.has("The Ducky")) {
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`Story.domId` → *string*</span> {#story-api-getter-domid}
+### <span class="deprecated">`Story.domId` → `string`</span> {#story-api-getter-domid}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This setting has been deprecated and should no longer be used.  See the <a href="#story-api-getter-id"><code>Story.id</code></a> setting for its replacement.
@@ -272,7 +272,7 @@ This setting has been deprecated and should no longer be used.  See the <a href=
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`Story.title` → *string*</span> {#story-api-getter-title}
+### <span class="deprecated">`Story.title` → `string`</span> {#story-api-getter-title}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This setting has been deprecated and should no longer be used.  See the <a href="#story-api-getter-name"><code>Story.name</code></a> setting for its replacement.
@@ -285,7 +285,7 @@ This setting has been deprecated and should no longer be used.  See the <a href=
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`Story.lookup(propertyName , searchValue [, sortProperty])` → *`Array<Passage>`*</span> {#story-api-method-lookup}
+### <span class="deprecated">`Story.lookup(propertyName , searchValue [, sortProperty])` → `Array<Passage>`</span> {#story-api-method-lookup}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This static method has been deprecated and should no longer be used.  See the <a href="#story-api-method-filter"><code>Story.filter()</code> static method</a> for its replacement.
@@ -298,7 +298,7 @@ This static method has been deprecated and should no longer be used.  See the <a
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`Story.lookupWith(predicate [, sortProperty])` → *`Array<Passage>`*</span> {#story-api-method-lookupwith}
+### <span class="deprecated">`Story.lookupWith(predicate [, sortProperty])` → `Array<Passage>`</span> {#story-api-method-lookupwith}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This static method has been deprecated and should no longer be used.  See the <a href="#story-api-method-filter"><code>Story.filter()</code> static method</a> for its replacement.

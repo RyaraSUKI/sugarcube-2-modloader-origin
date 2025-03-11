@@ -25,9 +25,9 @@ The <a href="#config-api-property-audio-pauseonfadetozero"><code>Config.audio.pa
 
 #### Parameters:
 
-* **`duration`:** (*number*) The number of seconds over which the tracks should be faded.
-* **`toVol`:** (*number*) The destination volume level.
-* **`fromVol`:** (optional, *number*) The starting volume level.  If omitted, defaults to the tracks' current volume level.
+* **`duration`:** (`number`) The number of seconds over which the tracks should be faded.
+* **`toVol`:** (`number`) The destination volume level.
+* **`fromVol`:** (optional, `number`) The starting volume level.  If omitted, defaults to the tracks' current volume level.
 
 #### Examples:
 
@@ -48,8 +48,8 @@ Starts playback of the selected tracks and fades them from the specified volume 
 
 #### Parameters:
 
-* **`duration`:** (*number*) The number of seconds over which the tracks should be faded.
-* **`fromVol`:** (optional, *number*) The starting volume level.  If omitted, defaults to the tracks' current volume level.
+* **`duration`:** (`number`) The number of seconds over which the tracks should be faded.
+* **`fromVol`:** (optional, `number`) The starting volume level.  If omitted, defaults to the tracks' current volume level.
 
 #### Examples:
 
@@ -74,8 +74,8 @@ The <a href="#config-api-property-audio-pauseonfadetozero"><code>Config.audio.pa
 
 #### Parameters:
 
-* **`duration`:** (*number*) The number of seconds over which the tracks should be faded.
-* **`fromVol`:** (optional, *number*) The starting volume level.  If omitted, defaults to the tracks' current volume level.
+* **`duration`:** (`number`) The number of seconds over which the tracks should be faded.
+* **`fromVol`:** (optional, `number`) The starting volume level.  If omitted, defaults to the tracks' current volume level.
 
 #### Examples:
 
@@ -140,7 +140,7 @@ Sets the selected tracks' repeating playback state (default: `false`).  Returns 
 
 #### Parameters:
 
-* **`state`:** (*boolean*) The loop state.
+* **`state`:** (`boolean`) The loop state.
 
 #### Examples:
 
@@ -164,7 +164,7 @@ Sets the selected tracks' volume mute state (default: `false`).  Returns a refer
 
 #### Parameters:
 
-* **`state`:** (*boolean*) The mute state.
+* **`state`:** (`boolean`) The mute state.
 
 #### Examples:
 
@@ -357,7 +357,7 @@ Sets the selected tracks' current time in seconds.  Returns a reference to the c
 
 #### Parameters:
 
-* **`seconds`:** (*number*) The time to set.  Valid values are floating-point numbers in the range `0` (start) to the maximum duration—e.g., `60` is `60` is sixty seconds in, `90.5` is ninety-point-five seconds in.
+* **`seconds`:** (`number`) The time to set.  Valid values are floating-point numbers in the range `0` (start) to the maximum duration—e.g., `60` is `60` is sixty seconds in, `90.5` is ninety-point-five seconds in.
 
 #### Examples:
 
@@ -400,7 +400,7 @@ Sets the selected tracks' volume level (default: `1`).  Returns a reference to t
 
 #### Parameters:
 
-* **`level`:** (*number*) The volume level to set.  Valid values are floating-point numbers in the range `0` (silent) to `1` (loudest)—e.g., `0` is 0%, `0.5` is 50%, `1` is 100%.
+* **`level`:** (`number`) The volume level to set.  Valid values are floating-point numbers in the range `0` (silent) to `1` (loudest)—e.g., `0` is 0%, `0.5` is 50%, `1` is 100%.
 
 #### Examples:
 

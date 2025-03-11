@@ -22,10 +22,10 @@ For example, you might use the story variable `$name` to store the main player c
 Values may be of most primitive types and some object types, see [Supported Types](#twinescript-supported-types) for more information.
 
 <div role="note"><b>Note:</b>
- <p>There are two other variables where you may store values:</p>
- <ul>
-		<li>The <a href="#special-variable-setup"><code>setup</code></a> object provided by SugarCube.  Used for storing non-persistent values and completely safe to use.</li>
-		<li>The <code>window</code> object provided by the browser.  Used for storing non-persistent values, however, care <em>must</em> be taken not to overwrite any of its many predefined properties.  Additionally, any property defined on it becomes an auto-global—e.g., <code>window.characterClasses</code> can be accessed as <code>characterClasses</code> regardless of scope.</li>
+	<p>There are two other variables where you may store values:</p>
+	<ul>
+		<li>The <a href="#special-variable-setup"><code>setup</code></a> object provided by SugarCube.  Its properties may be used for storing non-persistent values and it is completely safe to use.</li>
+		<li>The <code>window</code> object provided by the browser.  Its properties may also be used for storing non-persistent values, however, care <em>must</em> be taken not to overwrite any of its <em>many</em> predefined properties.  Additionally, any property defined on it becomes an auto-global—e.g., <code>window.characterClasses</code> can be accessed as <code>characterClasses</code> regardless of scope.</li>
 	</ul>
 </div>
 
@@ -41,7 +41,7 @@ Subsequent, optional, characters have the same set as the second with the additi
 
 A few examples of valid names:
 
-```js
+```javascript
 /* Story variables */
 $cash
 $hasKeyCard5
@@ -119,7 +119,7 @@ Unsupported object types, either native or custom, can be made compatible by imp
 
 Expressions are simply units of code that yield values when evaluated.  For example:
 
-```js
+```javascript
 // Yields: true
 true
 
@@ -137,7 +137,7 @@ Basic expressions simply consist of identifiers and literals—e.g., `$a`, `69`,
 
 While every valid expression—even those you might not expect—yields a value, there are essentially two types of expressions: those with side effects and those without.  A side effect simply means that the evaluation of the expression modifies some state.  For example:
 
-```js
+```javascript
 // Yields: 5; Side effect: assigns 5 to the story variable $a
 $a = 5
 
@@ -168,7 +168,7 @@ In both TwineScript and JavaScript there are *binary* and *unary* operators—n.
 
 Binary operator examples:
 
-```js
+```javascript
 // operand1 OPERATOR operand2
 2 + 2
 $a = 5
@@ -176,7 +176,7 @@ $a = 5
 
 Unary operator examples:
 
-```js
+```javascript
 // operand OPERATOR
 $i++
 

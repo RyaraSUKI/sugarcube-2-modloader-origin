@@ -5,7 +5,7 @@
 
 <!-- *********************************************************************** -->
 
-### `Template.size` → *number* {#template-api-getter-size}
+### `Template.size` → `number` {#template-api-getter-size}
 
 Returns the number of existing templates.
 
@@ -33,14 +33,14 @@ Add new template(s).
 
 #### Parameters:
 
-* **`name`:** (*string* | *Array&lt;string&gt;*) Name, or array of names, of the template(s) to add.  **NOTE:** Names must consist of characters from the basic Latin alphabet and start with a letter, which may be optionally followed by any number of letters, numbers, the underscore, or the hyphen.
-* **`definition`:** (*function* | *string* | *Array&lt;function | string&gt;*) Definition of the template(s), which may be a: function, string, or an array of either.  **NOTE:** Each time array definitions are referenced, one of their member templates is randomly selected to be the output source.
+* **`name`:** (`string` | `Array<string>`) Name, or array of names, of the template(s) to add.  **NOTE:** Names must consist of characters from the basic Latin alphabet and start with a letter, which may be optionally followed by any number of letters, numbers, the underscore, or the hyphen.
+* **`definition`:** (`Function` | `string` | `Array<Function | string>`) Definition of the template(s), which may be a: function, string, or an array of either.  **NOTE:** Each time array definitions are referenced, one of their member templates is randomly selected to be the output source.
 
 #### Function templates:
 
 Function templates should return a string, which may itself contain markup.  They are called with no arguments, but with their `this` set to a template (execution) context object that contains the following data properties:
 
-* **`name`:** (*string*) The template's name.
+* **`name`:** (`string`) The template's name.
 
 #### String templates:
 
@@ -94,7 +94,7 @@ Remove existing template(s).
 
 #### Parameters:
 
-* **`name`:** (*string* | *Array&lt;string&gt;*) Name, or array of names, of the template(s) to remove.
+* **`name`:** (`string` | `Array<string>`) Name, or array of names, of the template(s) to remove.
 
 #### Examples:
 
@@ -108,7 +108,7 @@ Template.delete(['yolo', 'nolf']);
 
 <!-- *********************************************************************** -->
 
-### `Template.get(name)` → *function* | *string* | *Array&lt;function | string&gt;* {#template-api-method-get}
+### `Template.get(name)` → `Function` | `string` | `Array<Function | string>` {#template-api-method-get}
 
 Return the named template definition, or `null` on failure.
 
@@ -118,7 +118,7 @@ Return the named template definition, or `null` on failure.
 
 #### Parameters:
 
-* **`name`:** (*string*) Name of the template whose definition should be returned.
+* **`name`:** (`string`) Name of the template whose definition should be returned.
 
 #### Examples:
 
@@ -129,7 +129,7 @@ var yolo = Template.get('yolo');
 
 <!-- *********************************************************************** -->
 
-### `Template.has(name)` → *boolean* {#template-api-method-has}
+### `Template.has(name)` → `boolean` {#template-api-method-has}
 
 Returns whether the named template exists.
 
@@ -139,7 +139,7 @@ Returns whether the named template exists.
 
 #### Parameters:
 
-* **`name`:** (*string*) Name of the template to search for.
+* **`name`:** (`string`) Name of the template to search for.
 
 #### Examples:
 

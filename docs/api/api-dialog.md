@@ -5,7 +5,7 @@
 
 <!-- *********************************************************************** -->
 
-### `Dialog.append(content)` → *`Dialog` object* {#dialog-api-method-append}
+### `Dialog.append(content)` → `Dialog` {#dialog-api-method-append}
 
 Appends the given content to the dialog's content area.  Returns a reference to the `Dialog` object for chaining.
 
@@ -19,11 +19,11 @@ If your content contains any SugarCube markup, you'll need to use the <a href="#
 
 #### Parameters:
 
-* **`content`:** (*Node* | *string*) The content to append.  As this method is essentially a shortcut for `jQuery(Dialog.body()).append(…)`, see [jQuery's `append()`](https://api.jquery.com/append/) method for the range of valid content types.
+* **`content`:** (`Node` | `string`) The content to append.  As this method is essentially a shortcut for `jQuery(Dialog.body()).append(…)`, see [jQuery's `append()`](https://api.jquery.com/append/) method for the range of valid content types.
 
 #### Examples:
 
-```js
+```javascript
 Dialog.append("Cry 'Havoc!', and let slip the <em>ponies</em> of <strong>friendship</strong>.");
 
 Dialog.append( /* DOM nodes */ );
@@ -31,7 +31,7 @@ Dialog.append( /* DOM nodes */ );
 
 <!-- *********************************************************************** -->
 
-### `Dialog.body()` → *`HTMLElement` object* {#dialog-api-method-body}
+### `Dialog.body()` → `HTMLElement` {#dialog-api-method-body}
 
 Returns a reference to the dialog's content area.
 
@@ -43,7 +43,7 @@ Returns a reference to the dialog's content area.
 
 #### Examples:
 
-```js
+```javascript
 jQuery(Dialog.body())
 	.append("Cry 'Havoc!', and let slip the <em>ponies</em> of <strong>friendship</strong>.");
 
@@ -53,7 +53,7 @@ jQuery(Dialog.body())
 
 <!-- *********************************************************************** -->
 
-### `Dialog.close()` → *`Dialog` object* {#dialog-api-method-close}
+### `Dialog.close()` → `Dialog` {#dialog-api-method-close}
 
 Closes the dialog.  Returns a reference to the `Dialog` object for chaining.
 
@@ -65,13 +65,13 @@ Closes the dialog.  Returns a reference to the `Dialog` object for chaining.
 
 #### Examples:
 
-```js
+```javascript
 Dialog.close();
 ```
 
 <!-- *********************************************************************** -->
 
-### `Dialog.create([title [, classNames]])` → *`Dialog` object* {#dialog-api-method-create}
+### `Dialog.create([title [, classNames]])` → `Dialog` {#dialog-api-method-create}
 
 Prepares the dialog for use.  Returns a reference to the `Dialog` object for chaining.
 
@@ -81,32 +81,32 @@ Prepares the dialog for use.  Returns a reference to the `Dialog` object for cha
 
 #### Parameters:
 
-* **`title`:** (optional, *string*) The title of the dialog.
-* **`classNames`:** (optional, *string*) The space-separated-list of classes to add to the dialog.
+* **`title`:** (optional, `string`) The title of the dialog.
+* **`classNames`:** (optional, `string`) The space-separated-list of classes to add to the dialog.
 
 #### Examples:
 
 ##### Basic usage
 
-```js
+```javascript
 Dialog.create();
 ```
 
 ##### With a title
 
-```js
+```javascript
 Dialog.create("Character Sheet");
 ```
 
 ##### With a title and class
 
-```js
+```javascript
 Dialog.create("Character Sheet", "charsheet");
 ```
 
 ##### Making use of chaining
 
-```js
+```javascript
 Dialog
 	.create("Character Sheet", "charsheet")
 	.wikiPassage("Player Character")
@@ -115,7 +115,7 @@ Dialog
 
 <!-- *********************************************************************** -->
 
-### `Dialog.empty()` → *`HTMLElement` object* {#dialog-api-method-empty}
+### `Dialog.empty()` → `Dialog` {#dialog-api-method-empty}
 
 Empties the dialog's content area.  Returns a reference to the `Dialog` object for chaining.
 
@@ -129,13 +129,13 @@ Empties the dialog's content area.  Returns a reference to the `Dialog` object f
 
 ##### Basic usage
 
-```js
+```javascript
 Dialog.empty();
 ```
 
 ##### Replacing the open dialog's content
 
-```js
+```javascript
 Dialog
 	.empty()
 	.wikiPassage("Quests");
@@ -143,7 +143,7 @@ Dialog
 
 <!-- *********************************************************************** -->
 
-### `Dialog.isOpen([classNames])` → *boolean* {#dialog-api-method-isopen}
+### `Dialog.isOpen([classNames])` → `boolean` {#dialog-api-method-isopen}
 
 Returns whether the dialog is currently open.
 
@@ -153,13 +153,13 @@ Returns whether the dialog is currently open.
 
 #### Parameters:
 
-* **`classNames`:** (optional, *string*) The space-separated-list of classes to check for when determining the state of the dialog.  Each of the built-in dialogs contains a name-themed class that can be tested for in this manner—e.g., the Saves dialog contains the class `saves`.
+* **`classNames`:** (optional, `string`) The space-separated-list of classes to check for when determining the state of the dialog.  Each of the built-in dialogs contains a name-themed class that can be tested for in this manner—e.g., the Saves dialog contains the class `saves`.
 
 #### Examples:
 
 ##### Basic usage
 
-```js
+```javascript
 if (Dialog.isOpen()) {
 	/* code to execute if the dialog is open… */
 }
@@ -167,7 +167,7 @@ if (Dialog.isOpen()) {
 
 ##### While also checking if the `saves` class exists
 
-```js
+```javascript
 if (Dialog.isOpen("saves")) {
 	/* code to execute if the Saves dialog is open… */
 }
@@ -175,7 +175,7 @@ if (Dialog.isOpen("saves")) {
 
 <!-- *********************************************************************** -->
 
-### `Dialog.open([options [, closeFn]])` → *`Dialog` object* {#dialog-api-method-open}
+### `Dialog.open([options [, closeFn]])` → `Dialog` {#dialog-api-method-open}
 
 Opens the dialog.  Returns a reference to the `Dialog` object for chaining.
 
@@ -189,8 +189,8 @@ Call this only after populating the dialog with content.
 
 #### Parameters:
 
-* **`options`:** (optional, *null* | *object*) The options to be used when opening the dialog.
-* **`closeFn`:** (optional, *null* | *function*) The function to execute whenever the dialog is closed.
+* **`options`:** (optional, `null` | `Object`) The options to be used when opening the dialog.
+* **`closeFn`:** (optional, `null` | `Function`) The function to execute whenever the dialog is closed.
 
 #### Options object:
 
@@ -200,13 +200,13 @@ An options object should have some of the following properties:
 
 #### Examples:
 
-```js
+```javascript
 Dialog.open();
 ```
 
 <!-- *********************************************************************** -->
 
-### `Dialog.wiki(wikiMarkup)` → *`Dialog` object* {#dialog-api-method-wiki}
+### `Dialog.wiki(wikiMarkup)` → `Dialog` {#dialog-api-method-wiki}
 
 Renders the given [markup](#markup) and appends it to the dialog's content area.  Returns a reference to the `Dialog` object for chaining.
 
@@ -224,17 +224,17 @@ If your content consists of DOM nodes, you'll need to use the <a href="#dialog-a
 
 #### Parameters:
 
-* **`wikiMarkup`:** (*string*) The markup to render.
+* **`wikiMarkup`:** (`string`) The markup to render.
 
 #### Examples:
 
-```js
+```javascript
 Dialog.wiki("Cry 'Havoc!', and let slip the //ponies// of ''friendship''.");
 ```
 
 <!-- *********************************************************************** -->
 
-### `Dialog.wikiPassage(name)` → *`Dialog` object* {#dialog-api-method-wikipassage}
+### `Dialog.wikiPassage(name)` → `Dialog` {#dialog-api-method-wikipassage}
 
 Renders the passage by the given name and appends it to the dialog's content area.  Returns a reference to the `Dialog` object for chaining.
 
@@ -244,17 +244,17 @@ Renders the passage by the given name and appends it to the dialog's content are
 
 #### Parameters:
 
-* **`name`:** (*string*) The name of the passage to render.
+* **`name`:** (`string`) The name of the passage to render.
 
 #### Examples:
 
-```js
+```javascript
 Dialog.wikiPassage("Inventory");
 ```
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`Dialog.setup([title [, classNames]])` → *`HTMLElement` object*</span> {#dialog-api-method-setup}
+### <span class="deprecated">`Dialog.setup([title [, classNames]])` → `HTMLElement`</span> {#dialog-api-method-setup}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This method has been deprecated and should no longer be used.

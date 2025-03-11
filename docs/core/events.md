@@ -45,7 +45,7 @@ While there are no custom properties, the event is fired from the dialog's body,
 
 #### Examples:
 
-```js
+```javascript
 /* Execute the handler function when the event triggers. */
 $(document).on(':dialogclosed', function (ev) {
 	/* JavaScript code */
@@ -75,7 +75,7 @@ While there are no custom properties, the event is fired from the dialog's body,
 
 #### Examples:
 
-```js
+```javascript
 /* Execute the handler function when the event triggers. */
 $(document).on(':dialogclosing', function (ev) {
 	/* JavaScript code */
@@ -105,7 +105,7 @@ While there are no custom properties, the event is fired from the dialog's body,
 
 #### Examples:
 
-```js
+```javascript
 /* Execute the handler function when the event triggers. */
 $(document).on(':dialogopened', function (ev) {
 	/* JavaScript code */
@@ -135,7 +135,7 @@ While there are no custom properties, the event is fired from the dialog's body,
 
 #### Examples:
 
-```js
+```javascript
 /* Execute the handler function when the event triggers. */
 $(document).on(':dialogopening', function (ev) {
 	/* JavaScript code */
@@ -194,11 +194,11 @@ Triggered before the modification of the state history.
 
 `:passageinit` events have a `detail` property whose value is an object with the following properties:
 
-* **`passage`:** (*`Passage` object*) The incoming passage object.  See the [`Passage` API](#passage-api) for more information.
+* **`passage`:** (`Passage`) The incoming passage object.  See the [`Passage` API](#passage-api) for more information.
 
 #### Examples:
 
-```js
+```javascript
 /* Execute the handler function each time the event triggers. */
 $(document).on(':passageinit', function (ev) {
 	/* Log details about the current moment. */
@@ -231,14 +231,14 @@ Triggered before the rendering of the incoming passage.
 
 `:passagestart` events have a `detail` property whose value is an object with the following properties:
 
-* **`content`:** (*`HTMLElement` object*) The, currently, empty element that will eventually hold the rendered content of the incoming passage.
-* **`passage`:** (*`Passage` object*) The incoming passage object.  See the [`Passage` API](#passage-api) for more information.
+* **`content`:** (`HTMLElement`) The, currently, empty element that will eventually hold the rendered content of the incoming passage.
+* **`passage`:** (`Passage`) The incoming passage object.  See the [`Passage` API](#passage-api) for more information.
 
 #### Examples:
 
 ##### Basic usage
 
-```js
+```javascript
 /* Execute the handler function each time the event triggers. */
 $(document).on(':passagestart', function (ev) {
 	/* Log details about the current moment. */
@@ -259,7 +259,7 @@ $(document).one(':passagestart', function (ev) {
 
 ##### Modifying the content buffer
 
-```js
+```javascript
 /*
 	Process the given markup and append the result to the incoming
 	passage's element.
@@ -284,14 +284,14 @@ Triggered after the rendering of the incoming passage.
 
 `:passagerender` events have a `detail` property whose value is an object with the following properties:
 
-* **`content`:** (*`HTMLElement` object*) The element holding the fully rendered content of the incoming passage.
-* **`passage`:** (*`Passage` object*) The incoming passage object.  See the [`Passage` API](#passage-api) for more information.
+* **`content`:** (`HTMLElement`) The element holding the fully rendered content of the incoming passage.
+* **`passage`:** (`Passage`) The incoming passage object.  See the [`Passage` API](#passage-api) for more information.
 
 #### Examples:
 
 ##### Basic usage
 
-```js
+```javascript
 /* Execute the handler function each time the event triggers. */
 $(document).on(':passagerender', function (ev) {
 	/* Log details about the current moment. */
@@ -312,7 +312,7 @@ $(document).one(':passagerender', function (ev) {
 
 ##### Modifying the content buffer
 
-```js
+```javascript
 /*
 	Process the given markup and append the result to the incoming
 	passage's element.
@@ -338,14 +338,14 @@ Triggered after the display—i.e., output—of the incoming passage.
 
 `:passagedisplay` events have a `detail` property whose value is an object with the following properties:
 
-* **`content`:** (*`HTMLElement` object*) The element holding the fully rendered content of the incoming passage.
-* **`passage`:** (*`Passage` object*) The incoming passage object.  See the [`Passage` API](#passage-api) for more information.
+* **`content`:** (`HTMLElement`) The element holding the fully rendered content of the incoming passage.
+* **`passage`:** (`Passage`) The incoming passage object.  See the [`Passage` API](#passage-api) for more information.
 
 #### Examples:
 
 ##### Basic usage
 
-```js
+```javascript
 /* Execute the handler function each time the event triggers. */
 $(document).on(':passagedisplay', function (ev) {
 	/* Log details about the current moment. */
@@ -366,7 +366,7 @@ $(document).one(':passagedisplay', function (ev) {
 
 ##### Modifying the content buffer
 
-```js
+```javascript
 /*
 	Process the given markup and append the result to the incoming
 	passage's element.
@@ -392,14 +392,14 @@ Triggered at the end of passage navigation.
 
 `:passageend` events have a `detail` property whose value is an object with the following properties:
 
-* **`content`:** (*`HTMLElement` object*) The element holding the fully rendered content of the incoming passage.
-* **`passage`:** (*`Passage` object*) The incoming passage object.  See the [`Passage` API](#passage-api) for more information.
+* **`content`:** (`HTMLElement`) The element holding the fully rendered content of the incoming passage.
+* **`passage`:** (`Passage`) The incoming passage object.  See the [`Passage` API](#passage-api) for more information.
 
 #### Examples:
 
 ##### Basic usage
 
-```js
+```javascript
 /* Execute the handler function each time the event triggers. */
 $(document).on(':passageend', function (ev) {
 	/* Log details about the current moment. */
@@ -420,7 +420,7 @@ $(document).one(':passageend', function (ev) {
 
 ##### Modifying the content buffer
 
-```js
+```javascript
 /*
 	Process the given markup and append the result to the incoming
 	passage's element.
@@ -525,7 +525,7 @@ Track event triggered when a fade completes normally.
 
 #### Examples:
 
-```js
+```javascript
 /* Execute the handler function when the event triggers for one track via <AudioTrack>. */
 aTrack.on(':faded', function (ev) {
 	/* JavaScript code */
@@ -551,7 +551,7 @@ Track event triggered when a fade starts.
 
 #### Examples:
 
-```js
+```javascript
 /* Execute the handler function when the event triggers for one track via <AudioTrack>. */
 aTrack.on(':fading', function (ev) {
 	/* JavaScript code */
@@ -581,7 +581,7 @@ Track event triggered when playback is stopped after [`<AudioTrack>.stop()`](#au
 
 #### Examples:
 
-```js
+```javascript
 /* Execute the handler function when the event triggers for one track via <AudioTrack>. */
 aTrack.on(':stopped', function (ev) {
 	/* JavaScript code */
@@ -615,7 +615,7 @@ Global event triggered once just before the page is reloaded when [`Engine.resta
 
 #### Examples:
 
-```js
+```javascript
 /* Execute the handler function when the event triggers. */
 $(document).one(':enginerestart', function (ev) {
 	/* JavaScript code */
@@ -636,7 +636,7 @@ Global event triggered once just before the dismissal of the loading screen at s
 
 #### Examples:
 
-```js
+```javascript
 /* Execute the handler function exactly once, since it's only fired once. */
 $(document).one(':storyready', function (ev) {
 	/* JavaScript code */
@@ -657,7 +657,7 @@ Global event triggered when the built-in user interface is being updated.
 
 #### Examples:
 
-```js
+```javascript
 /* Execute the handler function when the event triggers. */
 $(document).on(':uiupdate', function (ev) {
 	/* JavaScript code */
@@ -690,7 +690,7 @@ Injecting additional <code>&lt;&lt;type&gt;&gt;</code> macro invocations <em>aft
 
 #### Examples:
 
-```js
+```javascript
 /* Execute the handler function when the event triggers. */
 $(document).on(':typingcomplete', function (ev) {
 	/* JavaScript code */
@@ -712,7 +712,7 @@ Local event triggered on the typing wrapper when the typing of a section starts.
 
 #### Examples:
 
-```js
+```javascript
 /* Execute the handler function when the event triggers. */
 $(document).on(':typingstart', function (ev) {
 	/* JavaScript code */
@@ -734,7 +734,7 @@ Local event triggered on the typing wrapper when the typing of a section stops.
 
 #### Examples:
 
-```js
+```javascript
 /* Execute the handler function when the event triggers. */
 $(document).on(':typingstop', function (ev) {
 	/* JavaScript code */

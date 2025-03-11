@@ -31,7 +31,7 @@ The <code>Fullscreen</code> API comes with some built-in limitations:
 
 <!-- *********************************************************************** -->
 
-### `Fullscreen.element` → *`HTMLElement` object* | *null* {#fullscreen-api-getter-element}
+### `Fullscreen.element` → `HTMLElement` | `null` {#fullscreen-api-getter-element}
 
 Returns the current fullscreen element or, if fullscreen mode is not active, `null`.
 
@@ -47,7 +47,7 @@ Fullscreen.element  → The current fullscreen element
 
 <!-- *********************************************************************** -->
 
-### `Fullscreen.isEnabled()` → *boolean* {#fullscreen-api-method-isenabled}
+### `Fullscreen.isEnabled()` → `boolean` {#fullscreen-api-method-isenabled}
 
 Returns whether fullscreen is both supported and enabled.
 
@@ -65,7 +65,7 @@ Fullscreen.isEnabled()  → Whether fullscreen mode is available
 
 <!-- *********************************************************************** -->
 
-### `Fullscreen.isFullscreen()` → *boolean* {#fullscreen-api-method-isfullscreen}
+### `Fullscreen.isFullscreen()` → `boolean` {#fullscreen-api-method-isfullscreen}
 
 Returns whether fullscreen mode is currently active.
 
@@ -83,7 +83,7 @@ Fullscreen.isFullscreen()  → Whether fullscreen mode is active
 
 <!-- *********************************************************************** -->
 
-### `Fullscreen.request([options [, requestedEl]])` → *`Promise` object* {#fullscreen-api-method-request}
+### `Fullscreen.request([options [, requestedEl]])` → `Promise` {#fullscreen-api-method-request}
 
 Request that the browser enter fullscreen mode.
 
@@ -97,14 +97,14 @@ Request that the browser enter fullscreen mode.
 
 #### Parameters:
 
-* **`options`:** (optional, *object*) The fullscreen options object.
-* **`requestedEl`:** (optional, *`HTMLElement` object*) The element to enter fullscreen mode with.  If omitted, defaults to the entire page.
+* **`options`:** (optional, `Object`) The fullscreen options object.
+* **`requestedEl`:** (optional, `HTMLElement`) The element to enter fullscreen mode with.  If omitted, defaults to the entire page.
 
 #### Options object:
 
 A fullscreen options object should have some of the following properties:
 
-* **`navigationUI`:** (*string*) Determines the fullscreen navigation UI preference.  Valid values are (default: `"auto"`):
+* **`navigationUI`:** (`string`) Determines the fullscreen navigation UI preference.  Valid values are (default: `"auto"`):
 	* `"auto"`: Indicates no preference.
 	* `"hide"`: Request that the browser's navigation UI be hidden.  The full dimensions of the screen will be used to display the element.
 	* `"show"`: Request that the browser's navigation UI be shown.  The screen dimensions allocated to the element will be clamped to leave room for the UI.
@@ -131,7 +131,7 @@ Fullscreen.request({ navigationUI : "show" }, myElement);
 
 <!-- *********************************************************************** -->
 
-### `Fullscreen.exit()` → *`Promise` object* {#fullscreen-api-method-exit}
+### `Fullscreen.exit()` → `Promise` {#fullscreen-api-method-exit}
 
 Request that the browser exit fullscreen mode.
 
@@ -150,7 +150,7 @@ Fullscreen.exit();
 
 <!-- *********************************************************************** -->
 
-### `Fullscreen.toggle([options [, requestedEl]])` → *`Promise` object* {#fullscreen-api-method-toggle}
+### `Fullscreen.toggle([options [, requestedEl]])` → `Promise` {#fullscreen-api-method-toggle}
 
 Request that the browser toggle fullscreen mode—i.e., enter or exit as appropriate.
 
@@ -160,8 +160,8 @@ Request that the browser toggle fullscreen mode—i.e., enter or exit as appropr
 
 #### Parameters:
 
-* **`options`:** (optional, *object*) The fullscreen options object.  See [`Fullscreen.request()`](#fullscreen-api-method-request) for more information.
-* **`requestedEl`:** (optional, *`HTMLElement` object*) The element to toggle fullscreen mode with.  If omitted, defaults to the entire page.
+* **`options`:** (optional, `Object`) The fullscreen options object.  See [`Fullscreen.request()`](#fullscreen-api-method-request) for more information.
+* **`requestedEl`:** (optional, `HTMLElement`) The element to toggle fullscreen mode with.  If omitted, defaults to the entire page.
 
 #### Examples:
 
@@ -191,8 +191,8 @@ Attaches fullscreen change event handlers.
 
 #### Parameters:
 
-* **`handlerFn`:** (*function*) The function to invoke when fullscreen mode is changed.
-* **`requestedEl`:** (optional, *`HTMLElement` object*) The element to attach the handler to.
+* **`handlerFn`:** (`Function`) The function to invoke when fullscreen mode is changed.
+* **`requestedEl`:** (optional, `HTMLElement`) The element to attach the handler to.
 
 #### Examples:
 
@@ -226,8 +226,8 @@ Removes fullscreen change event handlers.
 
 #### Parameters:
 
-* **`handlerFn`:** (optional, *function*) The function to remove.  If omitted, will remove all handler functions.
-* **`requestedEl`:** (optional, *`HTMLElement` object*) The element to remove the handler(s) from.
+* **`handlerFn`:** (optional, `Function`) The function to remove.  If omitted, will remove all handler functions.
+* **`requestedEl`:** (optional, `HTMLElement`) The element to remove the handler(s) from.
 
 #### Examples:
 
@@ -269,8 +269,8 @@ Attaches fullscreen error event handlers.
 
 #### Parameters:
 
-* **`handlerFn`:** (*function*) The function to invoke when fullscreen mode encounters an error.
-* **`requestedEl`:** (optional, *`HTMLElement` object*) The element to attach the handler to.
+* **`handlerFn`:** (`Function`) The function to invoke when fullscreen mode encounters an error.
+* **`requestedEl`:** (optional, `HTMLElement`) The element to attach the handler to.
 
 #### Examples:
 
@@ -304,8 +304,8 @@ Removes fullscreen error event handlers.
 
 #### Parameters:
 
-* **`handlerFn`:** (optional, *function*) The function to remove.  If omitted, will remove all handler functions.
-* **`requestedEl`:** (optional, *`HTMLElement` object*) The element to remove the handler(s) from.
+* **`handlerFn`:** (optional, `Function`) The function to remove.  If omitted, will remove all handler functions.
+* **`requestedEl`:** (optional, `HTMLElement`) The element to remove the handler(s) from.
 
 #### Examples:
 

@@ -11,7 +11,7 @@ Audio lists (playlists) are useful for playing tracks in a sequence—i.e., one 
 
 <!-- *********************************************************************** -->
 
-### `<AudioList>.duration()` → *number* {#audiolist-api-prototype-method-duration}
+### `<AudioList>.duration()` → `number` {#audiolist-api-prototype-method-duration}
 
 Returns the playlist's total playtime in seconds, `Infinity` if it contains any streams, or `NaN` if no metadata exists.
 
@@ -29,7 +29,7 @@ var listLength = aList.duration();
 
 <!-- *********************************************************************** -->
 
-### `<AudioList>.fade(duration , toVol [, fromVol])` → *`Promise` object* {#audiolist-api-prototype-method-fade}
+### `<AudioList>.fade(duration , toVol [, fromVol])` → `Promise` {#audiolist-api-prototype-method-fade}
 
 Starts playback of the playlist and fades the currently playing track between the specified starting and destination volume levels over the specified number of seconds.
 
@@ -44,9 +44,9 @@ The <a href="#config-api-property-audio-pauseonfadetozero"><code>Config.audio.pa
 
 #### Parameters:
 
-* **`duration`:** (*number*) The number of seconds over which the currently playing track should be faded.
-* **`toVol`:** (*number*) The destination volume level.
-* **`fromVol`:** (optional, *number*) The starting volume level.  If omitted, defaults to the currently playing track's current volume level.
+* **`duration`:** (`number`) The number of seconds over which the currently playing track should be faded.
+* **`toVol`:** (`number`) The destination volume level.
+* **`fromVol`:** (optional, `number`) The starting volume level.  If omitted, defaults to the currently playing track's current volume level.
 
 #### Examples:
 
@@ -57,7 +57,7 @@ aList.fade(6, 1, 0);
 
 <!-- *********************************************************************** -->
 
-### `<AudioList>.fadeIn(duration [, fromVol])` → *`Promise` object* {#audiolist-api-prototype-method-fadein}
+### `<AudioList>.fadeIn(duration [, fromVol])` → `Promise` {#audiolist-api-prototype-method-fadein}
 
 Starts playback of the playlist and fades the currently playing track from the specified volume level to `1` (loudest) over the specified number of seconds.
 
@@ -68,8 +68,8 @@ Starts playback of the playlist and fades the currently playing track from the s
 
 #### Parameters:
 
-* **`duration`:** (*number*) The number of seconds over which the currently playing track should be faded.
-* **`fromVol`:** (optional, *number*) The starting volume level.  If omitted, defaults to the currently playing track's current volume level.
+* **`duration`:** (`number`) The number of seconds over which the currently playing track should be faded.
+* **`fromVol`:** (optional, `number`) The starting volume level.  If omitted, defaults to the currently playing track's current volume level.
 
 #### Examples:
 
@@ -80,7 +80,7 @@ aList.fadeIn(5, 0);
 
 <!-- *********************************************************************** -->
 
-### `<AudioList>.fadeOut(duration [, fromVol])` → *`Promise` object* {#audiolist-api-prototype-method-fadeout}
+### `<AudioList>.fadeOut(duration [, fromVol])` → `Promise` {#audiolist-api-prototype-method-fadeout}
 
 Starts playback of the playlist and fades the currently playing track from the specified volume level to `0` (silent) over the specified number of seconds.
 
@@ -95,8 +95,8 @@ The <a href="#config-api-property-audio-pauseonfadetozero"><code>Config.audio.pa
 
 #### Parameters:
 
-* **`duration`:** (*number*) The number of seconds over which the currently playing track should be faded.
-* **`fromVol`:** (optional, *number*) The starting volume level.  If omitted, defaults to the currently playing track's current volume level.
+* **`duration`:** (`number`) The number of seconds over which the currently playing track should be faded.
+* **`fromVol`:** (optional, `number`) The starting volume level.  If omitted, defaults to the currently playing track's current volume level.
 
 #### Examples:
 
@@ -129,7 +129,7 @@ aList.fadeStop();
 
 <!-- *********************************************************************** -->
 
-### `<AudioList>.isEnded()` → *boolean* {#audiolist-api-prototype-method-isended}
+### `<AudioList>.isEnded()` → `boolean` {#audiolist-api-prototype-method-isended}
 
 Returns whether playback of the playlist has ended.
 
@@ -149,7 +149,7 @@ if (aList.isEnded()) {
 
 <!-- *********************************************************************** -->
 
-### `<AudioList>.isFading()` → *boolean* {#audiolist-api-prototype-method-isfading}
+### `<AudioList>.isFading()` → `boolean` {#audiolist-api-prototype-method-isfading}
 
 Returns whether a fade is in-progress on the currently playing track.
 
@@ -169,7 +169,7 @@ if (aList.isFading()) {
 
 <!-- *********************************************************************** -->
 
-### `<AudioList>.isPaused()` → *boolean* {#audiolist-api-prototype-method-ispaused}
+### `<AudioList>.isPaused()` → `boolean` {#audiolist-api-prototype-method-ispaused}
 
 Returns whether playback of the playlist has been paused.
 
@@ -189,7 +189,7 @@ if (aList.isPaused()) {
 
 <!-- *********************************************************************** -->
 
-### `<AudioList>.isPlaying()` → *boolean* {#audiolist-api-prototype-method-isplaying}
+### `<AudioList>.isPlaying()` → `boolean` {#audiolist-api-prototype-method-isplaying}
 
 Returns whether the playlist is playing.
 
@@ -209,7 +209,7 @@ if (aList.isPlaying()) {
 
 <!-- *********************************************************************** -->
 
-### `<AudioList>.isStopped()` → *boolean* {#audiolist-api-prototype-method-isstopped}
+### `<AudioList>.isStopped()` → `boolean` {#audiolist-api-prototype-method-isstopped}
 
 Returns whether playback of the playlist has been stopped.
 
@@ -251,7 +251,7 @@ aList.load();
 
 <!-- *********************************************************************** -->
 
-### `<AudioList>.loop([state])` → **get:** *boolean* | **set:** *`AudioList` object* {#audiolist-api-prototype-method-loop}
+### `<AudioList>.loop([state])` → **get:** `boolean` | **set:** `AudioList` {#audiolist-api-prototype-method-loop}
 
 Gets or sets the playlist's repeating playback state (default: `false`).  When used to set the loop state, returns a reference to the current `AudioList` instance for chaining.
 
@@ -261,7 +261,7 @@ Gets or sets the playlist's repeating playback state (default: `false`).  When u
 
 #### Parameters:
 
-* **`state`:** (optional, *boolean*) The loop state.
+* **`state`:** (optional, `boolean`) The loop state.
 
 #### Examples:
 
@@ -278,7 +278,7 @@ aList.loop(false);
 
 <!-- *********************************************************************** -->
 
-### `<AudioList>.mute([state])` → **get:** *boolean* | **set:** *`AudioList` object* {#audiolist-api-prototype-method-mute}
+### `<AudioList>.mute([state])` → **get:** `boolean` | **set:** `AudioList` {#audiolist-api-prototype-method-mute}
 
 Gets or sets the playlist's volume mute state (default: `false`).  When used to set the mute state, returns a reference to the current `AudioList` instance for chaining.
 
@@ -288,7 +288,7 @@ Gets or sets the playlist's volume mute state (default: `false`).  When used to 
 
 #### Parameters:
 
-* **`state`:** (optional, *boolean*) The mute state.
+* **`state`:** (optional, `boolean`) The mute state.
 
 #### Examples:
 
@@ -323,7 +323,7 @@ aList.pause();
 
 <!-- *********************************************************************** -->
 
-### `<AudioList>.play()` → *`Promise` object* {#audiolist-api-prototype-method-play}
+### `<AudioList>.play()` → `Promise` {#audiolist-api-prototype-method-play}
 
 Begins playback of the playlist.
 
@@ -374,7 +374,7 @@ aList.playWhenAllowed();
 
 <!-- *********************************************************************** -->
 
-### `<AudioList>.remaining()` → *number* {#audiolist-api-prototype-method-remaining}
+### `<AudioList>.remaining()` → `number` {#audiolist-api-prototype-method-remaining}
 
 Returns how much remains of the playlist's total playtime in seconds, `Infinity` if it contains any streams, or `NaN` if no metadata exists.
 
@@ -392,7 +392,7 @@ var listRemains = aList.remaining();
 
 <!-- *********************************************************************** -->
 
-### `<AudioList>.shuffle([state])` → **get:** *boolean* | **set:** *`AudioList` object* {#audiolist-api-prototype-method-shuffle}
+### `<AudioList>.shuffle([state])` → **get:** `boolean` | **set:** `AudioList` {#audiolist-api-prototype-method-shuffle}
 
 Gets or sets the playlist's randomly shuffled playback state (default: `false`).  When used to set the shuffle state, returns a reference to the current `AudioList` instance for chaining.
 
@@ -402,7 +402,7 @@ Gets or sets the playlist's randomly shuffled playback state (default: `false`).
 
 #### Parameters:
 
-* **`state`:** (optional, *boolean*) The shuffle state.
+* **`state`:** (optional, `boolean`) The shuffle state.
 
 #### Examples:
 
@@ -455,7 +455,7 @@ someTrack.stop();
 
 <!-- *********************************************************************** -->
 
-### `<AudioList>.time()` → *number* {#audiolist-api-prototype-method-time}
+### `<AudioList>.time()` → `number` {#audiolist-api-prototype-method-time}
 
 Returns the playlist's current time in seconds, or `NaN` if no metadata exists.
 
@@ -495,7 +495,7 @@ aList.unload();
 
 <!-- *********************************************************************** -->
 
-### `<AudioList>.volume([level])` → **get:** *number* | **set:** *`AudioList` object* {#audiolist-api-prototype-method-volume}
+### `<AudioList>.volume([level])` → **get:** `number` | **set:** `AudioList` {#audiolist-api-prototype-method-volume}
 
 Gets or sets the playlist's volume level (default: `1`).  When used to set the volume, returns a reference to the current `AudioList` instance for chaining.
 
@@ -505,7 +505,7 @@ Gets or sets the playlist's volume level (default: `1`).  When used to set the v
 
 #### Parameters:
 
-* **`level`:** (optional, *number*) The volume level to set.  Valid values are floating-point numbers in the range `0` (silent) to `1` (loudest)—e.g., `0` is 0%, `0.5` is 50%, `1` is 100%.
+* **`level`:** (optional, `number`) The volume level to set.  Valid values are floating-point numbers in the range `0` (silent) to `1` (loudest)—e.g., `0` is 0%, `0.5` is 50%, `1` is 100%.
 
 #### Examples:
 

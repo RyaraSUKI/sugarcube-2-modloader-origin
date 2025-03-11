@@ -9,7 +9,7 @@ All properties of `Passage` objects should be treated as if they were ***read-on
 
 <!-- *********************************************************************** -->
 
-### `<Passage>.id` → *string* {#passage-api-prototype-getter-id}
+### `<Passage>.id` → `string` {#passage-api-prototype-getter-id}
 
 The DOM-compatible ID of the passage, created from the slugified passage title.
 
@@ -19,7 +19,7 @@ The DOM-compatible ID of the passage, created from the slugified passage title.
 
 <!-- *********************************************************************** -->
 
-### `<Passage>.name` → *string* {#passage-api-prototype-getter-name}
+### `<Passage>.name` → `string` {#passage-api-prototype-getter-name}
 
 The name of the passage.
 
@@ -29,7 +29,7 @@ The name of the passage.
 
 <!-- *********************************************************************** -->
 
-### `<Passage>.tags` → *Array&lt;string&gt;* {#passage-api-prototype-getter-tags}
+### `<Passage>.tags` → `Array<string>` {#passage-api-prototype-getter-tags}
 
 The tags of the passage.
 
@@ -39,7 +39,7 @@ The tags of the passage.
 
 <!-- *********************************************************************** -->
 
-### `<Passage>.text` → *string* {#passage-api-prototype-getter-text}
+### `<Passage>.text` → `string` {#passage-api-prototype-getter-text}
 
 The raw text of the passage.
 
@@ -49,7 +49,7 @@ The raw text of the passage.
 
 <!-- *********************************************************************** -->
 
-### `<Passage>.processText()` → *string* {#passage-api-prototype-method-processtext}
+### `<Passage>.processText()` → `string` {#passage-api-prototype-method-processtext}
 
 Returns the processed text of the passage, created from applying `nobr` tag and image passage processing to its raw text.
 
@@ -69,7 +69,7 @@ passage.processText()  → Returns the fully processed text of "The Ducky" passa
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`<Passage>.domId` → *string*</span> {#passage-api-prototype-getter-domid}
+### <span class="deprecated">`<Passage>.domId` → `string`</span> {#passage-api-prototype-getter-domid}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This property has been deprecated and should no longer be used.  See the <a href="#passage-api-prototype-getter-id"><code>&lt;Passage&gt;.id</code></a> property for its replacement.
@@ -82,7 +82,7 @@ This property has been deprecated and should no longer be used.  See the <a href
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`<Passage>.title` → *string*</span> {#passage-api-prototype-getter-title}
+### <span class="deprecated">`<Passage>.title` → `string`</span> {#passage-api-prototype-getter-title}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This property has been deprecated and should no longer be used.  See the <a href="#passage-api-prototype-getter-name"><code>&lt;Passage&gt;.name</code></a> property for its replacement.
@@ -95,7 +95,7 @@ This property has been deprecated and should no longer be used.  See the <a href
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`<Passage>.description()` → *string*</span> {#passage-api-prototype-method-description}
+### <span class="deprecated">`<Passage>.description()` → `string`</span> {#passage-api-prototype-method-description}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This method has been deprecated and should no longer be used.

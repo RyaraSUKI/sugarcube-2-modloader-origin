@@ -21,12 +21,12 @@ Adds a header to the Settings dialog.
 
 #### Parameters:
 
-* **`name`:** (*string*) Name of the header.
-* **`desc`:** (optional, *string*) Description explaining the header in greater detail.  May contain markup.
+* **`name`:** (`string`) Name of the header.
+* **`desc`:** (optional, `string`) Description explaining the header in greater detail.  May contain markup.
 
 #### Examples:
 
-```js
+```javascript
 // Setting up a basic header
 Setting.addHeader("Content Settings");
 
@@ -47,30 +47,30 @@ Adds the named property to the `settings` object and a list control for it to th
 
 #### Parameters:
 
-* **`name`:** (*string*) Name of the `settings` property to add, which the control will manage.
-* **`definition`:** (*object*) Definition of the setting and control.
+* **`name`:** (`string`) Name of the `settings` property to add, which the control will manage.
+* **`definition`:** (`Object`) Definition of the setting and control.
 
 #### Definition object:
 
 A list-type definition object should have some of the following properties:
 
-* **`label`:** (*string*) Label to use for the control.
-* **`list`:** (*Array&lt;string&gt;*) The array of members.
-* **`desc`:** (optional, *string*) Description explaining the control in greater detail.  May contain markup.
-* **`default`:** (optional, *[as **`list`** array]*) The default value for the setting and default state of the control.  It should have the same value as one of the members of the **`list`** array.  Leaving it undefined means to use the first array member as the default.
-* **`onInit`:** (optional, *function*) The function to call during initialization.  It is called with a result object as its sole parameter and, if possible, set as its `this`.
-* **`onChange`:** (optional, *function*) The function to call when the control's state is changed.  It is called with a result object as its sole parameter and, if possible, set as its `this`.
+* **`label`:** (`string`) Label to use for the control.
+* **`list`:** (`Array<string>`) The array of members.
+* **`desc`:** (optional, `string`) Description explaining the control in greater detail.  May contain markup.
+* **`default`:** (optional, *[as `list` array]*) The default value for the setting and default state of the control.  It should have the same value as one of the members of the *`list`* array.  Leaving it undefined means to use the first array member as the default.
+* **`onInit`:** (optional, `Function`) The function to call during initialization.  It is called with a result object as its sole parameter and, if possible, set as its `this`.
+* **`onChange`:** (optional, `Function`) The function to call when the control's state is changed.  It is called with a result object as its sole parameter and, if possible, set as its `this`.
 
 #### Result object:
 
-* **`name`:** (*string*) Name of the `settings` property.
-* **`value`:** (*[as **`list`** array]*) The current value of the setting.
-* **`default`:** (*[as **`list`** array]*) The default value for the setting.
-* **`list`:** (*Array&lt;string&gt;*) The array of members.
+* **`name`:** (`string`) Name of the `settings` property.
+* **`value`:** (*[as `list` array]*) The current value of the setting.
+* **`default`:** (*[as `list` array]*) The default value for the setting.
+* **`list`:** (`Array<string>`) The array of members.
 
 #### Examples:
 
-```js
+```javascript
 // Setting up a basic list control for the settings property 'difficulty'
 Setting.addList("difficulty", {
 	label   : "Choose a difficulty level.",
@@ -132,34 +132,34 @@ Adds the named property to the `settings` object and a range control for it to t
 
 #### Parameters:
 
-* **`name`:** (*string*) Name of the `settings` property to add, which the control will manage.
-* **`definition`:** (*object*) Definition of the setting and control.
+* **`name`:** (`string`) Name of the `settings` property to add, which the control will manage.
+* **`definition`:** (`Object`) Definition of the setting and control.
 
 #### Definition object:
 
 A range-type definition object should have some of the following properties:
 
-* **`label`:** (*string*) Label to use for the control.
-* **`max`:** (*number*) The maximum value.
-* **`min`:** (*number*) The minimum value.
-* **`step`:** (*number*) Limits the increments to which the value may be set.  It must be evenly divisible into the full range—i.e., `max - min`.
-* **`desc`:** (optional, *string*) Description explaining the control in greater detail.  May contain markup.
-* **`default`:** (optional, *number*) The default value for the setting and default state of the control.  Leaving it undefined means to use the value of `max` as the default.
-* **`onInit`:** (optional, *function*) The function to call during initialization.  It is called with a result object as its sole parameter and, if possible, set as its `this`.
-* **`onChange`:** (optional, *function*) The function to call when the control's state is changed.  It is called with a result object as its sole parameter and, if possible, set as its `this`.
+* **`label`:** (`string`) Label to use for the control.
+* **`max`:** (`number`) The maximum value.
+* **`min`:** (`number`) The minimum value.
+* **`step`:** (`number`) Limits the increments to which the value may be set.  It must be evenly divisible into the full range—i.e., `max - min`.
+* **`desc`:** (optional, `string`) Description explaining the control in greater detail.  May contain markup.
+* **`default`:** (optional, `number`) The default value for the setting and default state of the control.  Leaving it undefined means to use the value of `max` as the default.
+* **`onInit`:** (optional, `Function`) The function to call during initialization.  It is called with a result object as its sole parameter and, if possible, set as its `this`.
+* **`onChange`:** (optional, `Function`) The function to call when the control's state is changed.  It is called with a result object as its sole parameter and, if possible, set as its `this`.
 
 #### Result object:
 
-* **`name`:** (*string*) Name of the `settings` property.
-* **`value`:** (*number*) The current value of the setting.
-* **`default`:** (*number*) The default value for the setting.
-* **`max`:** (*number*) The maximum value for the setting.
-* **`min`:** (*number*) The minimum value for the setting.
-* **`step`:** (*number*) The step value for the setting.
+* **`name`:** (`string`) Name of the `settings` property.
+* **`value`:** (`number`) The current value of the setting.
+* **`default`:** (`number`) The default value for the setting.
+* **`max`:** (`number`) The maximum value for the setting.
+* **`min`:** (`number`) The minimum value for the setting.
+* **`step`:** (`number`) The step value for the setting.
 
 #### Examples:
 
-```js
+```javascript
 // Setting up a volume control for the settings property 'masterVolume' w/ callback
 var settingMasterVolumeHandler = function () {
 	SimpleAudio.volume(settings.masterVolume / 10);
@@ -193,30 +193,30 @@ Adds the named property to the `settings` object and a toggle control for it to 
 
 #### Parameters:
 
-* **`name`:** (*string*) Name of the `settings` property to add, which the control will manage.
-* **`definition`:** (*object*) Definition of the setting and control.
+* **`name`:** (`string`) Name of the `settings` property to add, which the control will manage.
+* **`definition`:** (`Object`) Definition of the setting and control.
 
 #### Definition object:
 
 A toggle-type definition object should have some of the following properties:
 
-* **`label`:** (*string*) Label to use for the control.
-* **`desc`:** (optional, *string*) Description explaining the control in greater detail.  May contain markup.
-* **`default`:** (optional, *boolean*) The default value for the setting and default state of the control.  Leaving it undefined means to use `false` as the default.
-* **`onInit`:** (optional, *function*) The function to call during initialization.  It is called with a result object as its sole parameter and, if possible, set as its `this`.
-* **`onChange`:** (optional, *function*) The function to call when the control's state is changed.  It is called with a result object as its sole parameter and, if possible, set as its `this`.
+* **`label`:** (`string`) Label to use for the control.
+* **`desc`:** (optional, `string`) Description explaining the control in greater detail.  May contain markup.
+* **`default`:** (optional, `boolean`) The default value for the setting and default state of the control.  Leaving it undefined means to use `false` as the default.
+* **`onInit`:** (optional, `Function`) The function to call during initialization.  It is called with a result object as its sole parameter and, if possible, set as its `this`.
+* **`onChange`:** (optional, `Function`) The function to call when the control's state is changed.  It is called with a result object as its sole parameter and, if possible, set as its `this`.
 
 #### Result object:
 
-* **`name`:** (*string*) Name of the `settings` property.
-* **`value`:** (*boolean*) The current value of the setting.
-* **`default`:** (*boolean*) The default value for the setting.
+* **`name`:** (`string`) Name of the `settings` property.
+* **`value`:** (`boolean`) The current value of the setting.
+* **`default`:** (`boolean`) The default value for the setting.
 
 #### Examples:
 
 ##### Basic toggle setting
 
-```js
+```javascript
 // Setting up a basic toggle control for the settings property 'mature'
 Setting.addToggle("mature", {
 	label : "Content for mature audiences?"
@@ -225,7 +225,7 @@ Setting.addToggle("mature", {
 
 ##### Toggle that adds/removes a CSS class
 
-```js
+```javascript
 // Setting up a toggle control for the settings property 'widescreen' w/ callbacks
 var settingWidescreenHandler = function () {
 	if (settings.widescreen) { // is true
@@ -245,7 +245,7 @@ Setting.addToggle("widescreen", {
 
 And the requisite CSS style rule:
 
-```js
+```javascript
 html.widescreen #passages {
 	max-width: none;
 }
@@ -267,34 +267,34 @@ Does not add a control to the Settings dialog.
 
 #### Parameters:
 
-* **`name`:** (*string*) Name of the `settings` property to add.
-* **`definition`:** (optional, *object*) Definition of the setting.  May be omitted.
+* **`name`:** (`string`) Name of the `settings` property to add.
+* **`definition`:** (optional, `Object`) Definition of the setting.  May be omitted.
 
 #### Definition object:
 
 A value-type definition object should have some of the following properties:
 
-* **`default`:** (optional, *any*) The default value for the setting.
-* **`onInit`:** (optional, *function*) The function to call during initialization.  It is called with a result object as its sole parameter and, if possible, set as its `this`.
-* **`onChange`:** (optional, *function*) The function to call when the control's state is changed.  It is called with a result object as its sole parameter and, if possible, set as its `this`.
+* **`default`:** (optional, `any`) The default value for the setting.
+* **`onInit`:** (optional, `Function`) The function to call during initialization.  It is called with a result object as its sole parameter and, if possible, set as its `this`.
+* **`onChange`:** (optional, `Function`) The function to call when the control's state is changed.  It is called with a result object as its sole parameter and, if possible, set as its `this`.
 
 #### Result object:
 
-* **`name`:** (*string*) Name of the `settings` property.
-* **`value`:** (*any*) The current value of the setting.
-* **`default`:** (*any*) The default value for the setting.
+* **`name`:** (`string`) Name of the `settings` property.
+* **`value`:** (`any`) The current value of the setting.
+* **`default`:** (`any`) The default value for the setting.
 
 #### Examples:
 
 ##### Basic usage
 
-```js
+```javascript
 Setting.addValue("someSetting");
 ```
 
 ##### With a definition object
 
-```js
+```javascript
 Setting.addValue("anotherSetting", {
 	default  : 42,
 	onInit   : function () {
@@ -308,7 +308,7 @@ Setting.addValue("anotherSetting", {
 
 <!-- *********************************************************************** -->
 
-### `Setting.getValue(name)` → *`any`* {#setting-api-method-getvalue}
+### `Setting.getValue(name)` → `any` {#setting-api-method-getvalue}
 
 Returns the setting's current value.
 
@@ -324,7 +324,7 @@ Calling this method is equivalent to using <code>settings[name]</code>.
 
 #### Examples:
 
-```js
+```javascript
 // Assume `disableAudio` is a toggle-type setting.
 if (Setting.getValue("disableAudio")) {
 	/* Audio should be disabled. */
@@ -349,7 +349,7 @@ This method is automatically called during startup, so you <em>should</em> never
 
 #### Examples:
 
-```js
+```javascript
 Setting.load();
 ```
 
@@ -365,16 +365,16 @@ Resets the setting with the given name to its default value.  If no name is give
 
 #### Parameters:
 
-* **`name`:** (optional, *string*) Name of the `settings` object property to reset.
+* **`name`:** (optional, `string`) Name of the `settings` object property to reset.
 
 #### Examples:
 
-```js
+```javascript
 // Reset the setting 'difficulty'
 Setting.reset("difficulty");
 ```
 
-```js
+```javascript
 // Reset all settings
 Setting.reset();
 ```
@@ -397,7 +397,7 @@ The controls of the Settings dialog and the <a href="#setting-api-method-setvalu
 
 #### Examples:
 
-```js
+```javascript
 Setting.save();
 ```
 
@@ -421,12 +421,12 @@ If manually changing a setting that has an associated control, be mindful that t
 
 #### Parameters:
 
-* **`name`:** (*string*) Name of the `settings` property.
-* **`value`:** (*any*) The new value for the setting.
+* **`name`:** (`string`) Name of the `settings` property.
+* **`value`:** (`any`) The new value for the setting.
 
 #### Examples:
 
-```js
+```javascript
 Setting.setValue("theme", "dark");
 ```
 

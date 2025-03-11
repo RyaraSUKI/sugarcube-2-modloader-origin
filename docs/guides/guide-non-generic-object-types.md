@@ -28,7 +28,7 @@ The <a href="#methods-serial-method-createreviver"><code>Serial.createReviver()<
 
 Here's a simple example whose constructor takes a single configuration object parameter:
 
-```js
+```javascript
 window.Character = class Character {
 	constructor(config) {
 		// Set up our own data properties with some defaults.
@@ -72,7 +72,7 @@ window.Character = class Character {
 
 Creating a new instance of this `Character` example would be something like:
 
-```js
+```javascript
 <<set $Joe to new Character({
 	name : 'Joe the Barbarian',
 	race : 'human',
@@ -88,7 +88,7 @@ Creating a new instance of this `Character` example would be something like:
 
 Here's a simple example whose constructor takes multiple discrete parameters:
 
-```js
+```javascript
 window.Character = class Character {
 	constructor(
 		name,
@@ -162,7 +162,7 @@ Creating a new instance of this `Character` example would be something like:
 
 Here's a simple example whose constructor takes a single configuration object parameter:
 
-```js
+```javascript
 window.Character = function Character(config) {
 	// Set up our own data properties with some defaults.
 	this.name = '(none)';
@@ -204,7 +204,7 @@ Character.prototype.toJSON = function () {
 
 Creating a new instance of this `Character` example would be something like:
 
-```js
+```javascript
 <<set $Joe to new Character({
 	name : 'Joe the Barbarian',
 	race : 'human',
@@ -220,7 +220,7 @@ Creating a new instance of this `Character` example would be something like:
 
 Here's a simple example whose constructor takes multiple discrete parameters:
 
-```js
+```javascript
 window.Character = function (
 	name,
 	race,

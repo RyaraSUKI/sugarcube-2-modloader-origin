@@ -17,7 +17,7 @@ Completely removes the UI bar and all of its associated styles and event handler
 
 #### Examples:
 
-```js
+```javascript
 UIBar.destroy();
 ```
 
@@ -41,19 +41,19 @@ This does not reclaim the space reserved for the UI bar.  Thus, a call to <a hre
 
 ##### Basic usage
 
-```js
+```javascript
 UIBar.hide();
 ```
 
 ##### With stow
 
-```js
+```javascript
 UIBar.hide().stow();
 ```
 
 <!-- *********************************************************************** -->
 
-### `UIBar.isHidden()` → *boolean* {#uibar-api-method-ishidden}
+### `UIBar.isHidden()` → `boolean` {#uibar-api-method-ishidden}
 
 Returns whether the UI bar is currently hidden.
 
@@ -65,7 +65,7 @@ Returns whether the UI bar is currently hidden.
 
 #### Examples:
 
-```js
+```javascript
 if (UIBar.isHidden()) {
 	/* code to execute if the UI bar is hidden… */
 }
@@ -77,7 +77,7 @@ if (!UIBar.isHidden()) {
 
 <!-- *********************************************************************** -->
 
-### `UIBar.isStowed()` → *boolean* {#uibar-api-method-isstowed}
+### `UIBar.isStowed()` → `boolean` {#uibar-api-method-isstowed}
 
 Returns whether the UI bar is currently stowed.
 
@@ -89,7 +89,7 @@ Returns whether the UI bar is currently stowed.
 
 #### Examples:
 
-```js
+```javascript
 if (UIBar.isStowed()) {
 	/* code to execute if the UI bar is stowed… */
 }
@@ -115,13 +115,13 @@ Shows the UI bar.  Returns a reference to the `UIBar` object for chaining.
 
 ##### Basic usage
 
-```js
+```javascript
 UIBar.show();
 ```
 
 ##### With unstow
 
-```js
+```javascript
 UIBar.unstow().show();
 ```
 
@@ -138,19 +138,19 @@ Stows the UI bar, so that it takes up less space.  Returns a reference to the `U
 
 #### Parameters:
 
-* **`noAnimation`:** (optional, *boolean*) Whether to skip the default animation.
+* **`noAnimation`:** (optional, `boolean`) Whether to skip the default animation.
 
 #### Examples:
 
 ##### Basic usage
 
-```js
+```javascript
 UIBar.stow();
 ```
 
 ##### With no animation
 
-```js
+```javascript
 UIBar.stow(true);
 ```
 
@@ -167,19 +167,19 @@ Unstows the UI bar, so that it is fully accessible again.  Returns a reference t
 
 #### Parameters:
 
-* **`noAnimation`:** (optional, *boolean*) Whether to skip the default animation.
+* **`noAnimation`:** (optional, `boolean`) Whether to skip the default animation.
 
 #### Examples:
 
 ##### Basic usage
 
-```js
+```javascript
 UIBar.unstow();
 ```
 
 ##### With no animation
 
-```js
+```javascript
 UIBar.unstow(true);
 ```
 

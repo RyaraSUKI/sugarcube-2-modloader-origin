@@ -71,7 +71,7 @@ A random value from its given arguments.
 
 #### Examples:
 
-```
+```javascript
 // Using singular values
 either("Blueberry", "Cherry", "Pecan")  → Returns a random pie from the whole list
 
@@ -199,7 +199,7 @@ Your project's JavaScript section (Twine&nbsp;2: the Story JavaScript; Twine&nbs
 
 #### Parameters:
 
-* **`urls`:** (`string` | `object` | `Array<string | object>`) The URLs of the external scripts to import.  Loose URLs are imported concurrently, arrays of URLs are imported sequentially.  URLs may also be specified as objects with a `type` and a `src` property.
+* **`urls`:** (`string` | `Object` | `Array<string | Object>`) The URLs of the external scripts to import.  Loose URLs are imported concurrently, arrays of URLs are imported sequentially.  URLs may also be specified as objects with a `type` and a `src` property.
 
 <p role="note"><b>Note:</b>
 URLs ending in <code>.mjs</code> are imported as modules.
@@ -217,7 +217,7 @@ An `Error` instance.
 
 ##### Basic usage
 
-```
+```javascript
 // Import scripts a.js as normal, b.mjs as a module, and c.js as a
 // module
 importScripts(
@@ -259,7 +259,7 @@ importScripts(
 
 ##### Basic usage with the returned `Promise` object
 
-```
+```javascript
 // Import a script while using the returned Promise to ensure that
 // the script has been fully loaded before executing dependent code
 importScripts("https://somesite/a/path/a.js")
@@ -274,7 +274,7 @@ importScripts("https://somesite/a/path/a.js")
 
 ##### Saving the returned `Promise` object for later use
 
-```
+```javascript
 // Import a script while saving the returned Promise so it may be used later
 setup.aScriptImport = importScripts("https://somesite/a/path/aScript.js");
 
@@ -324,7 +324,7 @@ An `Error` instance.
 
 ##### Basic usage
 
-```
+```javascript
 // Import all stylesheets concurrently
 importStyles(
 	"https://somesite/a/path/a.css",
@@ -355,7 +355,7 @@ importStyles(
 
 ##### Basic usage with the returned `Promise` object
 
-```
+```javascript
 // Grab a loading screen lock
 var lsLockId = LoadScreen.lock();
 
@@ -499,9 +499,12 @@ An `Error` or `TypeError` instance.
 
 #### Examples:
 
-```
-random(5)     → Returns a number in the range 0–5
-random(1, 6)  → Returns a number in the range 1–6
+```javascript
+// Returns a number in the range 0–5
+random(5)
+
+// Returns a number in the range 1–6
+random(1, 6)
 ```
 
 <!-- *********************************************************************** -->
@@ -533,9 +536,12 @@ An `Error` or `TypeError` instance.
 
 #### Examples:
 
-```
-randomFloat(5.0)       → Returns a number in the range 0.0–4.9999999…
-randomFloat(1.0, 6.0)  → Returns a number in the range 1.0–5.9999999…
+```javascript
+// Returns a number in the range 0.0–4.9999999…
+randomFloat(5.0)
+
+// Returns a number in the range 1.0–5.9999999…
+randomFloat(1.0, 6.0)
 ```
 
 <!-- *********************************************************************** -->
@@ -593,7 +599,7 @@ Renders the selected passage into the target element, replacing any existing con
 
 #### Returns:
 
-An `HTMLElement`, elsewise `null`.
+An `HTMLElement` instance, elsewise `null`.
 
 #### Throws: *none*
 
@@ -603,7 +609,7 @@ An `HTMLElement`, elsewise `null`.
 As it is highly unlikely that either an array of passage names or default text will be needed in the vast majority of cases, only a few basic examples will be given.
 </p>
 
-```
+```javascript
 // Using an ID; given an existing element on the page: <div id="my-display"></div>
 setPageElement("my-display", "MyPassage");
 
@@ -627,7 +633,7 @@ Returns a new array consisting of all of the tags of the given passages.
 
 #### Returns:
 
-The tags (`Array<string>`).
+An `Array<string>` containing the tags.
 
 #### Throws: *none*
 
@@ -640,7 +646,7 @@ The tags (`Array<string>`).
 
 <!-- *********************************************************************** -->
 
-### `temporary()` → `object` {#functions-function-temporary}
+### `temporary()` → `Object` {#functions-function-temporary}
 
 Returns a reference to the current temporary variables store (equivalent to: [`State.temporary`](#state-api-getter-temporary)).  This is only really useful within pure JavaScript code, as within TwineScript you may simply access temporary variables natively.
 
@@ -652,13 +658,13 @@ Returns a reference to the current temporary variables store (equivalent to: [`S
 
 #### Returns:
 
-A reference to the temporary variable store (`object`).
+A reference to the temporary variable store (`Object`).
 
 #### Throws: *none*
 
 #### Examples:
 
-```
+```javascript
 // Given: _selection is 'Zagnut Bar'
 if (temporary().selection === 'Zagnut Bar') {
 	/* Do something… */
@@ -679,7 +685,7 @@ Returns the number of milliseconds that have passed since the current passage wa
 
 #### Returns:
 
-The number of milliseconds (`integer`) since the passage was rendered.
+The milliseconds (`integer`) since the passage was rendered.
 
 #### Throws: *none*
 
@@ -718,7 +724,7 @@ If dispatching custom events, it is recommended that you limit your custom event
 
 * **`name`:** (`string`) The name of the event to trigger.  Both native and custom events are supported.
 * **`targets`:** (optional, `Document` | `HTMLElement` | `jQuery` | `NodeList` | `Array<HTMLElement>`) The target(s) to trigger the event on.  If omitted, will default to `document`.
-* **`options`:** (optional, `object`) The options to be used when dispatching the event.  See below for details.
+* **`options`:** (optional, `Object`) The options to be used when dispatching the event.  See below for details.
 
 #### Options object:
 
@@ -741,19 +747,19 @@ An event options object should have some of the following properties:
 
 ##### Dispatch a custom `fnord` event on `document`
 
-```js
+```javascript
 triggerEvent('fnord');
 ```
 
 ##### Dispatch a `click` event on the element bearing the ID `some-menu`
 
-```js
+```javascript
 triggerEvent('click', document.getElementById('some-menu'));
 ```
 
 ##### Dispatch a custom `update-meter` event on `document` while specifying some options
 
-```js
+```javascript
 triggerEvent('update-meter', document, {
 	detail : {
 		tags : ['health', 'magick']
@@ -763,7 +769,7 @@ triggerEvent('update-meter', document, {
 
 ##### Various ways to dispatch a `mouseover` event on all elements bearing the class `flippable`
 
-```js
+```javascript
 triggerEvent('mouseover', document.getElementsByClassName('flippable'));
 
 triggerEvent('mouseover', document.querySelectorAll('.flippable'));
@@ -797,7 +803,7 @@ The turn count (`integer`).
 
 <!-- *********************************************************************** -->
 
-### `variables()` → `object` {#functions-function-variables}
+### `variables()` → `Object` {#functions-function-variables}
 
 Returns a reference to the active (present) story variables store (equivalent to: [`State.variables`](#state-api-getter-variables)).  This is only really useful within pure JavaScript code, as within TwineScript you may simply access story variables natively.
 
@@ -809,13 +815,13 @@ Returns a reference to the active (present) story variables store (equivalent to
 
 #### Returns:
 
-A reference to the story variable store (`object`).
+A reference to the story variable store (`Object`).
 
 #### Throws: *none*
 
 #### Examples:
 
-```
+```javascript
 // Given: $hasGoldenKey is true
 if (variables().hasGoldenKey) {
 	/* Do something… */

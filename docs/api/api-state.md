@@ -11,7 +11,7 @@ API members dealing with the history work upon either the active moment—i.e., 
 
 <!-- *********************************************************************** -->
 
-### `State.active` → *object* {#state-api-getter-active}
+### `State.active` → `Object` {#state-api-getter-active}
 
 Returns the active (present) moment.
 
@@ -32,7 +32,7 @@ State.active.variables  → The variables of the present moment
 
 <!-- *********************************************************************** -->
 
-### `State.bottom` → *object* {#state-api-getter-bottom}
+### `State.bottom` → `Object` {#state-api-getter-bottom}
 
 Returns the bottommost (least recent) moment from the full in-play history (past + future).
 
@@ -49,7 +49,7 @@ State.bottom.variables  → The variables of the least recent moment within the 
 
 <!-- *********************************************************************** -->
 
-### `State.current` → *object* {#state-api-getter-current}
+### `State.current` → `Object` {#state-api-getter-current}
 
 Returns the current moment from the full in-play history (past + future), which is the pre-play version of the active moment.
 
@@ -70,7 +70,7 @@ State.current.variables  → The variables of the current moment within the full
 
 <!-- *********************************************************************** -->
 
-### `State.length` → *integer* {#state-api-getter-length}
+### `State.length` → `integer` {#state-api-getter-length}
 
 Returns the number of moments within the past in-play history (past only).
 
@@ -88,7 +88,7 @@ if (State.length === 0) {
 
 <!-- *********************************************************************** -->
 
-### `State.passage` → *string* {#state-api-getter-passage}
+### `State.passage` → `string` {#state-api-getter-passage}
 
 Returns the title of the passage associated with the active (present) moment.
 
@@ -104,7 +104,7 @@ State.passage  → The passage title of the present moment
 
 <!-- *********************************************************************** -->
 
-### `State.size` → *integer* {#state-api-getter-size}
+### `State.size` → `integer` {#state-api-getter-size}
 
 Returns the number of moments within the full in-play history (past + future).
 
@@ -124,7 +124,7 @@ if (State.size === 0) {
 
 <!-- *********************************************************************** -->
 
-### `State.temporary` → *object* {#state-api-getter-temporary}
+### `State.temporary` → `Object` {#state-api-getter-temporary}
 
 Returns the current temporary variables.
 
@@ -140,7 +140,7 @@ State.temporary  → The current temporary variables
 
 <!-- *********************************************************************** -->
 
-### `State.top` → *object* {#state-api-getter-top}
+### `State.top` → `Object` {#state-api-getter-top}
 
 Returns the topmost (most recent) moment from the full in-play history (past + future).
 
@@ -161,7 +161,7 @@ State.top.variables  → The variables of the most recent moment within the full
 
 <!-- *********************************************************************** -->
 
-### `State.turns` → *integer* {#state-api-getter-turns}
+### `State.turns` → `integer` {#state-api-getter-turns}
 
 Returns the total number (count) of played moments within the extended past history (expired + past).
 
@@ -179,7 +179,7 @@ if (State.turns === 1) {
 
 <!-- *********************************************************************** -->
 
-### `State.variables` → *object* {#state-api-getter-variables}
+### `State.variables` → `Object` {#state-api-getter-variables}
 
 Returns the variables from the active (present) moment.
 
@@ -195,7 +195,7 @@ State.variables  → The variables of the present moment
 
 <!-- *********************************************************************** -->
 
-### `State.getVar(varName)` → *any* {#state-api-method-getvar}
+### `State.getVar(varName)` → `any` {#state-api-method-getvar}
 
 Returns the value of the story or temporary variable by the given name.
 
@@ -205,7 +205,7 @@ Returns the value of the story or temporary variable by the given name.
 
 #### Parameters:
 
-* **`varName`:** (*string*) The name of the story or temporary variable, including its sigil—e.g., `$charName`.
+* **`varName`:** (`string`) The name of the story or temporary variable, including its sigil—e.g., `$charName`.
 
 #### Examples:
 
@@ -215,7 +215,7 @@ State.getVar("$charName")  → Returns the value of $charName
 
 <!-- *********************************************************************** -->
 
-### `State.has(passageTitle)` → *boolean* {#state-api-method-has}
+### `State.has(passageTitle)` → `boolean` {#state-api-method-has}
 
 Returns whether any moments with the given title exist within the past in-play history (past only).
 
@@ -229,7 +229,7 @@ Returns whether any moments with the given title exist within the past in-play h
 
 #### Parameters:
 
-* **`passageTitle`:** (*string*) The title of the moment whose existence will be verified.
+* **`passageTitle`:** (`string`) The title of the moment whose existence will be verified.
 
 #### Examples:
 
@@ -239,7 +239,7 @@ State.has("The Ducky")  → Returns whether a moment matching "The Ducky" exists
 
 <!-- *********************************************************************** -->
 
-### `State.hasPlayed(passageTitle)` → *boolean* {#state-api-method-hasplayed}
+### `State.hasPlayed(passageTitle)` → `boolean` {#state-api-method-hasplayed}
 
 Returns whether any moments with the given title exist within the extended past history (expired + past).
 
@@ -253,7 +253,7 @@ If you need to check for multiple passages, the <a href="#functions-function-has
 
 #### Parameters:
 
-* **`passageTitle`:** (*string*) The title of the moment whose existence will be verified.
+* **`passageTitle`:** (`string`) The title of the moment whose existence will be verified.
 
 #### Examples:
 
@@ -263,7 +263,7 @@ State.hasPlayed("The Ducky")  → Returns whether a moment matching "The Ducky" 
 
 <!-- *********************************************************************** -->
 
-### `State.index(index)` → *object* {#state-api-method-index}
+### `State.index(index)` → `Object` {#state-api-method-index}
 
 Returns the moment, relative to the bottom of the past in-play history (past only), at the given index.
 
@@ -273,7 +273,7 @@ Returns the moment, relative to the bottom of the past in-play history (past onl
 
 #### Parameters:
 
-* **`index`:** (*integer*) The index of the moment to return.
+* **`index`:** (`integer`) The index of the moment to return.
 
 #### Examples:
 
@@ -285,7 +285,7 @@ State.index(State.length - 1)  → Returns the most recent moment within the pas
 
 <!-- *********************************************************************** -->
 
-### `State.isEmpty()` → *boolean* {#state-api-method-isempty}
+### `State.isEmpty()` → `boolean` {#state-api-method-isempty}
 
 Returns whether the full in-play history (past + future) is empty.
 
@@ -305,7 +305,7 @@ if (State.isEmpty()) {
 
 <!-- *********************************************************************** -->
 
-### `State.peek([offset])` → *object* {#state-api-method-peek}
+### `State.peek([offset])` → `Object` {#state-api-method-peek}
 
 Returns the moment, relative to the top of the past in-play history (past only), at the, optional, offset.
 
@@ -315,7 +315,7 @@ Returns the moment, relative to the top of the past in-play history (past only),
 
 #### Parameters:
 
-* **`offset`:** (optional, *integer*) The offset, from the top of the past in-play history, of the moment to return.  If not given, an offset of `0` is used.
+* **`offset`:** (optional, `integer`) The offset, from the top of the past in-play history, of the moment to return.  If not given, an offset of `0` is used.
 
 #### Examples:
 
@@ -328,7 +328,7 @@ State.peek(State.length - 1)  → Returns the least recent moment within the pas
 
 <!-- *********************************************************************** -->
 
-### `State.metadata.size` → *integer* {#state-api-method-metadata-size}
+### `State.metadata.size` → `integer` {#state-api-method-metadata-size}
 
 Returns the size of the story metadata store—i.e., the number of stored pairs.
 
@@ -376,7 +376,7 @@ Removes the specified key, and its associated value, from the story metadata sto
 
 #### Parameters:
 
-* **`key`:** (*string*) The key to delete.
+* **`key`:** (`string`) The key to delete.
 
 #### Examples:
 
@@ -387,7 +387,7 @@ State.metadata.delete('achievements');
 
 <!-- *********************************************************************** -->
 
-### `State.metadata.entries()` → *Array&lt;Array&lt;string, any&gt;&gt;* {#state-api-method-metadata-entries}
+### `State.metadata.entries()` → `Array<Array<string, any>>` {#state-api-method-metadata-entries}
 
 Returns an array of the story metadata store's key/value pairs as `[key, value]` arrays.
 
@@ -399,7 +399,7 @@ Returns an array of the story metadata store's key/value pairs as `[key, value]`
 
 #### Examples:
 
-```js
+```javascript
 // Iterate over the pairs with a `for` loop.
 var metadata = State.metadata.entries();
 for (var i = 0; i < metadata.length; ++i) {
@@ -410,7 +410,7 @@ for (var i = 0; i < metadata.length; ++i) {
 }
 ```
 
-```js
+```javascript
 // Iterate over the pairs with `<Array>.forEach()`.
 State.metadata.entries().forEach(function (pair) {
 	var key   = pair[0];
@@ -422,7 +422,7 @@ State.metadata.entries().forEach(function (pair) {
 
 <!-- *********************************************************************** -->
 
-### `State.metadata.get(key)` → *any* {#state-api-method-metadata-get}
+### `State.metadata.get(key)` → `any` {#state-api-method-metadata-get}
 
 Returns the value associated with the specified key from the story metadata store.
 
@@ -432,7 +432,7 @@ Returns the value associated with the specified key from the story metadata stor
 
 #### Parameters:
 
-* **`key`:** (*string*) The key whose value should be returned.
+* **`key`:** (`string`) The key whose value should be returned.
 
 #### Examples:
 
@@ -443,7 +443,7 @@ var playerAchievements = State.metadata.get('achievements');
 
 <!-- *********************************************************************** -->
 
-### `State.metadata.has(key)` → *boolean* {#state-api-method-metadata-has}
+### `State.metadata.has(key)` → `boolean` {#state-api-method-metadata-has}
 
 Returns whether the specified key exists within the story metadata store.
 
@@ -453,7 +453,7 @@ Returns whether the specified key exists within the story metadata store.
 
 #### Parameters:
 
-* **`key`:** (*string*) The key whose existence should be tested.
+* **`key`:** (`string`) The key whose existence should be tested.
 
 #### Examples:
 
@@ -466,7 +466,7 @@ if (State.metadata.has('achievements')) {
 
 <!-- *********************************************************************** -->
 
-### `State.metadata.keys()` → *Array&lt;string&gt;* {#state-api-method-metadata-keys}
+### `State.metadata.keys()` → `Array<string>` {#state-api-method-metadata-keys}
 
 Returns an array of the story metadata store's keys.
 
@@ -478,7 +478,7 @@ Returns an array of the story metadata store's keys.
 
 #### Examples:
 
-```js
+```javascript
 // Iterate over the keys with a `for` loop.
 var metadataKeys = State.metadata.keys();
 for (var i = 0; i < metadataKeys.length; ++i) {
@@ -488,7 +488,7 @@ for (var i = 0; i < metadataKeys.length; ++i) {
 }
 ```
 
-```js
+```javascript
 // Iterate over the keys with `<Array>.forEach()`.
 State.metadata.keys().forEach(function (key) {
 	/* do something */
@@ -519,8 +519,8 @@ This feature is largely incompatible with private browsing modes, which cause al
 
 #### Parameters:
 
-* **`key`:** (*string*) The key that should be set.
-* **`value`:** (*any*) The value to set.
+* **`key`:** (`string`) The key that should be set.
+* **`value`:** (`any`) The value to set.
 
 #### Examples:
 
@@ -548,8 +548,8 @@ Initializes the seedable pseudo-random number generator (PRNG) and integrates it
 
 #### Parameters:
 
-* **`seed`:** (optional, *string*) The explicit seed used to initialize the pseudo-random number generator.
-* **`useEntropy`:** (optional, *boolean*) Enables the use of additional entropy to pad the specified explicit seed.
+* **`seed`:** (optional, `string`) The explicit seed used to initialize the pseudo-random number generator.
+* **`useEntropy`:** (optional, `boolean`) Enables the use of additional entropy to pad the specified explicit seed.
 
 #### Examples:
 
@@ -561,7 +561,7 @@ State.prng.init("aVeryLongSeed", true)  → Seed the PRNG with "aVeryLongSeed" a
 
 <!-- *********************************************************************** -->
 
-### `State.prng.isEnabled()` → *boolean* {#state-api-method-prng-isenabled}
+### `State.prng.isEnabled()` → `boolean` {#state-api-method-prng-isenabled}
 
 Returns whether the [seedable PRNG](#state-api-method-prng-init) has been enabled.
 
@@ -577,7 +577,7 @@ State.prng.isEnabled()  → Returns whether the seedable PRNG is enabled
 
 <!-- *********************************************************************** -->
 
-### `State.prng.pull` → *integer* | *NaN* {#state-api-getter-prng-pull}
+### `State.prng.pull` → `integer` | `NaN` {#state-api-getter-prng-pull}
 
 Returns the current pull count—i.e., how many requests have been made—from the [seedable PRNG](#state-api-method-prng-init) or, if the PRNG is not enabled, `NaN`.
 
@@ -597,7 +597,7 @@ State.prng.pull  → Returns the current PRNG pull count
 
 <!-- *********************************************************************** -->
 
-### `State.prng.seed` → *string* | *null* {#state-api-getter-prng-seed}
+### `State.prng.seed` → `string` | `null` {#state-api-getter-prng-seed}
 
 Returns the seed from the [seedable PRNG](#state-api-method-prng-init) or, if the PRNG is not enabled, `null`.
 
@@ -617,7 +617,7 @@ State.prng.seed  → Returns the PRNG seed
 
 <!-- *********************************************************************** -->
 
-### `State.random()` → *number* {#state-api-method-random}
+### `State.random()` → `number` {#state-api-method-random}
 
 Returns a pseudo-random decimal number (floating-point) in the range `0` (inclusive) up to, but not including, `1` (exclusive).
 
@@ -639,7 +639,7 @@ State.random()  → Returns a pseudo-random floating-point number in the range [
 
 <!-- *********************************************************************** -->
 
-### `State.setVar(varName, value)` → *boolean* {#state-api-method-setvar}
+### `State.setVar(varName, value)` → `boolean` {#state-api-method-setvar}
 
 Sets the value of the story or temporary variable by the given name.  Returns whether the operation was successful.
 
@@ -649,8 +649,8 @@ Sets the value of the story or temporary variable by the given name.  Returns wh
 
 #### Parameters:
 
-* **`varName`:** (*string*) The name of the story or temporary variable, including its sigil—e.g., `$charName`.
-* **`value`:** (*any*) The value to assign.
+* **`varName`:** (`string`) The name of the story or temporary variable, including its sigil—e.g., `$charName`.
+* **`value`:** (`any`) The value to assign.
 
 #### Examples:
 
