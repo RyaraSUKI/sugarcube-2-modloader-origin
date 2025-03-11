@@ -285,6 +285,37 @@ $someElement.on('some_event', this.shadowHandler(
 
 <!-- *********************************************************************** -->
 
+### `<MacroContext>.wiki(sources…)` → *`MacroContext` object* {#macrocontext-api-prototype-method-wiki}
+
+Wikifies the given content source(s) and appends the result to the macro's output.  Returns a reference to the current `MacroContext` object for chaining.
+
+#### History:
+
+* `v2.38.0`: Introduced.
+
+#### Parameters:
+
+* **`sources`:** (*string*…) The list of content sources.
+
+#### Examples:
+
+##### Basic usage
+
+```javascript
+this.wiki('Who //are// you?'); // Outputs "Who <em>are</em> you?"
+```
+
+##### Basic usage
+
+```javascript
+this.wiki(
+	'Goodnight…',
+	'sweet prince.'
+); // Outputs "Goodnight…sweet prince."
+```
+
+<!-- *********************************************************************** -->
+
 ### <span class="deprecated">`<MacroContext>.contextHas(filter)` → *boolean*</span> {#macrocontext-api-prototype-method-contexthas}
 
 <p role="note" class="warning"><b>Deprecated:</b>
