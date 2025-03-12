@@ -1004,9 +1004,7 @@ This static method has been deprecated and should no longer be used.  See the <a
 
 Returns the given string with all regular expression metacharacters escaped.  Does not modify the original.
 
-#### History:
-
-* `v2.0.0`: Introduced.
+#### History: *JavaScript built-in*
 
 #### Parameters:
 
