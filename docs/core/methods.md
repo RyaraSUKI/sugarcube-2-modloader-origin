@@ -3,14 +3,12 @@
 ************************************************************************************************ -->
 # Methods {#methods}
 
-Most of the methods listed below are SugarCube extensions, with the rest being either JavaScript natives or bundled library methods that are listed here for their utility—though, this is not an exhaustive list.
+Most of the methods listed below are SugarCube extensions, with the rest being either JavaScript built-ins or bundled library methods that are listed here for their utility—though, this is not an exhaustive list.
 
 For more information see:
 
-* [MDN's JavaScript reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference) for native JavaScript object methods—and more.
-* [jQuery API reference](https://api.jquery.com/) for native jQuery methods.
-
-Additionally.  SugarCube includes polyfills for virtually all JavaScript (ECMAScript) 5 &amp; 6 native object methods—via the [es5-shim](https://github.com/es-shims/es5-shim/) and [es6-shim](https://github.com/paulmillr/es6-shim/) polyfill libraries (shims only, no shams)—so they may be safely used even if your project will be played in ancient browsers that do not natively support them.
+* [MDN's JavaScript reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference) for JavaScript built-in methods—and more.
+* [jQuery API reference](https://api.jquery.com/) for jQuery built-in methods.
 
 
 <!-- ***************************************************************************
@@ -24,21 +22,35 @@ Additionally.  SugarCube includes polyfills for virtually all JavaScript (ECMASc
 
 Concatenates one or more members to the end of the base array and returns the result as a new array.  Does not modify the original.
 
-#### History: *native JavaScript method*
+#### History: *JavaScript built-in*
 
 #### Parameters:
 
 * **`members`:** (`any`…) The members to concatenate.  Members that are arrays will be merged—i.e., their members will be concatenated, rather than the array itself.
 
+#### Returns:
+
+A new `Array` formed from concatenating all array members in order.
+
 #### Examples:
 
-```
-// Given: $fruits1 = ["Apples", "Oranges"], $fruits2 = ["Pears", "Plums"]
-$fruits1.concat($fruits2)            → Returns ["Apples", "Oranges", "Pears", "Plums"]
-$fruits1.concat($fruits2, $fruits2)  → Returns ["Apples", "Oranges", "Pears", "Plums", "Pears", "Plums"]
-$fruits1.concat("Pears")             → Returns ["Apples", "Oranges", "Pears"]
-$fruits1.concat("Pears", "Pears")    → Returns ["Apples", "Oranges", "Pears", "Pears"]
-$fruits1.concat($fruits2, "Pears")   → Returns ["Apples", "Oranges", "Pears", "Plums", "Pears"]
+```javascript
+/* Given: $fruits1 = ["Apples", "Oranges"], $fruits2 = ["Pears", "Plums"] */
+
+// Returns ["Apples", "Oranges", "Pears", "Plums"]
+$fruits1.concat($fruits2)
+
+// Returns ["Apples", "Oranges", "Pears", "Plums", "Pears", "Plums"]
+$fruits1.concat($fruits2, $fruits2)
+
+// Returns ["Apples", "Oranges", "Pears"]
+$fruits1.concat("Pears")
+
+// Returns ["Apples", "Oranges", "Pears", "Pears"]
+$fruits1.concat("Pears", "Pears")
+
+// Returns ["Apples", "Oranges", "Pears", "Plums", "Pears"]
+$fruits1.concat($fruits2, "Pears")
 ```
 
 <!-- *********************************************************************** -->
@@ -55,20 +67,34 @@ Concatenates one or more unique members to the end of the base array and returns
 
 * **`members`:** (`any`…) The members to concatenate.  Members that are arrays will be merged—i.e., their members will be concatenated, rather than the array itself.
 
+#### Returns:
+
+A new `Array` formed from concatenating all unique array members in order.
+
 #### Examples:
 
-```
-// Given: $fruits1 = ["Apples", "Oranges"], $fruits2 = ["Pears", "Plums"]
-$fruits1.concatUnique($fruits2)            → Returns ["Apples", "Oranges", "Pears", "Plums"]
-$fruits1.concatUnique($fruits2, $fruits2)  → Returns ["Apples", "Oranges", "Pears", "Plums"]
-$fruits1.concatUnique("Pears")             → Returns ["Apples", "Oranges", "Pears"]
-$fruits1.concatUnique("Pears", "Pears")    → Returns ["Apples", "Oranges", "Pears"]
-$fruits1.concatUnique($fruits2, "Pears")   → Returns ["Apples", "Oranges", "Pears", "Plums"]
+```javascript
+/* Given: $fruits1 = ["Apples", "Oranges"], $fruits2 = ["Pears", "Plums"] */
+
+// Returns ["Apples", "Oranges", "Pears", "Plums"]
+$fruits1.concatUnique($fruits2)
+
+// Returns ["Apples", "Oranges", "Pears", "Plums"]
+$fruits1.concatUnique($fruits2, $fruits2)
+
+// Returns ["Apples", "Oranges", "Pears"]
+$fruits1.concatUnique("Pears")
+
+// Returns ["Apples", "Oranges", "Pears"]
+$fruits1.concatUnique("Pears", "Pears")
+
+// Returns ["Apples", "Oranges", "Pears", "Plums"]
+$fruits1.concatUnique($fruits2, "Pears")
 ```
 
 <!-- *********************************************************************** -->
 
-### `<Array>.count(needle [, position])` → `integer` {#methods-array-prototype-method-count}
+### `<Array>.count(needle [, position])` → *integer* `number` {#methods-array-prototype-method-count}
 
 Returns the number of times that the given member was found within the array, starting the search at `position`.
 
@@ -81,17 +107,25 @@ Returns the number of times that the given member was found within the array, st
 * **`needle`:** (`any`) The member to count.
 * **`position`:** (optional, `integer`) The zero-based index at which to begin searching for `needle`.  If omitted, will default to `0`.
 
+#### Returns:
+
+An *integer* `number` whose value is the number of times the given member was found within the array.
+
 #### Examples:
 
-```
-// Given: $fruits = ["Apples", "Oranges", "Plums", "Oranges"]
-$fruits.count("Oranges")     → Returns 2
-$fruits.count("Oranges", 2)  → Returns 1
+```javascript
+/* Given: $fruits = ["Apples", "Oranges", "Plums", "Oranges"] */
+
+// Returns 2
+$fruits.count("Oranges")
+
+// Returns 1
+$fruits.count("Oranges", 2)
 ```
 
 <!-- *********************************************************************** -->
 
-### `<Array>.countWith(predicate [, thisArg])` → `integer` {#methods-array-prototype-method-countwith}
+### `<Array>.countWith(predicate [, thisArg])` → *integer* `number` {#methods-array-prototype-method-countwith}
 
 Returns the number of times that members within the array pass the test implemented by the given predicate function.
 
@@ -107,28 +141,35 @@ Returns the number of times that members within the array pass the test implemen
 	* **`array`:** (optional, `array`) The array being processed.
 * **`thisArg`:** (optional, `any`) The value to use as `this` when executing `predicate`.
 
+#### Returns:
+
+An *integer* `number` whose value is the number of times members passed the test.
+
 #### Examples:
 
-```
+```javascript
 // Given: $fruits = ["Apples", "Oranges", "Plums", "Oranges"]
-$fruits.countWith(function (fruit) { return fruit === "Oranges"; })  → Returns 2
+// Returns 2
+$fruits.countWith((fruit) => fruit === "Oranges")
 ```
 
-```
+```javascript
 // Given: $numbers = [1, 2.3, 4, 76, 3.1]
-$numbers.countWith(Number.isInteger)  → Returns 3
+// Returns 3
+$numbers.countWith(Number.isInteger)
 ```
 
-```
+```javascript
 // Given: $items = [
 // 	{ name : 'Healing potion', kind : 'potion' },
-// 	{ name : 'Longsword', kind : 'weapon' },
-// 	{ name : 'Mana potion', kind : 'potion' },
-// 	{ name : 'Dead rat', kind : 'junk' },
-// 	{ name : 'Endurance potion', kind : 'potion' },
-// 	{ name : 'Shortbow', kind : 'weapon' }
+// 	{ name : 'Longsword',      kind : 'weapon' },
+// 	{ name : 'Mana potion',    kind : 'potion' },
+// 	{ name : 'Dead rat',       kind : 'junk' },
+// 	{ name : 'Stamina potion', kind : 'potion' },
+// 	{ name : 'Shortbow',       kind : 'weapon' }
 // ]
-$items.countWith(function (item) { return item.kind === 'junk'; })  → Returns 1
+// Returns 1
+$items.countWith((item) => item.kind === 'junk')
 ```
 
 <!-- *********************************************************************** -->
@@ -145,12 +186,20 @@ Removes all instances of the given members from the array and returns a new arra
 
 * **`needles`:** (`any`… | `Array<any>`) The members to remove.  May be a list of members or an array.
 
+#### Returns:
+
+A new `Array` containing the removed members.
+
 #### Examples:
 
-```
-// Given: $fruits = ["Apples", "Oranges", "Plums", "Oranges"]
-$fruits.deleteAll("Oranges")          → Returns ["Oranges", "Oranges"]; $fruits ["Apples", "Plums"]
-$fruits.deleteAll("Apples", "Plums")  → Returns ["Apples", "Plums"]; $fruits ["Oranges", "Oranges"]
+```javascript
+/* Given: $fruits = ["Apples", "Oranges", "Plums", "Oranges"] */
+
+// Returns ["Oranges", "Oranges"]; $fruits ["Apples", "Plums"]
+$fruits.deleteAll("Oranges")
+
+// Returns ["Apples", "Plums"]; $fruits ["Oranges", "Oranges"]
+$fruits.deleteAll("Apples", "Plums")
 ```
 
 <!-- *********************************************************************** -->
@@ -167,13 +216,23 @@ Removes all of the members at the given indices from the array and returns a new
 
 * **`indices`:** (`integer`… | `Array<integer>`) The indices of the members to remove.  May be a list or array of indices.
 
+#### Returns:
+
+A new `Array` containing the removed members.
+
 #### Examples:
 
-```
-// Given: $fruits = ["Apples", "Oranges", "Plums", "Oranges"]
-$fruits.deleteAt(2)     → Returns ["Plums"]; $fruits ["Apples", "Oranges", "Oranges"]
-$fruits.deleteAt(1, 3)  → Returns ["Oranges", "Oranges"]; $fruits ["Apples", "Plums"]
-$fruits.deleteAt(0, 2)  → Returns ["Apples", "Plums"]; $fruits ["Oranges", "Oranges"]
+```javascript
+/* Given: $fruits = ["Apples", "Oranges", "Plums", "Oranges"] */
+
+// Returns ["Plums"]; $fruits ["Apples", "Oranges", "Oranges"]
+$fruits.deleteAt(2)
+
+// Returns ["Oranges", "Oranges"]; $fruits ["Apples", "Plums"]
+$fruits.deleteAt(1, 3)
+
+// Returns ["Apples", "Plums"]; $fruits ["Oranges", "Oranges"]
+$fruits.deleteAt(0, 2)
 ```
 
 <!-- *********************************************************************** -->
@@ -190,12 +249,20 @@ Removes the first instance of the given members from the array and returns a new
 
 * **`needles`:** (`any`… | `Array<any>`) The members to remove.  May be a list of members or an array.
 
+#### Returns:
+
+A new `Array` containing the removed members.
+
 #### Examples:
 
-```
-// Given: $fruits = ["Apples", "Oranges", "Plums", "Oranges"]
-$fruits.deleteFirst("Oranges")          → Returns ["Oranges"]; $fruits ["Apples", "Plums", "Oranges"]
-$fruits.deleteFirst("Apples", "Plums")  → Returns ["Apples", "Plums"]; $fruits ["Oranges", "Oranges"]
+```javascript
+/* Given: $fruits = ["Apples", "Oranges", "Plums", "Oranges"] */
+
+// Returns ["Oranges"]; $fruits ["Apples", "Plums", "Oranges"]
+$fruits.deleteFirst("Oranges")
+
+// Returns ["Apples", "Plums"]; $fruits ["Oranges", "Oranges"]
+$fruits.deleteFirst("Apples", "Plums")
 ```
 
 <!-- *********************************************************************** -->
@@ -212,12 +279,20 @@ Removes the last instance of the given members from the array and returns a new 
 
 * **`needles`:** (`any`… | `Array<any>`) The members to remove.  May be a list of members or an array.
 
+#### Returns:
+
+A new `Array` containing the removed members.
+
 #### Examples:
 
-```
-// Given: $fruits = ["Apples", "Oranges", "Plums", "Oranges"]
-$fruits.deleteLast("Oranges")          → Returns ["Oranges"]; $fruits ["Apples", "Oranges", "Plums"]
-$fruits.deleteLast("Apples", "Plums")  → Returns ["Apples", "Plums"]; $fruits ["Oranges", "Oranges"]
+```javascript
+/* Given: $fruits = ["Apples", "Oranges", "Plums", "Oranges"] */
+
+// Returns ["Oranges"]; $fruits ["Apples", "Oranges", "Plums"]
+$fruits.deleteLast("Oranges")
+
+// Returns ["Apples", "Plums"]; $fruits ["Oranges", "Oranges"]
+$fruits.deleteLast("Apples", "Plums")
 ```
 
 <!-- *********************************************************************** -->
@@ -238,32 +313,34 @@ Removes all of the members from the array that pass the test implemented by the 
 	* **`array`:** (optional, `array`) The array being processed.
 * **`thisArg`:** (optional, `any`) The value to use as `this` when executing `predicate`.
 
+#### Returns:
+
+A new `Array` containing the removed members.
+
 #### Examples:
 
+##### Usage with primitive values
+
+```javascript
+/* Given: $fruits = ["Apples", "Apricots", "Oranges"] */
+
+// Returns ["Apricots"]; $fruits ["Apples", "Oranges"]
+$fruits.deleteWith((val) => val === "Apricots")
+
+// Returns ["Apples", "Apricots"]; $fruits ["Oranges"]
+$fruits.deleteWith((val) => val.startsWith("Ap"))
 ```
-// Given: $fruits = ["Apples", "Apricots", "Oranges"]
 
-→ Returns ["Apricots"]; $fruits ["Apples", "Oranges"]
-$fruits.deleteWith(function (val) {
-	return val === "Apricots";
-})
+##### Usage with object values
 
-→ Returns ["Apples", "Apricots"]; $fruits ["Oranges"]
-$fruits.deleteWith(function (val) {
-	return val.startsWith("Ap");
-})
+```javascript
+/* Given: $fruits = [{ name : "Apples" }, { name : "Apricots" }, { name : "Oranges" }] */
 
-// Given: $fruits = [{ name : "Apples" }, { name : "Apricots" }, { name : "Oranges" }]
+// Returns [{ name : "Apricots" }]; $fruits [{ name : "Apples" }, { name : "Oranges" }]
+$fruits.deleteWith((val) => val.name === "Apricots")
 
-→ Returns [{ name : "Apricots" }]; $fruits [{ name : "Apples" }, { name : "Oranges" }]
-$fruits.deleteWith(function (val) {
-	return val.name === "Apricots";
-})
-
-→ Returns [{ name : "Apples" }, { name : "Apricots" }]; $fruits [{ name : "Oranges" }]
-$fruits.deleteWith(function (val) {
-	return val.name.startsWith("Ap");
-})
+// Returns [{ name : "Apples" }, { name : "Apricots" }]; $fruits [{ name : "Oranges" }]
+$fruits.deleteWith((val) => val.name.startsWith("Ap"))
 ```
 
 <!-- *********************************************************************** -->
@@ -278,11 +355,14 @@ Returns the first member from the array.  Does not modify the original.
 
 #### Parameters: *none*
 
+The first member's value (`any`).
+
 #### Examples:
 
-```
+```javascript
 // Given: $pies = ["Blueberry", "Cherry", "Cream", "Pecan", "Pumpkin"]
-$pies.first()  → Returns "Blueberry"
+// Returns "Blueberry"
+$pies.first()
 ```
 
 <!-- *********************************************************************** -->
@@ -291,20 +371,32 @@ $pies.first()  → Returns "Blueberry"
 
 Returns a new array consisting of the source array with all sub-array elements concatenated into it recursively up to the given depth.  Does not modify the original.
 
-#### History: *native JavaScript method*
+#### History: *JavaScript built-in*
 
 #### Parameters:
 
 * **`depth`:** (optional, `integer`) The number of nested array levels should be flattened.  If omitted, will default to `1`.
 
+#### Returns:
+
+A new `Array` consisting of all members flattened up to the given depth.
+
 #### Examples:
 
-```
-// Given: $npa = [["Alfa", "Bravo"], [["Charlie", "Delta"], ["Echo"]], "Foxtrot"]
+```javascript
+/* Given: $npa = [["Alfa", "Bravo"], [[["Charlie"], "Delta"], ["Echo"]], "Foxtrot"] */
 
-$npa.flat()   → Returns ["Alfa", "Bravo", ["Charlie", "Delta"], ["Echo"], "Foxtrot"]
-$npa.flat(1)  → Returns ["Alfa", "Bravo", ["Charlie", "Delta"], ["Echo"], "Foxtrot"]
-$npa.flat(2)  → Returns ["Alfa", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot"]
+// Returns ["Alfa", "Bravo", [["Charlie"], "Delta"], ["Echo"], "Foxtrot"]
+$npa.flat()
+
+// Returns ["Alfa", "Bravo", [["Charlie"], "Delta"], ["Echo"], "Foxtrot"]
+$npa.flat(1)
+
+// Returns ["Alfa", "Bravo", ["Charlie"], "Delta", "Echo", "Foxtrot"]
+$npa.flat(2)
+
+// Returns ["Alfa", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot"]
+$npa.flat(Infinity)
 ```
 
 <!-- *********************************************************************** -->
@@ -317,7 +409,7 @@ Returns a new array consisting of the result of calling the given mapping functi
 Identical to calling <code>&lt;Array&gt;.map(…).flat()</code>.
 </p>
 
-#### History: *native JavaScript method*
+#### History: *JavaScript built-in*
 
 #### Parameters:
 
@@ -327,15 +419,16 @@ Identical to calling <code>&lt;Array&gt;.map(…).flat()</code>.
 	* **`array`:** (optional, `array`) The array being processed.
 * **`thisArg`:** (optional, `any`) The value to use as `this` when executing `callback`.
 
+#### Returns:
+
+A new `Array` consisting of all members flattened up to the given depth.
+
 #### Examples:
 
-```
+```javascript
 // Given: $npa = ["Alfa", "Bravo Charlie", "Delta Echo Foxtrot"]
-
-→ Returns ["Alfa", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot"]
-$npa.flatMap(function (val) {
-	return val.split(" ");
-})
+// Returns ["Alfa", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot"]
+$npa.flatMap((val) => val.split(" "))
 ```
 
 <!-- *********************************************************************** -->
@@ -344,19 +437,27 @@ $npa.flatMap(function (val) {
 
 Returns whether the given member was found within the array, starting the search at `position`.
 
-#### History: *native JavaScript method*
+#### History: *JavaScript built-in*
 
 #### Parameters:
 
 * **`needle`:** (`any`) The member to find.
 * **`position`:** (optional, `integer`) The zero-based index at which to begin searching for `needle`.  If omitted, will default to `0`.
 
+#### Returns:
+
+A `boolean` denoting whether the given member was found within the array.
+
 #### Examples:
 
-```
-// Given: $pies = ["Blueberry", "Cherry", "Cream", "Pecan", "Pumpkin"]
-<<if $pies.includes("Cherry")>>…found Cherry pie…<</if>>
-<<if $pies.includes("Pecan", 3)>>…found Pecan pie within ["Pecan", "Pumpkin"]…<</if>>
+```javascript
+/* Given: $pies = ["Blueberry", "Cherry", "Cream", "Pecan", "Pumpkin"] */
+
+// Returns true
+$pies.includes("Cherry")
+
+// Return true
+$pies.includes("Pecan", 3)
 ```
 
 <!-- *********************************************************************** -->
@@ -373,14 +474,20 @@ Returns whether all of the given members were found within the array.
 
 * **`needles`:** (`any`… | `Array<any>`) The members to find.  May be a list of members or an array.
 
+#### Returns:
+
+A `boolean` denoting whether all of the given members were found within the array.
+
 #### Examples:
 
-```
-// Given: $pies = ["Blueberry", "Cherry", "Cream", "Pecan", "Pumpkin"]
-<<if $pies.includesAll("Cherry", "Pecan")>>…found Cherry and Pecan pies…<</if>>
+```javascript
+/* Given: $pies = ["Blueberry", "Cherry", "Cream", "Pecan", "Pumpkin"] */
 
-// Given: $search = ["Blueberry", "Pumpkin"]
-<<if $pies.includesAll($search)>>…found Blueberry and Pumpkin pies…<</if>>
+// Returns false
+$pies.includesAny("Cherry", "Raspberry")
+
+// Returns true
+$pies.includesAny("Blueberry")
 ```
 
 <!-- *********************************************************************** -->
@@ -397,14 +504,20 @@ Returns whether any of the given members were found within the array.
 
 * **`needles`:** (`any`… | `Array<any>`) The members to find.  May be a list of members or an array.
 
+#### Returns:
+
+A `boolean` denoting whether any of the given members were found within the array.
+
 #### Examples:
 
-```
-// Given: $pies = ["Blueberry", "Cherry", "Cream", "Pecan", "Pumpkin"]
-<<if $pies.includesAny("Cherry", "Pecan")>>…found Cherry or Pecan pie…<</if>>
+```javascript
+/* Given: $pies = ["Blueberry", "Cherry", "Cream", "Pecan", "Pumpkin"] */
 
-// Given: $search = ["Blueberry", "Pumpkin"]
-<<if $pies.includesAny($search)>>…found Blueberry or Pumpkin pie…<</if>>
+// Returns true
+$pies.includesAny("Cherry", "Coconut")
+
+// Returns false
+$pies.includesAny("Coconut")
 ```
 
 <!-- *********************************************************************** -->
@@ -419,11 +532,16 @@ Returns the last member from the array.  Does not modify the original.
 
 #### Parameters: *none*
 
+#### Returns:
+
+The last member's value (`any`).
+
 #### Examples:
 
-```
+```javascript
 // Given: $pies = ["Blueberry", "Cherry", "Cream", "Pecan", "Pumpkin"]
-$pies.last()  → Returns "Pumpkin"
+// Returns "Pumpkin"
+$pies.last()
 ```
 
 <!-- *********************************************************************** -->
@@ -438,11 +556,16 @@ Removes and returns a random member from the base array.
 
 #### Parameters: *none*
 
+#### Returns:
+
+The removed member's value (`any`).
+
 #### Examples:
 
-```
+```javascript
 // Given: $pies = ["Blueberry", "Cherry", "Cream", "Pecan", "Pumpkin"]
-$pies.pluck()  → Removes and returns a random pie from the array
+// Removes and returns a random pie from the array
+$pies.pluck()
 ```
 
 <!-- *********************************************************************** -->
@@ -459,11 +582,16 @@ Randomly removes the given number of members from the base array and returns the
 
 * **`want`:** (`integer`) The number of members to pluck.  Cannot pluck more members than the base array contains.
 
+#### Returns:
+
+A new `Array` containing the randomly removed members.
+
 #### Examples:
 
-```
+```javascript
 // Given: $pies = ["Blueberry", "Cherry", "Cream", "Pecan", "Pumpkin"]
-$pies.pluckMany(3)  → Removes three random pies from the array and returns them as a new array
+// Removes three random pies from the array and returns them as a new array
+$pies.pluckMany(3)
 ```
 
 <!-- *********************************************************************** -->
@@ -472,42 +600,53 @@ $pies.pluckMany(3)  → Removes three random pies from the array and returns the
 
 Removes and returns the last member from the array, or `undefined` if the array is empty.
 
-#### History: *native JavaScript method*
+#### History: *JavaScript built-in*
 
 #### Parameters: *none*
 
+#### Returns:
+
+The last member's value (`any`).
+
 #### Examples:
 
-```
+```javascript
 // Given: $fruits = ["Apples", "Oranges", "Pears"]
-$fruits.pop()  → Returns "Pears"; $fruits ["Apples", "Oranges"]
+// Returns "Pears"; $fruits ["Apples", "Oranges"]
+$fruits.pop()
 ```
 
 <!-- *********************************************************************** -->
 
-### `<Array>.push(members…)` → `number` {#methods-array-prototype-method-push}
+### `<Array>.push(members…)` → *integer* `number` {#methods-array-prototype-method-push}
 
 Appends one or more members to the end of the base array and returns its new length.
 
-#### History: *native JavaScript method*
+#### History: *JavaScript built-in*
 
 #### Parameters:
 
 * **`members`:** (`any`…) The members to append.
 
+#### Returns:
+
+An *integer* `number` whose value is the new length of the array.
+
 #### Examples:
 
-```
+```javascript
 // Given: $fruits = ["Apples", "Oranges"]
-$fruits.push("Apples")  → Returns 3; $fruits ["Apples", "Oranges", "Apples"]
+// Returns 3; $fruits ["Apples", "Oranges", "Apples"]
+$fruits.push("Apples")
 
 // Given: $fruits = ["Apples", "Oranges"]
-$fruits.push("Plums", "Plums")  → Returns 4; $fruits ["Apples", "Oranges", "Plums", "Plums"]
+// Returns 4; $fruits ["Apples", "Oranges", "Plums", "Plums"]
+$fruits.push("Plums", "Plums")
 ```
 
 <!-- *********************************************************************** -->
 
-### `<Array>.pushUnique(members…)` → `number` {#methods-array-prototype-method-pushunique}
+### `<Array>.pushUnique(members…)` → *integer* `number` {#methods-array-prototype-method-pushunique}
 
 Appends one or more unique members to the end of the base array and returns its new length.
 
@@ -519,14 +658,20 @@ Appends one or more unique members to the end of the base array and returns its 
 
 * **`members`:** (`any`…) The members to append.
 
+#### Returns:
+
+An *integer* `number` whose value is the new length of the array.
+
 #### Examples:
 
-```
+```javascript
 // Given: $fruits = ["Apples", "Oranges"]
-$fruits.pushUnique("Apples")  → Returns 2; $fruits ["Apples", "Oranges"]
+// Returns 2; $fruits ["Apples", "Oranges"]
+$fruits.pushUnique("Apples")
 
 // Given: $fruits = ["Apples", "Oranges"]
-$fruits.pushUnique("Plums", "Plums")  → Returns 3; $fruits ["Apples", "Oranges", "Plums"]
+// Returns 3; $fruits ["Apples", "Oranges", "Plums"]
+$fruits.pushUnique("Plums", "Plums")
 ```
 
 <!-- *********************************************************************** -->
@@ -541,11 +686,16 @@ Returns a random member from the base array.  Does not modify the original.
 
 #### Parameters: *none*
 
+#### Returns:
+
+The selected member's value (`any`).
+
 #### Examples:
 
-```
+```javascript
 // Given: $pies = ["Blueberry", "Cherry", "Cream", "Pecan", "Pumpkin"]
-$pies.random()  → Returns a random pie from the array
+// Returns a random pie from the array
+$pies.random()
 ```
 
 <!-- *********************************************************************** -->
@@ -562,11 +712,16 @@ Randomly selects the given number of unique members from the base array and retu
 
 * **`want`:** (`integer`) The number of members to select.  Cannot select more members than the base array contains.
 
+#### Returns:
+
+A new `Array` containing the randomly selected members.
+
 #### Examples:
 
-```
+```javascript
 // Given: $pies = ["Blueberry", "Cherry", "Cream", "Pecan", "Pumpkin"]
-$pies.randomMany(3)  → Returns a new array containing three unique random pies from the array
+// Returns a new array containing three unique random pies from the array
+$pies.randomMany(3)
 ```
 
 <!-- *********************************************************************** -->
@@ -575,15 +730,20 @@ $pies.randomMany(3)  → Returns a new array containing three unique random pies
 
 Removes and returns the first member from the array, or `undefined` if the array is empty.
 
-#### History: *native JavaScript method*
+#### History: *JavaScript built-in*
 
 #### Parameters: *none*
 
+#### Returns:
+
+The first member's value (`any`) or `undefined`, if the array is empty.
+
 #### Examples:
 
-```
+```javascript
 // Given: $fruits = ["Apples", "Oranges", "Pears"]
-$fruits.shift()  → Returns "Apples"; $fruits ["Oranges", "Pears"]
+// Returns "Apples"; $fruits ["Oranges", "Pears"]
+$fruits.shift()
 ```
 
 <!-- *********************************************************************** -->
@@ -598,11 +758,16 @@ Randomly shuffles the array.
 
 #### Parameters: *none*
 
+#### Returns:
+
+The original `Array` randomly shuffled.
+
 #### Examples:
 
-```
+```javascript
 // Given: $pies = ["Blueberry", "Cherry", "Cream", "Pecan", "Pumpkin"]
-$pies.shuffle()  → Randomizes the order of the pies in the array
+// Randomizes the order of the pies in the array
+$pies.shuffle()
 ```
 
 <!-- *********************************************************************** -->
@@ -617,11 +782,16 @@ Returns a new copy of the base array created by shuffling the array.  Does not m
 
 #### Parameters: *none*
 
+#### Returns:
+
+A new `Array` consisting of the original array randomly shuffled.
+
 #### Examples:
 
-```
+```javascript
 // Given: $pies = ["Blueberry", "Cherry", "Cream", "Pecan", "Pumpkin"]
-$pies.toShuffled()  → Randomizes the order of the pies in the array w/o modifying the original
+// Randomizes the order of the pies in the array w/o modifying the original
+$pies.toShuffled()
 ```
 
 <!-- *********************************************************************** -->
@@ -636,38 +806,49 @@ Returns a new copy of the base array created by removing all duplicate members. 
 
 #### Parameters: *none*
 
+#### Returns:
+
+A new `Array` consisting of the original array with all duplicates removed.
+
 #### Examples:
 
-```
+```javascript
 // Given: $fruits = ["Apples", "Oranges", "Plums", "Plums", "Apples"]
-$fruits.toUnique()  → Returns ["Apples", "Oranges", "Plums"]
+// Returns ["Apples", "Oranges", "Plums"]
+$fruits.toUnique()
 ```
 
 <!-- *********************************************************************** -->
 
-### `<Array>.unshift(members…)` → `number` {#methods-array-prototype-method-unshift}
+### `<Array>.unshift(members…)` → *integer* `number` {#methods-array-prototype-method-unshift}
 
 Prepends one or more members to the beginning of the base array and returns its new length.
 
-#### History: *native JavaScript method*
+#### History: *JavaScript built-in*
 
 #### Parameters:
 
 * **`members`:** (`any`…) The members to append.
 
+#### Returns:
+
+An *integer* `number` whose value is the new length of the array.
+
 #### Examples:
 
-```
-// Given: $fruits = ["Oranges", "Plums"]
-$fruits.unshift("Oranges")  → Returns 3; $fruits ["Oranges", "Oranges", "Plums"]
+```javascript
+/* Given: $fruits = ["Oranges", "Plums"] */
 
-// Given: $fruits = ["Oranges", "Plums"]
-$fruits.unshift("Apples", "Apples")  → Returns 4; $fruits ["Apples", "Apples", "Oranges", "Plums"]
+// Returns 3; $fruits ["Oranges", "Oranges", "Plums"]
+$fruits.unshift("Oranges")
+
+// Returns 4; $fruits ["Apples", "Apples", "Oranges", "Plums"]
+$fruits.unshift("Apples", "Apples")
 ```
 
 <!-- *********************************************************************** -->
 
-### `<Array>.unshiftUnique(members…)` → `number` {#methods-array-prototype-method-unshiftunique}
+### `<Array>.unshiftUnique(members…)` → *integer* `number` {#methods-array-prototype-method-unshiftunique}
 
 Prepends one or more unique members to the beginning of the base array and returns its new length.
 
@@ -679,14 +860,20 @@ Prepends one or more unique members to the beginning of the base array and retur
 
 * **`members`:** (`any`…) The members to append.
 
+#### Returns:
+
+An *integer* `number` whose value is the new length of the array.
+
 #### Examples:
 
-```
-// Given: $fruits = ["Oranges", "Plums"]
-$fruits.unshiftUnique("Oranges")  → Returns 2; $fruits ["Oranges", "Plums"]
+```javascript
+/* Given: $fruits = ["Oranges", "Plums"] */
 
-// Given: $fruits = ["Oranges", "Plums"]
-$fruits.unshiftUnique("Apples", "Apples")  → Returns 3; $fruits ["Apples", "Oranges", "Plums"]
+// Returns 2; $fruits ["Oranges", "Plums"]
+$fruits.unshiftUnique("Oranges")
+
+// Returns 3; $fruits ["Apples", "Oranges", "Plums"]
+$fruits.unshiftUnique("Apples", "Apples")
 ```
 
 <!-- *********************************************************************** -->
@@ -710,9 +897,9 @@ This instance method has been deprecated and should no longer be used.  See the 
 
 <!-- *********************************************************************** -->
 
-### `<jQuery>.ariaClick([options ,] handler)` → *`jQuery` object* {#methods-jquery-prototype-method-ariaclick}
+### `<jQuery>.ariaClick([options ,] handler)` → `jQuery` {#methods-jquery-prototype-method-ariaclick}
 
-Makes the target element(s) WAI-ARIA-compatible clickables—meaning that various accessibility attributes are set and, in addition to mouse clicks, enter/return and spacebar key presses also activate them.  Returns a reference to the current `jQuery` object for chaining.
+Makes the target element(s) WAI-ARIA-compatible clickables—meaning that various accessibility attributes are set and, in addition to mouse clicks, enter/return and spacebar key presses also activate them.  Returns a reference to the current `jQuery` instance for chaining.
 
 #### History:
 
@@ -737,9 +924,13 @@ An options object should have some of the following properties:
 * **`pressed`:** (`string`) Value for the `aria-pressed` attribute (valid values: `"true"`, `"false"`).
 * **`label`:** (`string`) Value for the `aria-label` and `title` attributes.
 
+#### Returns:
+
+The current `jQuery` instance.
+
 #### Examples:
 
-```
+```javascript
 // Given an existing element: <a id="so-clicky">Click me</a>
 $('#so-clicky').ariaClick(function (event) {
 	/* do stuff */
@@ -772,9 +963,9 @@ $('<a>Click me</a>')
 
 <!-- *********************************************************************** -->
 
-### `<jQuery>.ariaDisabled(state)` → *`jQuery` object* {#methods-jquery-prototype-method-ariadisabled}
+### `<jQuery>.ariaDisabled(state)` → `jQuery` {#methods-jquery-prototype-method-ariadisabled}
 
-Changes the disabled state of the target WAI-ARIA-compatible clickable element(s).  Returns a reference to the current `jQuery` object for chaining.
+Changes the disabled state of the target WAI-ARIA-compatible clickable element(s).  Returns a reference to the current `jQuery` instance for chaining.
 
 <p role="note"><b>Note:</b>
 This method is meant to work with clickables created via <a href="#methods-jquery-prototype-method-ariaclick"><code>&lt;jQuery&gt;.ariaClick()</code></a> and may not work with clickables from other sources.  SugarCube uses <code>&lt;jQuery&gt;.ariaClick()</code> internally to handle all of its various link markup and macros.
@@ -788,12 +979,20 @@ This method is meant to work with clickables created via <a href="#methods-jquer
 
 * **`state`:** (`boolean`) The disabled state to apply.  Truthy to disable the element(s), falsy to enable them.
 
+#### Returns:
+
+The current `jQuery` instance.
+
 #### Examples:
 
-```
-// Given an existing WAI-ARIA-compatible clickable element with the ID "so-clicky"
-$('#so-clicky').ariaDisabled(true)   → Disables the target element
-$('#so-clicky').ariaDisabled(false)  → Enables the target element
+```javascript
+/* Given an existing WAI-ARIA-compatible clickable element with the ID "so-clicky" */
+
+// Disables the target element
+$('#so-clicky').ariaDisabled(true)
+
+// Enables the target element
+$('#so-clicky').ariaDisabled(false)
 ````
 
 <!-- *********************************************************************** -->
@@ -811,16 +1010,20 @@ This method is meant to work with clickables created via <a href="#methods-jquer
 
 #### Parameters: *none*
 
+#### Returns:
+
+A `boolean` denoting whether any of the elements are disabled.
+
 #### Examples:
 
-```
-// Given an existing WAI-ARIA-compatible clickable element with the ID "so-clicky"
+```javascript
+/* Given an existing WAI-ARIA-compatible clickable element with the ID "so-clicky" */
 
-// If "#so-clicky" is disabled:
-$('#so-clicky').ariaIsDisabled()  → Returns true
+// If "#so-clicky" is disabled, returns true
+$('#so-clicky').ariaIsDisabled()
 
-// If "#so-clicky" is enabled:
-$('#so-clicky').ariaIsDisabled()  → Returns false
+// If "#so-clicky" is enabled, returns false
+$('#so-clicky').ariaIsDisabled()
 ```
 
 <!-- *********************************************************************** -->
@@ -837,15 +1040,18 @@ Wikifies the given content source(s) and discards the result.  If there were err
 
 * **`sources`:** (`string`…) The list of content sources.
 
+#### Returns: *none*
+
 #### Examples:
 
-```
-$.wiki('<<somemacro>>');  → Invokes the <<somemacro>> macro, discarding any output
+```javascript
+// Invokes the <<somemacro>> macro, discarding any output
+$.wiki('<<somemacro>>');
 ```
 
 <!-- *********************************************************************** -->
 
-### `jQuery.wikiPassage(name)` {#methods-jquery-method-wikipassage}
+### `jQuery.wikiPassage(passageName)` {#methods-jquery-method-wikipassage}
 
 Wikifies the passage by the given name and discards the result.  If there were errors, an exception is thrown.  This is only really useful when you want to invoke a macro for its side-effects and aren't interested in its output.
 
@@ -855,19 +1061,22 @@ Wikifies the passage by the given name and discards the result.  If there were e
 
 #### Parameters:
 
-* **`name`:** (`string`) The name of the passage.
+* **`passageName`:** (`string`) The name of the passage.
+
+#### Returns: *none*
 
 #### Examples:
 
-```
-$.wikiPassage('Fight Init');  → Renders the passage, discarding any output
+```javascript
+// Renders the passage, discarding any output
+$.wikiPassage('Fight Init');
 ```
 
 <!-- *********************************************************************** -->
 
-### `<jQuery>.wiki(sources…)` → *`jQuery` object* {#methods-jquery-prototype-method-wiki}
+### `<jQuery>.wiki(sources…)` → `jQuery` {#methods-jquery-prototype-method-wiki}
 
-Wikifies the given content source(s) and appends the result to the target element(s).  Returns a reference to the current `jQuery` object for chaining.
+Wikifies the given content source(s) and appends the result to the target element(s).  Returns a reference to the current `jQuery` instance for chaining.
 
 #### History:
 
@@ -877,18 +1086,23 @@ Wikifies the given content source(s) and appends the result to the target elemen
 
 * **`sources`:** (`string`…) The list of content sources.
 
+#### Returns:
+
+The current `jQuery` instance.
+
 #### Examples:
 
-```
+```javascript
 // Given an element: <div id="the-box"></div>
-$('#the-box').wiki('Who //are// you?');  → Appends "Who <em>are</em> you?" to the target element
+// Appends "Who <em>are</em> you?" to the target element
+$('#the-box').wiki('Who //are// you?');
 ```
 
 <!-- *********************************************************************** -->
 
-### `<jQuery>.wikiPassage(name)` → *`jQuery` object* {#methods-jquery-prototype-method-wikipassage}
+### `<jQuery>.wikiPassage(passageName)` → `jQuery` {#methods-jquery-prototype-method-wikipassage}
 
-Wikifies the passage by the given name and appends the result to the target element(s).  Returns a reference to the current `jQuery` object for chaining.
+Wikifies the passage by the given name and appends the result to the target element(s).  Returns a reference to the current `jQuery` instance for chaining.
 
 #### History:
 
@@ -896,13 +1110,18 @@ Wikifies the passage by the given name and appends the result to the target elem
 
 #### Parameters:
 
-* **`name`:** (`string`) The name of the passage.
+* **`passageName`:** (`string`) The name of the passage.
+
+#### Returns:
+
+The current `jQuery` instance.
 
 #### Examples:
 
-```
+```javascript
 // Given an element: <div id="notebook"></div>
-$('#notebook').wikiPassage('Notes');  → Appends the rendered passage to the target element
+// Appends the rendered passage to the target element
+$('#notebook').wikiPassage('Notes');
 ```
 
 
@@ -947,30 +1166,44 @@ Returns the given number clamped to the specified bounds.  Does not modify the o
 * **`min`:** (`number`) The lower bound of the number.
 * **`max`:** (`number`) The upper bound of the number.
 
+#### Returns:
+
+A new `number`.
+
 #### Examples:
 
-```
-Math.clamp($stat, 0, 200)  → Clamps $stat to the bounds 0–200 and returns the new value
-Math.clamp($stat, 1, 6.6)  → Clamps $stat to the bounds 1–6.6 and returns the new value
+```javascript
+// Clamps $stat to the bounds 0–200 and returns the new value
+Math.clamp($stat, 0, 200)
+
+// Clamps $stat to the bounds 1–6.6 and returns the new value
+Math.clamp($stat, 1, 6.6)
 ```
 
 <!-- *********************************************************************** -->
 
-### `Math.trunc(num)` → `integer` {#methods-math-method-trunc}
+### `Math.trunc(num)` → *integer* `number` {#methods-math-method-trunc}
 
 Returns the whole (integer) part of the given number by removing its fractional part, if any.  Does not modify the original.
 
-#### History: *native JavaScript method*
+#### History: *JavaScript built-in*
 
 #### Parameters:
 
 * **`num`:** (`number`) The number to truncate to an integer.
 
+#### Returns:
+
+A new *integer* `number`.
+
 #### Examples:
 
-```
-Math.trunc(12.7)   → Returns 12
-Math.trunc(-12.7)  → Returns -12
+```javascript
+// Returns 12
+Math.trunc(12.7)
+
+// Returns -12
+Math.trunc(-12.7)
 ```
 
 
@@ -1010,10 +1243,15 @@ Returns the given string with all regular expression metacharacters escaped.  Do
 
 * **`text`:** (`string`) The string to escape.
 
+#### Returns:
+
+A new `string` that can be safely used as a literal pattern.
+
 #### Examples:
 
-```
-RegExp.escape('That will be $5 (cash only)')   → Returns 'That will be \$5 \(cash only\)'
+```javascript
+// Returns '\x54hat\x20will\x20be\x20\$5\x20\(cash\x20only\)'
+RegExp.escape('That will be $5 (cash only)')
 ```
 
 
@@ -1041,17 +1279,21 @@ The <a href="#guide-non-generic-object-types"><em>Non-generic object types (clas
 * **`code`:** (`string`) The revival code string.
 * **`data`:** (optional, `any`) The data that should be made available to the evaluated revival code during deserialization via the special `$ReviveData$` variable.  **WARNING:** Attempting to pass the value of an object instance's `this` directly as the `reviveData` parameter will trigger out of control recursion in the serializer, so a clone of the instance's own data must be passed instead.
 
+#### Returns:
+
+A new `string` containing the serialized code.
+
 #### Examples:
 
-```
-Serial.createReviver( /* valid JavaScript code string */ );             → Without data chunk
-Serial.createReviver( /* valid JavaScript code string */ , myOwnData);  → With data chunk
+```javascript
+Serial.createReviver(/* valid JavaScript code string */);            // w/o data chunk
+Serial.createReviver(/* valid JavaScript code string */, myOwnData); // w/ data chunk
 
-// E.g., Assume that you're attempting to revive an instance of a custom class named
-//       `Character`, which is assigned to a story variable named `$pc`.  The call
-//       to `Serial.createReviver()` might look something like the following.
+// Assume that you're attempting to revive an instance of a custom class named
+// `Character`, which is assigned to a story variable named `$pc`.  The call
+// to `Serial.createReviver()` might look something like the following.
 var ownData = {};
-Object.keys(this).forEach(function (pn) { ownData[pn] = clone(this[pn]); }, this);
+Object.keys(this).forEach(pn => ownData[pn] = clone(this[pn]), this);
 return Serial.createReviver('new Character($ReviveData$)', ownData);
 ```
 
@@ -1081,12 +1323,20 @@ Returns the number of times that the given substring was found within the string
 * **`needle`:** (`any`) The substring to count.
 * **`position`:** (optional, `integer`) The zero-based index at which to begin searching for `needle`.  If omitted, will default to `0`.
 
+#### Returns:
+
+An `integer` denoting the number of times that the given substring was found within the string.
+
 #### Examples:
 
-```
-// Given: $text = "How now, brown cow."
-$text.count("ow")     → Returns 4
-$text.count("ow", 8)  → Returns 2
+```javascript
+/* Given: $text = "How now, brown cow." */
+
+// Returns 4
+$text.count("ow")
+
+// Returns 2
+$text.count("ow", 8)
 ```
 
 <!-- *********************************************************************** -->
@@ -1105,14 +1355,20 @@ Returns the first Unicode code point within the string.  Does not modify the ori
 
 #### Parameters: *none*
 
+#### Returns:
+
+A new `string` containing the first Unicode code point.
+
 #### Examples:
 
-```
+```javascript
 // Given: $text = "abc"
-$text.first()  → Returns "a"
+// Returns "a"
+$text.first()
 
 // Given: $text = "🙈🙉🙊"
-$text.first()  → Returns "🙈"
+// Returns "🙈"
+$text.first()
 ```
 
 <!-- *********************************************************************** -->
@@ -1137,13 +1393,34 @@ A format item has the syntax `{index[,alignment]}`, square-brackets denoting opt
 * **`index`:** (`integer`) The (zero-based) index of the argument whose string representation will replace the format item.
 * **`alignment`:** (optional, `integer`) The total length of the field into which the argument is inserted, and whether it's right- or left-aligned (positive aligns right, negative aligns left).
 
+#### Returns:
+
+A new `string` based on the format and arguments.
+
 #### Examples:
 
+##### Using a list of arguments
+
+```javascript
+// Returns "Hello, World!"
+String.format("{0}, {1}!", "Hello", "World")
 ```
-String.format("{0}, {1}!", "Hello", "World")      → List of arguments; Returns "Hello, World!"
-String.format("{0}, {1}!", [ "Hello", "World" ])  → Array argument; Returns "Hello, World!"
-String.format("{0,6}", "foo")                     → Returns "   foo"
-String.format("{0,-6}", "foo")                    → Returns "foo   "
+
+##### Using an array argument
+
+```javascript
+// Returns "Hello, World!"
+String.format("{0}, {1}!", ["Hello", "World"])
+```
+
+##### Using alignments
+
+```javascript
+// Returns "   foo"
+String.format("{0,6}", "foo")
+
+// Returns "foo   "
+String.format("{0,-6}", "foo")
 ```
 
 <!-- *********************************************************************** -->
@@ -1152,21 +1429,33 @@ String.format("{0,-6}", "foo")                    → Returns "foo   "
 
 Returns whether the given substring was found within the string, starting the search at `position`.
 
-#### History: *native JavaScript method*
+#### History: *JavaScript built-in*
 
 #### Parameters:
 
 * **`needle`:** (`any`) The substring to find.
 * **`position`:** (optional, `integer`) The zero-based index at which to begin searching for `needle`.  If omitted, will default to `0`.
 
+#### Returns:
+
+A `boolean` denoting whether the given substring was found within the string.
+
 #### Examples:
 
-```
-// Given: $text = "How now, brown cow."
-$text.includes("row")      → Returns true
-$text.includes("row", 14)  → Returns false
-$text.includes("cow", 14)  → Returns true
-$text.includes("pow")      → Returns false
+```javascript
+/* Given: $text = "How now, brown cow." */
+
+// Returns true
+$text.includes("row")
+
+// Returns false
+$text.includes("row", 14)
+
+// Returns true
+$text.includes("cow", 14)
+
+// Returns false
+$text.includes("pow")
 ```
 
 <!-- *********************************************************************** -->
@@ -1185,14 +1474,20 @@ Returns the last Unicode code point within the string.  Does not modify the orig
 
 #### Parameters: *none*
 
+#### Returns:
+
+A new `string` containing the last Unicode code point.
+
 #### Examples:
 
-```
+```javascript
 // Given: $text = "abc"
-$text.last()  → Returns "c"
+// Returns "c"
+$text.last()
 
 // Given: $text = "🙈🙉🙊"
-$text.last()  → Returns "🙊"
+// Returns "🙊"
+$text.last()
 ```
 
 <!-- *********************************************************************** -->
@@ -1211,14 +1506,22 @@ Returns the string with its first Unicode code point converted to upper case, ac
 
 #### Parameters: *none*
 
+#### Returns:
+
+A new `string` with its first Unicode code point uppercased according to locale-specific rules.
+
 #### Examples:
 
-```
-// Using the Turkish (Türkçe) locale and given: $text = "ışık"
-$text.toLocaleUpperFirst()  → Returns "Işık"
+```javascript
+/* Using the Turkish (Türkçe) locale */
 
-// Using the Turkish (Türkçe) locale and given: $text = "iki"
-$text.toLocaleUpperFirst()  → Returns "İki"
+// Given: $text = "ışık"
+// Returns "Işık"
+$text.toLocaleUpperFirst()
+
+// Given: $text = "iki"
+// Returns "İki"
+$text.toLocaleUpperFirst()
 ```
 
 <!-- *********************************************************************** -->
@@ -1237,12 +1540,18 @@ Returns the string with its first Unicode code point converted to upper case.  D
 
 #### Parameters: *none*
 
+#### Returns:
+
+A new `string` with its first Unicode code point uppercased.
+
 #### Examples:
 
-```
+```javascript
 // Given: $text = "hello."
-$text.toUpperFirst()  → Returns "Hello."
+// Returns "Hello."
+$text.toUpperFirst()
 
 // Given: $text = "χαίρετε."
-$text.toUpperFirst()  → Returns "Χαίρετε."
+// Returns "Χαίρετε."
+$text.toUpperFirst()
 ```
