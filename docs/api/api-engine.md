@@ -89,7 +89,7 @@ Activates the moment at the given offset from the active (present) moment within
 
 #### Parameters:
 
-* **`offset`:** (`integer`) The offset from the active (present) moment of the moment to go to.
+* **`offset`:** (*integer* `number`) The offset from the active (present) moment of the moment to go to.
 
 #### Examples:
 
@@ -110,7 +110,7 @@ Activates the moment at the given index within the full state history and show i
 
 #### Parameters:
 
-* **`index`:** (`integer`) The index of the moment to go to.
+* **`index`:** (*integer* `number`) The index of the moment to go to.
 
 #### Examples:
 

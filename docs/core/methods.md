@@ -105,7 +105,7 @@ Returns the number of times that the given member was found within the array, st
 #### Parameters:
 
 * **`needle`:** (`any`) The member to count.
-* **`position`:** (optional, `integer`) The zero-based index at which to begin searching for `needle`.  If omitted, will default to `0`.
+* **`position`:** (optional, *integer* `number`) The zero-based index at which to begin searching for `needle`.  If omitted, will default to `0`.
 
 #### Returns:
 
@@ -137,7 +137,7 @@ Returns the number of times that members within the array pass the test implemen
 
 * **`predicate`:** (`Function`) The function used to test each member.  It is called with three arguments:
 	* **`value`:** (`any`) The member being processed.
-	* **`index`:** (optional, `integer`) The index of member being processed.
+	* **`index`:** (optional, *integer* `number`) The index of member being processed.
 	* **`array`:** (optional, `array`) The array being processed.
 * **`thisArg`:** (optional, `any`) The value to use as `this` when executing `predicate`.
 
@@ -214,7 +214,7 @@ Removes all of the members at the given indices from the array and returns a new
 
 #### Parameters:
 
-* **`indices`:** (`integer`… | `Array<integer>`) The indices of the members to remove.  May be a list or array of indices.
+* **`indices`:** (*integer* `number`… | *integers* `Array<number>`) The indices of the members to remove.  May be a list or array of indices.
 
 #### Returns:
 
@@ -309,7 +309,7 @@ Removes all of the members from the array that pass the test implemented by the 
 
 * **`predicate`:** (`Function`) The function used to test each member.  It is called with three arguments:
 	* **`value`:** (`any`) The member being processed.
-	* **`index`:** (optional, `integer`) The index of member being processed.
+	* **`index`:** (optional, *integer* `number`) The index of member being processed.
 	* **`array`:** (optional, `array`) The array being processed.
 * **`thisArg`:** (optional, `any`) The value to use as `this` when executing `predicate`.
 
@@ -375,7 +375,7 @@ Returns a new array consisting of the source array with all sub-array elements c
 
 #### Parameters:
 
-* **`depth`:** (optional, `integer`) The number of nested array levels should be flattened.  If omitted, will default to `1`.
+* **`depth`:** (optional, *integer* `number`) The number of nested array levels should be flattened.  If omitted, will default to `1`.
 
 #### Returns:
 
@@ -415,7 +415,7 @@ Identical to calling <code>&lt;Array&gt;.map(…).flat()</code>.
 
 * **`callback`:** (`Function`) The function used to produce members of the new array.  It is called with three arguments:
 	* **`value`:** (`any`) The member being processed.
-	* **`index`:** (optional, `integer`) The index of member being processed.
+	* **`index`:** (optional, *integer* `number`) The index of member being processed.
 	* **`array`:** (optional, `array`) The array being processed.
 * **`thisArg`:** (optional, `any`) The value to use as `this` when executing `callback`.
 
@@ -442,7 +442,7 @@ Returns whether the given member was found within the array, starting the search
 #### Parameters:
 
 * **`needle`:** (`any`) The member to find.
-* **`position`:** (optional, `integer`) The zero-based index at which to begin searching for `needle`.  If omitted, will default to `0`.
+* **`position`:** (optional, *integer* `number`) The zero-based index at which to begin searching for `needle`.  If omitted, will default to `0`.
 
 #### Returns:
 
@@ -580,7 +580,7 @@ Randomly removes the given number of members from the base array and returns the
 
 #### Parameters:
 
-* **`want`:** (`integer`) The number of members to pluck.  Cannot pluck more members than the base array contains.
+* **`want`:** (*integer* `number`) The number of members to pluck.  Cannot pluck more members than the base array contains.
 
 #### Returns:
 
@@ -710,7 +710,7 @@ Randomly selects the given number of unique members from the base array and retu
 
 #### Parameters:
 
-* **`want`:** (`integer`) The number of members to select.  Cannot select more members than the base array contains.
+* **`want`:** (*integer* `number`) The number of members to select.  Cannot select more members than the base array contains.
 
 #### Returns:
 
@@ -919,7 +919,7 @@ An options object should have some of the following properties:
 * **`one`:** (`boolean`) Whether the clickables are single-use—i.e., the handler callback runs only once and then removes itself.  If omitted, defaults to `false`.
 * **`selector`:** (`string`) A selector applied to the target element(s) to filter the descendants that triggered the event. If omitted or `null`, the event is always handled when it reaches the target element(s).
 * **`data`:** (`any`) Data to be passed to the handler in [`event.data`](http://api.jquery.com/event.data/) when an event is triggered.
-* **`tabindex`:** (`integer`) Value for the `tabindex` attribute.  If omitted, defaults to `0`.
+* **`tabindex`:** (*integer* `number`) Value for the `tabindex` attribute.  If omitted, defaults to `0`.
 * **`controls`:** (`string`) Value for the `aria-controls` attribute.
 * **`pressed`:** (`string`) Value for the `aria-pressed` attribute (valid values: `"true"`, `"false"`).
 * **`label`:** (`string`) Value for the `aria-label` and `title` attributes.
@@ -1310,7 +1310,7 @@ Strings in TwineScript/JavaScript are Unicode, however, due to historic reasons 
 
 <!-- *********************************************************************** -->
 
-### `<String>.count(needle [, position])` → `integer` {#methods-string-prototype-method-count}
+### `<String>.count(needle [, position])` → *integer* `number` {#methods-string-prototype-method-count}
 
 Returns the number of times that the given substring was found within the string, starting the search at `position`.
 
@@ -1321,11 +1321,11 @@ Returns the number of times that the given substring was found within the string
 #### Parameters:
 
 * **`needle`:** (`any`) The substring to count.
-* **`position`:** (optional, `integer`) The zero-based index at which to begin searching for `needle`.  If omitted, will default to `0`.
+* **`position`:** (optional, *integer* `number`) The zero-based index at which to begin searching for `needle`.  If omitted, will default to `0`.
 
 #### Returns:
 
-An `integer` denoting the number of times that the given substring was found within the string.
+An *integer* `number` denoting the number of times that the given substring was found within the string.
 
 #### Examples:
 
@@ -1390,8 +1390,8 @@ Returns a formatted string, after replacing each format item in the given format
 
 A format item has the syntax `{index[,alignment]}`, square-brackets denoting optional elements.
 
-* **`index`:** (`integer`) The (zero-based) index of the argument whose string representation will replace the format item.
-* **`alignment`:** (optional, `integer`) The total length of the field into which the argument is inserted, and whether it's right- or left-aligned (positive aligns right, negative aligns left).
+* **`index`:** (*integer* `number`) The (zero-based) index of the argument whose string representation will replace the format item.
+* **`alignment`:** (optional, *integer* `number`) The total length of the field into which the argument is inserted, and whether it's right- or left-aligned (positive aligns right, negative aligns left).
 
 #### Returns:
 
@@ -1434,7 +1434,7 @@ Returns whether the given substring was found within the string, starting the se
 #### Parameters:
 
 * **`needle`:** (`any`) The substring to find.
-* **`position`:** (optional, `integer`) The zero-based index at which to begin searching for `needle`.  If omitted, will default to `0`.
+* **`position`:** (optional, *integer* `number`) The zero-based index at which to begin searching for `needle`.  If omitted, will default to `0`.
 
 #### Returns:
 

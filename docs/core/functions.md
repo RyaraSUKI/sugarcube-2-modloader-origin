@@ -35,18 +35,40 @@ A deep copy (`any`) of the original value.
 
 #### Examples:
 
+##### Basic usage (in JavaScript)
+
+```javascript
+/* Given the generic object: foo = { id : 1 } */
+
+// Without clone()
+let bar = foo;
+bar.id = 5;
+foo.id; // Yields 5
+bar.id; // Yields 5
+
+// With clone()
+let bar = clone(foo);
+bar.id = 5;
+foo.id; // Yields 1
+bar.id; // Yields 5
 ```
-// Without clone(); given the generic object: $foo = { id : 1 }
+
+##### Basic usage (in macros)
+
+```
+/* Given the generic object: $foo = { id : 1 } */
+
+/* Without clone() */
 <<set $bar to $foo>>
 <<set $bar.id to 5>>
-$foo.id  → Returns: 5
-$bar.id  → Returns: 5
+<<= $foo.id>> // Prints 5
+<<= $bar.id>> // Prints 5
 
-// With clone(); given the generic object: $foo = { id : 1 }
+/* With clone() */
 <<set $bar to clone($foo)>>
 <<set $bar.id to 5>>
-$foo.id  → Returns: 1
-$bar.id  → Returns: 5
+<<= $foo.id>> // Prints 1
+<<= $bar.id>> // Prints 5
 ```
 
 <!-- *********************************************************************** -->
@@ -65,24 +87,56 @@ Returns a random value from its given arguments.
 
 #### Returns:
 
-A random value from its given arguments.
+A random value (`any`) from its given arguments.
 
 #### Throws: *none*
 
 #### Examples:
 
+##### Basic usage (in JavaScript)
+
 ```javascript
 // Using singular values
-either("Blueberry", "Cherry", "Pecan")  → Returns a random pie from the whole list
+// Returns a random pie from the whole list
+let pie = either('Blueberry', 'Cherry', 'Pecan');
 
-// Using arrays; given: $pies = ["Blueberry", "Cherry", "Pecan"]
-either($pies)  → Returns a random pie from the whole array
+// Using arrays
+// Given: pies = ['Blueberry', 'Cherry', 'Pecan']
+// Returns a random pie from the whole array
+let pie = either(pies);
 
-// Using singular values and arrays; given: $letters = ["A", "B"]
-either($letters, "C", "D")  → Returns a random value from the whole list—i.e., "A", "B", "C", "D"
+// Using singular values and arrays
+// Given: letters = ['A', 'B']
+// Returns a random value from the whole list—i.e., 'A', 'B', 'C', 'D'
+let letter = either(letters, 'C', 'D');
 
-// Using multiple arrays; given: $letters = ["A", "B"] & $numerals = ["1", "2"]
-either($letters, $numerals)  → Returns a random value from the whole list—i.e., "A", "B", "1", "2"
+// Using multiple arrays
+// Given: letters = ['A', 'B'] & numerals = ['1', '2']
+// Returns a random value from the whole list—i.e., 'A', 'B', '1', '2'
+let alphaNum = either(letters, numerals);
+```
+
+##### Basic usage (in macros)
+
+```javascript
+// Using singular values
+// Returns a random pie from the whole list
+<<set $pie to either('Blueberry', 'Cherry', 'Pecan')>>
+
+// Using arrays
+// Given: $pies = ['Blueberry', 'Cherry', 'Pecan']
+// Returns a random pie from the whole array
+<<set $pie to either($pies)>>
+
+// Using singular values and arrays
+// Given: $letters = ['A', 'B']
+// Returns a random value from the whole list—i.e., 'A', 'B', 'C', 'D'
+<<set $letter to either($letters, 'C', 'D')>>
+
+// Using multiple arrays
+// Given: $letters = ['A', 'B'] & $numerals = ['1', '2']
+// Returns a random value from the whole list—i.e., 'A', 'B', '1', '2'
+<<set $alphaNum to either($letters, $numerals)>>
 ```
 
 <!-- *********************************************************************** -->
@@ -111,7 +165,17 @@ An `Error` or `TypeError` instance.
 
 #### Examples:
 
+##### Basic usage (in JavaScript)
+
+```javascript
+// Clears 'achievements' from the metadata store.
+forget('achievements');
 ```
+
+##### Basic usage (in macros)
+
+```
+/* Clears 'achievements' from the metadata store. */
 <<run forget('achievements')>>
 ```
 
@@ -139,18 +203,51 @@ An `Error` instance.
 
 #### Examples:
 
+##### Basic usage (in JavaScript)
+
+```javascript
+if (hasVisited('Bar')) {
+	// Has been to the Bar.
+}
+
+if (!hasVisited('Bar')) {
+	// Has never been to the Bar.
+}
+
+if (hasVisited('Bar', 'Café')) {
+	// Has been to both the Bar and Café.
+}
+
+if (!hasVisited('Bar', 'Café')) {
+	// Has never been to either the Bar, Café, or both.
+}
 ```
-<<if hasVisited("Bar")>>…has been to the Bar…<</if>>
-<<if not hasVisited("Bar")>>…has never been to the Bar…<</if>>
-<<if hasVisited("Bar", "Café")>>…has been to both the Bar and Café<</if>>
-<<if not hasVisited("Bar", "Café")>>…has never been to either the Bar, Café, or both…<</if>>
+
+##### Basic usage (in macros)
+
+```
+<<if hasVisited('Bar')>>
+	…has been to the Bar…
+<</if>>
+
+<<if not hasVisited('Bar')>>
+	…has never been to the Bar…
+<</if>>
+
+<<if hasVisited('Bar', 'Café')>>
+	…has been to both the Bar and Café…
+<</if>>
+
+<<if not hasVisited('Bar', 'Café')>>
+	…has never been to either the Bar, Café, or both…
+<</if>>
 ```
 
 <!-- *********************************************************************** -->
 
-### `lastVisited(passages…)` → `integer` {#functions-function-lastvisited}
+### `lastVisited(passages…)` → *integer* `number` {#functions-function-lastvisited}
 
-Returns the number of turns that have passed since the last instance of the passage with the given name occurred within the story history or `-1` if it does not exist.  If multiple passage names are given, returns the lowest count (which can be `-1`).
+Returns the number of turns that have passed since the last instance of the passage with the given name occurred within the story history or `-1`, if it does not exist.  If multiple passage names are given, returns the lowest count (which can be `-1`).
 
 #### History:
 
@@ -162,7 +259,7 @@ Returns the number of turns that have passed since the last instance of the pass
 
 #### Returns:
 
-The lowest count (`integer`), elsewise `-1`.
+The lowest count (*integer* `number`), elsewise `-1`.
 
 #### Throws:
 
@@ -170,12 +267,52 @@ An `Error` instance.
 
 #### Examples:
 
+##### Basic usage (in JavaScript)
+
+```javascript
+if (lastVisited('Bar') === -1) {
+	// Has never been to the Bar.
+}
+
+if (lastVisited('Bar') === 0) {
+	// Is currently in the Bar.
+}
+
+if (lastVisited('Bar') === 1) {
+	// Was in the Bar one turn ago.
+}
+
+if (lastVisited('Bar', 'Café') === -1) {
+	// Has never been to the Bar, Café, or both.
+}
+
+if (lastVisited('Bar', 'Café') === 2) {
+	// Has been to both the Bar and Café, most recently two turns ago.
+}
 ```
-<<if lastVisited("Bar") is -1>>…has never been to the Bar…<</if>>
-<<if lastVisited("Bar") is 0>>…is currently in the Bar…<</if>>
-<<if lastVisited("Bar") is 1>>…was in the Bar one turn ago…<</if>>
-<<if lastVisited("Bar", "Café") is -1>>…has never been to the Bar, Café, or both…<</if>>
-<<if lastVisited("Bar", "Café") is 2>>…has been to both the Bar and Café, most recently two turns ago…<</if>>
+
+##### Basic usage (in macros)
+
+```
+<<if lastVisited('Bar') is -1>>
+	…has never been to the Bar…
+<</if>>
+
+<<if lastVisited('Bar') is 0>>
+	…is currently in the Bar…
+<</if>>
+
+<<if lastVisited('Bar') is 1>>
+	…was in the Bar one turn ago…
+<</if>>
+
+<<if lastVisited('Bar', 'Café') is -1>>
+	…has never been to the Bar, Café, or both…
+<</if>>
+
+<<if lastVisited('Bar', 'Café') is 2>>
+	…has been to both the Bar and Café, most recently two turns ago…
+<</if>>
 ```
 
 <!-- *********************************************************************** -->
@@ -221,38 +358,38 @@ An `Error` instance.
 // Import scripts a.js as normal, b.mjs as a module, and c.js as a
 // module
 importScripts(
-	"https://somesite/a/path/a.js",
-	"https://somesite/a/path/b.mjs",
+	'https://somesite/a/path/a.js',
+	'https://somesite/a/path/b.mjs',
 	{
-		type : "module",
-		src  : "https://somesite/a/path/c.js"
+		type : 'module',
+		src  : 'https://somesite/a/path/c.js'
 	}
 );
 
 // Import all scripts concurrently
 importScripts(
-	"https://somesite/a/path/a.js",
-	"https://somesite/a/path/b.js",
-	"https://somesite/a/path/c.js",
-	"https://somesite/a/path/d.js"
+	'https://somesite/a/path/a.js',
+	'https://somesite/a/path/b.js',
+	'https://somesite/a/path/c.js',
+	'https://somesite/a/path/d.js'
 );
 
 // Import all scripts sequentially
 importScripts([
-	"https://somesite/a/path/a.js",
-	"https://somesite/a/path/b.js",
-	"https://somesite/a/path/c.js",
-	"https://somesite/a/path/d.js"
+	'https://somesite/a/path/a.js',
+	'https://somesite/a/path/b.js',
+	'https://somesite/a/path/c.js',
+	'https://somesite/a/path/d.js'
 ]);
 
 // Import scripts a.js, b.js, and the c.js/d.js group concurrently,
 // while importing c.js and d.js sequentially relative to each other
 importScripts(
-	"https://somesite/a/path/a.js",
-	"https://somesite/a/path/b.js",
+	'https://somesite/a/path/a.js',
+	'https://somesite/a/path/b.js',
 	[
-		"https://somesite/a/path/c.js",
-		"https://somesite/a/path/d.js"
+		'https://somesite/a/path/c.js',
+		'https://somesite/a/path/d.js'
 	]
 );
 ```
@@ -262,11 +399,11 @@ importScripts(
 ```javascript
 // Import a script while using the returned Promise to ensure that
 // the script has been fully loaded before executing dependent code
-importScripts("https://somesite/a/path/a.js")
-	.then(function () {
+importScripts('https://somesite/a/path/a.js')
+	.then(() => {
 		// Code that depends on the script goes here
 	})
-	.catch(function (err) {
+	.catch((err) => {
 		// There was an error loading the script, log it to the console
 		console.log(err);
 	});
@@ -276,15 +413,15 @@ importScripts("https://somesite/a/path/a.js")
 
 ```javascript
 // Import a script while saving the returned Promise so it may be used later
-setup.aScriptImport = importScripts("https://somesite/a/path/aScript.js");
+setup.aScriptImport = importScripts('https://somesite/a/path/aScript.js');
 
 // Use the returned Promise later on to ensure that the script has been fully
 // loaded before executing dependent code
 setup.aScriptImport
-	.then(function () {
+	.then(() => {
 		// Code that depends on the script goes here
 	})
-	.catch(function (err) {
+	.catch((err) => {
 		// There was an error loading the script, log it to the console
 		console.log(err);
 	});
@@ -327,28 +464,28 @@ An `Error` instance.
 ```javascript
 // Import all stylesheets concurrently
 importStyles(
-	"https://somesite/a/path/a.css",
-	"https://somesite/a/path/b.css",
-	"https://somesite/a/path/c.css",
-	"https://somesite/a/path/d.css"
+	'https://somesite/a/path/a.css',
+	'https://somesite/a/path/b.css',
+	'https://somesite/a/path/c.css',
+	'https://somesite/a/path/d.css'
 );
 
 // Import all stylesheets sequentially
 importStyles([
-	"https://somesite/a/path/a.css",
-	"https://somesite/a/path/b.css",
-	"https://somesite/a/path/c.css",
-	"https://somesite/a/path/d.css"
+	'https://somesite/a/path/a.css',
+	'https://somesite/a/path/b.css',
+	'https://somesite/a/path/c.css',
+	'https://somesite/a/path/d.css'
 ]);
 
 // Import stylesheets a.css, b.css, and the c.css/d.css group concurrently,
 // while importing c.css and d.css sequentially relative to each other
 importStyles(
-	"https://somesite/a/path/a.css",
-	"https://somesite/a/path/b.css",
+	'https://somesite/a/path/a.css',
+	'https://somesite/a/path/b.css',
 	[
-		"https://somesite/a/path/c.css",
-		"https://somesite/a/path/d.css"
+		'https://somesite/a/path/c.css',
+		'https://somesite/a/path/d.css'
 	]
 );
 ```
@@ -361,12 +498,12 @@ var lsLockId = LoadScreen.lock();
 
 // Import a stylesheet while using the returned Promise to ensure that the
 // stylesheet has been fully loaded before unlocking the loading screen
-importStyles("https://somesite/a/path/a.css")
-	.then(function () {
+importStyles('https://somesite/a/path/a.css')
+	.then(() => {
 		// The stylesheet has been loaded, release the loading screen lock
 		LoadScreen.unlock(lsLockId);
 	})
-	.catch(function (err) {
+	.catch((err) => {
 		// There was an error loading the stylesheet, log it to the console
 		console.log(err);
 	});
@@ -411,11 +548,23 @@ An `TypeError` instance.
 
 #### Examples:
 
-```
+##### Basic usage (in JavaScript)
+
+```javascript
 // Sets 'achievements', with the given value, in the metadata store.
-<<run memorize('achievements', { ateYellowSnow : true })>>
+memorize('achievements', { ateYellowSnow : true });
 
 // Sets 'ngplus', with the given value, in the metadata store.
+memorize('ngplus', true);
+```
+
+##### Basic usage (in macros)
+
+```
+/* Sets 'achievements', with the given value, in the metadata store. */
+<<run memorize('achievements', { ateYellowSnow : true })>>
+
+/* Sets 'ngplus', with the given value, in the metadata store. */
 <<run memorize('ngplus', true)>>
 ```
 
@@ -439,8 +588,20 @@ The name (`string`) of the passage.
 
 #### Examples:
 
+##### Basic usage (in JavaScript)
+
+```javascript
+if (passage() === 'Café') {
+	// The active passage is the Café passage.
+}
 ```
-<<if passage() is "Café">>…the active passage is the Café passage…<</if>>
+
+##### Basic usage (in macros)
+
+```
+<<if passage() is 'Café'>>
+	…the active passage is the Café passage…
+<</if>>
 ```
 
 <!-- *********************************************************************** -->
@@ -463,21 +624,36 @@ The name (`string`) of the passage, elsewise an empty string (`''`).
 
 #### Examples:
 
-```
-<<if previous() is "Café">>…the most recent non-active passage is the Café passage…<</if>>
+##### Basic usage (in JavaScript)
 
-→ Commonly used as part of a link to return to the most recent non-active passage
+```javascript
+if (previous() === 'Café') {
+	// The most recent non-active passage is the Café passage.
+}
+```
+
+##### Basic usage (in macros)
+
+```
+<<if previous() is 'Café'>>
+	…the most recent non-active passage is the Café passage…
+<</if>>
+```
+
+##### Usage as part of a link
+
+```
 [[Return|previous()]]
 ```
 
 <!-- *********************************************************************** -->
 
-### `random([min ,] max)` → `integer` {#functions-function-random}
+### `random([min ,] max)` → *integer* `number` {#functions-function-random}
 
 Returns a pseudo-random whole number (integer) within the range of the given bounds (inclusive)—i.e., [min,&nbsp;max].
 
 <p role="note"><b>Note:</b>
-By default, it uses <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random"><code>Math.random()</code></a> as its source of (non-deterministic) randomness, however, when the seedable PRNG has been enabled, via <a href="#state-api-method-prng-init"><code>State.prng.init()</code></a>, it uses that (deterministic) seeded PRNG instead.
+By default, it returns non-deterministic results from <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random"><code>Math.random()</code></a>, however, when the seedable PRNG has been enabled, via <a href="#state-api-method-prng-init"><code>State.prng.init()</code></a>, it returns deterministic results from the seeded PRNG instead.
 </p>
 
 #### History:
@@ -486,12 +662,12 @@ By default, it uses <a href="https://developer.mozilla.org/en-US/docs/Web/JavaSc
 
 #### Parameters:
 
-* **`min`:** (optional, `integer`) The lower bound of the random number (inclusive).  If omitted, will default to `0`.
-* **`max`:** (`integer`) The upper bound of the random number (inclusive).
+* **`min`:** (optional, *integer* `number`) The lower bound of the random number (inclusive).  If omitted, defaults to `0`.
+* **`max`:** (*integer* `number`) The upper bound of the random number (inclusive).
 
 #### Returns:
 
-A random whole number (`integer`).
+A random whole number (*integer* `number`).
 
 #### Throws:
 
@@ -499,22 +675,34 @@ An `Error` or `TypeError` instance.
 
 #### Examples:
 
+##### Basic usage (in JavaScript)
+
 ```javascript
 // Returns a number in the range 0–5
-random(5)
+let randInt = random(5);
 
 // Returns a number in the range 1–6
-random(1, 6)
+let randInt = random(1, 6);
+```
+
+##### Basic usage (in macros)
+
+```
+/* Returns a number in the range 0–5 */
+<<set $randInt to random(5)>>
+
+/* Returns a number in the range 1–6 */
+<<set _randInt to random(1, 6)>>
 ```
 
 <!-- *********************************************************************** -->
 
-### `randomFloat([min ,] max)` → `decimal` {#functions-function-randomfloat}
+### `randomFloat([min ,] max)` → *decimal* `number` {#functions-function-randomfloat}
 
 Returns a pseudo-random decimal number (floating-point) within the range of the given bounds (inclusive for the minimum, exclusive for the maximum)—i.e., [min,&nbsp;max).
 
 <p role="note"><b>Note:</b>
-By default, it simply returns non-deterministic results from <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random"><code>Math.random()</code></a>, however, when the seedable PRNG has been enabled, via <a href="#state-api-method-prng-init"><code>State.prng.init()</code></a>, it returns deterministic results from the seeded PRNG instead.
+By default, it returns non-deterministic results from <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random"><code>Math.random()</code></a>, however, when the seedable PRNG has been enabled, via <a href="#state-api-method-prng-init"><code>State.prng.init()</code></a>, it returns deterministic results from the seeded PRNG instead.
 </p>
 
 #### History:
@@ -523,12 +711,12 @@ By default, it simply returns non-deterministic results from <a href="https://de
 
 #### Parameters:
 
-* **`min`:** (optional, `decimal`) The lower bound of the random number (inclusive).  If omitted, will default to `0.0`.
-* **`max`:** (`decimal`) The upper bound of the random number (exclusive).
+* **`min`:** (optional, *decimal* `number`) The lower bound of the random number (inclusive).  If omitted, defaults to `0.0`.
+* **`max`:** (*decimal* `number`) The upper bound of the random number (exclusive).
 
 #### Returns:
 
-A random floating-point number (`decimal`).
+A random floating-point number (*decimal* `number`).
 
 #### Throws:
 
@@ -536,12 +724,24 @@ An `Error` or `TypeError` instance.
 
 #### Examples:
 
+##### Basic usage (in JavaScript)
+
 ```javascript
 // Returns a number in the range 0.0–4.9999999…
-randomFloat(5.0)
+let randNum = randomFloat(5.0);
 
 // Returns a number in the range 1.0–5.9999999…
-randomFloat(1.0, 6.0)
+let randNum = randomFloat(1.0, 6.0);
+```
+
+##### Basic usage (in macros)
+
+```
+/* Returns a number in the range 0.0–4.9999999… */
+<<set $randNum to randomFloat(5.0)>>
+
+/* Returns a number in the range 1.0–5.9999999… */
+<<set _randNum to randomFloat(1.0, 6.0)>>
 ```
 
 <!-- *********************************************************************** -->
@@ -573,11 +773,27 @@ A `TypeError` instance.
 
 #### Examples:
 
-```
-// Set setup.achievements to the 'achievements' metadata or an empty generic object.
-<<set setup.achievements to recall('achievements', {})>>
+##### Basic usage (in JavaScript)
+
+```javascript
+// Set setup.achievements to the 'achievements' metadata, defaulting
+// to an empty generic object if no metadata exists.
+setup.achievements = recall('achievements', {});
 
 // Set setup.ngplus to the 'ngplus' metadata, with no default.
+setup.ngplus = recall('ngplus');
+```
+
+##### Basic usage (in macros)
+
+```
+/*
+	Set setup.achievements to the 'achievements' metadata, defaulting
+	to an empty generic object if no metadata exists.
+*/
+<<set setup.achievements to recall('achievements', {})>>
+
+/* Set setup.ngplus to the 'ngplus' metadata, with no default. */
 <<set setup.ngplus to recall('ngplus')>>
 ```
 
@@ -609,12 +825,24 @@ An `HTMLElement` instance, elsewise `null`.
 As it is highly unlikely that either an array of passage names or default text will be needed in the vast majority of cases, only a few basic examples will be given.
 </p>
 
+##### Basic usage (in JavaScript)
+
 ```javascript
 // Using an ID; given an existing element on the page: <div id="my-display"></div>
-setPageElement("my-display", "MyPassage");
+setPageElement('my-display', 'MyPassage');
 
 // Using an element; given a reference to an existing element: myElement
-setPageElement(myElement, "MyPassage");
+setPageElement(myElement, 'MyPassage');
+```
+
+##### Basic usage (in macros)
+
+```
+/* Using an ID; given an existing element on the page: <div id="my-display"></div> */
+<<run setPageElement('my-display', 'MyPassage')>>
+
+/* Using an element; given a reference to an existing element: myElement */
+<<run setPageElement(myElement, 'MyPassage')>>
 ```
 
 <!-- *********************************************************************** -->
@@ -639,9 +867,28 @@ An `Array<string>` containing the tags.
 
 #### Examples:
 
+##### Basic usage (in JavaScript)
+
+```javascript
+if (tags().includes('forest')) {
+	// The active passage is part of the forest.
+}
+
+if (tags('Lonely Glade').includes('forest')) {
+	// The Lonely Glade passage is part of the forest.
+}
 ```
-<<if tags().includes("forest")>>…the active passage is part of the forest…<</if>>
-<<if tags("Lonely Glade").includes("forest")>>…the Lonely Glade passage is part of the forest…<</if>>
+
+##### Basic usage (in macros)
+
+```
+<<if tags().includes('forest')>>
+	…the active passage is part of the forest…
+<</if>>
+
+<<if tags('Lonely Glade').includes('forest')>>
+	…the Lonely Glade passage is part of the forest…
+<</if>>
 ```
 
 <!-- *********************************************************************** -->
@@ -667,13 +914,13 @@ A reference to the temporary variable store (`Object`).
 ```javascript
 // Given: _selection is 'Zagnut Bar'
 if (temporary().selection === 'Zagnut Bar') {
-	/* Do something… */
+	// Do something…
 }
 ```
 
 <!-- *********************************************************************** -->
 
-### `time()` → `integer` {#functions-function-time}
+### `time()` → *integer* `number` {#functions-function-time}
 
 Returns the number of milliseconds that have passed since the current passage was rendered to the page.
 
@@ -685,21 +932,21 @@ Returns the number of milliseconds that have passed since the current passage wa
 
 #### Returns:
 
-The milliseconds (`integer`) since the passage was rendered.
+The milliseconds (*integer* `number`) since the passage was rendered.
 
 #### Throws: *none*
 
 #### Examples:
 
 ```
-→ Links that vary based on the time
+/* Links that vary based on the time */
 In the darkness, something wicked this way comes.  Quickly!  Do you \
 <<link "try to run back into the light">>
 	<<if time() lt 5000>>
-		/% The player clicked the link in under 5s, so they escape %/
+		/* The player clicked the link in under 5s, so they escape */
 		<<goto "Well lit passageway">>
 	<<else>>
-		/% Else, they're eaten by a grue %/
+		/* Else, they're eaten by a grue */
 		<<goto "Eaten by a grue">>
 	<</if>>
 <</link>> \
@@ -779,7 +1026,7 @@ triggerEvent('mouseover', jQuery('.flippable'));
 
 <!-- *********************************************************************** -->
 
-### `turns()` → `integer` {#functions-function-turns}
+### `turns()` → *integer* `number` {#functions-function-turns}
 
 Returns the total number (count) of played turns currently in effect—i.e., the number of played moments up to the present moment; future (rewound/undone) moments are not included within the total.
 
@@ -791,14 +1038,23 @@ Returns the total number (count) of played turns currently in effect—i.e., the
 
 #### Returns:
 
-The turn count (`integer`).
+The turn count (*integer* `number`).
 
 #### Throws: *none*
 
 #### Examples:
 
+##### Basic usage (in JavaScript)
+
+```javascript
+// Record the turn count.
+let turnCount = turns();
 ```
-<<print "This is turn #" + turns()>>
+
+##### Basic usage (in macros)
+
+```
+<<print 'This is turn #' + turns()>>
 ```
 
 <!-- *********************************************************************** -->
@@ -830,7 +1086,7 @@ if (variables().hasGoldenKey) {
 
 <!-- *********************************************************************** -->
 
-### `visited([passages…])` → `integer` {#functions-function-visited}
+### `visited([passages…])` → *integer* `number` {#functions-function-visited}
 
 Returns the number of times that the passage with the given title occurred within the story history.  If multiple passage titles are given, returns the lowest count.
 
@@ -844,22 +1100,55 @@ Returns the number of times that the passage with the given title occurred withi
 
 #### Returns:
 
-The passage count (`integer`).
+The passage count (*integer* `number`).
 
 #### Throws: *none*
 
 #### Examples:
 
+##### Basic usage (in JavaScript)
+
+```javascript
+if (visited() === 3) {
+	// Has been to the current passage exactly three times.
+}
+
+if (visited('Bar')) {
+	// Has been to the Bar at least once.
+}
+
+if (visited('Café') === 2) {
+	// Has been to the Café exactly twice.
+}
+
+if (visited('Bar', 'Café') === 4) {
+	// Has been to both the Bar and Café four or more times.
+}
 ```
-<<if visited() is 3>>…this is the third visit to the current passage…<</if>>
-<<if visited("Bar")>>…has been to the Bar at least once…<</if>>
-<<if visited("Café") is 1>>…has been to the Café exactly once…<</if>>
-<<if visited("Bar", "Café") is 4>>…has been to both the Bar and Café at least four times…<</if>>
+
+##### Basic usage (in macros)
+
+```
+<<if visited() is 3>>
+	…has been to the current passage exactly three times…
+<</if>>
+
+<<if visited('Bar')>>
+	…has been to the Bar at least once…
+<</if>>
+
+<<if visited('Café') is 2>>
+	…has been to the Café exactly twice…
+<</if>>
+
+<<if visited('Bar', 'Café') is 4>>
+	…has been to both the Bar and Café four or more times…
+<</if>>
 ```
 
 <!-- *********************************************************************** -->
 
-### `visitedTags(tags…)` → `integer` {#functions-function-visitedtags}
+### `visitedTags(tags…)` → *integer* `number` {#functions-function-visitedtags}
 
 Returns the number of passages within the story history that are tagged with all of the given tags.
 
@@ -873,7 +1162,7 @@ Returns the number of passages within the story history that are tagged with all
 
 #### Returns:
 
-The number (`integer`) of passages that are tagged with the given tags.
+The number (*integer* `number`) of passages that are tagged with the given tags.
 
 #### Throws:
 
@@ -881,8 +1170,34 @@ An `Error` instance.
 
 #### Examples:
 
+##### Basic usage (in JavaScript)
+
+```javascript
+if (visitedTags('forest')) {
+	// Has been to some part of the forest at least once.
+}
+
+if (visitedTags('forest', 'haunted') === 2) {
+	// Has been to the haunted part of the forest exactly twice.
+}
+
+if (visitedTags('forest', 'burned') >= 3) {
+	// Has been to the burned part of the forest three or more times.
+}
 ```
-<<if visitedTags("forest")>>…has been to some part of the forest at least once…<</if>>
-<<if visitedTags("forest", "haunted") is 1>>…has been to the haunted part of the forest exactly once…<</if>>
-<<if visitedTags("forest", "burned") is 3>>…has been to the burned part of the forest three times…<</if>>
+
+##### Basic usage (in macros)
+
+```
+<<if visitedTags('forest')>>
+	…has been to some part of the forest at least once…
+<</if>>
+
+<<if visitedTags('forest', 'haunted') is 2>>
+	…has been to the haunted part of the forest exactly twice…
+<</if>>
+
+<<if visitedTags('forest', 'burned') gte 3>>
+	…has been to the burned part of the forest three or more times…
+<</if>>
 ```

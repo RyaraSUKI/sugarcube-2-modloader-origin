@@ -29,7 +29,7 @@ Adding additional properties directly to save data objects is not recommended.  
 
 A save data object has the following properties:
 
-* **`date`:** (`integer`) The save's creation date (in milliseconds elapsed since epoch).
+* **`date`:** (*integer* `number`) The save's creation date (in milliseconds elapsed since epoch).
 * **`desc`:** (`string`) The save's description.
 * **`id`:** (`string`) The save ID.  See the [`Config.saves.id`](#config-api-property-saves-id) for details.
 * **`metadata`:** (optional, `any`) The save's metadata, which *must* be JSON-serializable.  Exists only if specified.  See the appropriate save API or [`Config.saves.metadata`](#config-api-property-saves-metadata) for details.
@@ -43,14 +43,14 @@ The marshaled story state object, from the **`state`** property, has the followi
 
 * **`expired`:** (optional, `Array<string>`) The array of expired moment passage titles.  Exists only if any moments have expired.
 * **`history`:** (`Array<Object>`) The array of moment objects.  See below for details.
-* **`index`:** (`integer`) The index of the active moment.
+* **`index`:** (*integer* `number`) The index of the active moment.
 * **`seed`:** (optional, `string`) The seed of the seedable PRNG.  Exists only if enabled.
 
 #### Save History Moment Objects
 
 Each moment object, from the **`history`** property's array, has the following properties:
 
-* **`pull`:** (optional, `integer`) The current pull count of the seedable PRNG.  Exists only if enabled.
+* **`pull`:** (optional, *integer* `number`) The current pull count of the seedable PRNG.  Exists only if enabled.
 * **`title`:** (`string`) The name of the associated passage.
 * **`variables`:** (`Object`) The current variable store object, which contains sigil-less name &#x21D2; value pairs—e.g., `$foo` exists as the property `foo`.
 
@@ -114,7 +114,7 @@ Save types pseudo-enumeration.  Used to denote the type of save.
 
 <!-- *********************************************************************** -->
 
-### `Save.browser.size` → `integer` {#save-api-browser-getter-size}
+### `Save.browser.size` → *integer* `number` {#save-api-browser-getter-size}
 
 The total number of existing browser saves, both auto and slot.
 
@@ -124,7 +124,7 @@ The total number of existing browser saves, both auto and slot.
 
 #### Value:
 
-The `integer` count of existing browser saves.
+The *integer* `number` count of existing browser saves.
 
 #### Examples:
 
@@ -274,7 +274,7 @@ console.log('Descriptor of the most recent save:', Save.browser.newest());
 
 <!-- *********************************************************************** -->
 
-### `Save.browser.auto.size` → `integer` {#save-api-browser-auto-getter-size}
+### `Save.browser.auto.size` → *integer* `number` {#save-api-browser-auto-getter-size}
 
 The total number of existing browser auto saves.
 
@@ -284,7 +284,7 @@ The total number of existing browser auto saves.
 
 #### Value:
 
-The `integer` count of existing browser auto saves.
+The *integer* `number` count of existing browser auto saves.
 
 #### Examples:
 
@@ -338,7 +338,7 @@ Deletes the auto save at the given index.
 
 #### Parameters:
 
-* **`index`:** (`integer`) Auto save index (`0`-based).  Must be in the range `0`–`Config.saves.maxAutoSaves`.
+* **`index`:** (*integer* `number`) Auto save index (`0`-based).  Must be in the range `0`–`Config.saves.maxAutoSaves`.
 
 #### Returns: *none*
 
@@ -377,7 +377,7 @@ Provides an array of details about all auto saves.
 
 An `Array` of `{ index, info }` generic objects, or an empty `Array` if no auto saves exist.
 
-* **`index`:** (`integer`) The auto save's index (`0`-based).
+* **`index`:** (*integer* `number`) The auto save's index (`0`-based).
 * **`info`:** (`Object`) The [save's descriptor object](#save-api-objects-descriptor).
 
 #### Throws:
@@ -404,7 +404,7 @@ Details the auto save at the given index.
 
 #### Parameters:
 
-* **`index`:** (`integer`) Auto save index (`0`-based).  Must be in the range `0`–`Config.saves.maxAutoSaves`.
+* **`index`:** (*integer* `number`) Auto save index (`0`-based).  Must be in the range `0`–`Config.saves.maxAutoSaves`.
 
 #### Returns:
 
@@ -432,7 +432,7 @@ Determines whether the auto save at the given index exists.
 
 #### Parameters:
 
-* **`index`:** (`integer`) Auto save index (`0`-based).  Must be in the range `0`–`Config.saves.maxAutoSaves`.
+* **`index`:** (*integer* `number`) Auto save index (`0`-based).  Must be in the range `0`–`Config.saves.maxAutoSaves`.
 
 #### Returns:
 
@@ -492,7 +492,7 @@ Saves cannot be loaded during startup and any attempt to do so <em>will</em> cau
 
 #### Parameters:
 
-* **`index`:** (`integer`) Auto save index (`0`-based).  Must be in the range `0`–`Config.saves.maxAutoSaves`.
+* **`index`:** (*integer* `number`) Auto save index (`0`-based).  Must be in the range `0`–`Config.saves.maxAutoSaves`.
 
 #### Returns: *none*
 
@@ -612,7 +612,7 @@ catch (error) {
 
 <!-- *********************************************************************** -->
 
-### `Save.browser.slot.size` → `integer` {#save-api-browser-slot-getter-size}
+### `Save.browser.slot.size` → *integer* `number` {#save-api-browser-slot-getter-size}
 
 The total number of existing browser slot saves.
 
@@ -622,7 +622,7 @@ The total number of existing browser slot saves.
 
 #### Value:
 
-The `integer` count of existing browser slot saves.
+The *integer* `number` count of existing browser slot saves.
 
 #### Examples:
 
@@ -676,7 +676,7 @@ Deletes the slot save at the given index.
 
 #### Parameters:
 
-* **`index`:** (`integer`) Slot save index (`0`-based).  Must be in the range `0`–`Config.saves.maxSlotSaves`.
+* **`index`:** (*integer* `number`) Slot save index (`0`-based).  Must be in the range `0`–`Config.saves.maxSlotSaves`.
 
 #### Returns: *none*
 
@@ -715,7 +715,7 @@ Provides an array of details about all slot saves.
 
 An `Array` of `{ index, info }` generic objects, or an empty `Array` if no slot saves exist.
 
-* **`index`:** (`integer`) The slot save's index (`0`-based).
+* **`index`:** (*integer* `number`) The slot save's index (`0`-based).
 * **`info`:** (`Object`) The [save's descriptor object](#save-api-objects-descriptor).
 
 #### Throws:
@@ -742,7 +742,7 @@ Details the slot save at the given index.
 
 #### Parameters:
 
-* **`index`:** (`integer`) Slot save index (`0`-based).  Must be in the range `0`–`Config.saves.maxSlotSaves`.
+* **`index`:** (*integer* `number`) Slot save index (`0`-based).  Must be in the range `0`–`Config.saves.maxSlotSaves`.
 
 #### Returns:
 
@@ -770,7 +770,7 @@ Determines whether the slot save at the given index exists.
 
 #### Parameters:
 
-* **`index`:** (`integer`) Slot save index (`0`-based).  Must be in the range `0`–`Config.saves.maxSlotSaves`.
+* **`index`:** (*integer* `number`) Slot save index (`0`-based).  Must be in the range `0`–`Config.saves.maxSlotSaves`.
 
 #### Returns:
 
@@ -830,7 +830,7 @@ Saves cannot be loaded during startup and any attempt to do so <em>will</em> cau
 
 #### Parameters:
 
-* **`index`:** (`integer`) Slot save index (`0`-based).  Must be in the range `0`–`Config.saves.maxSlotSaves`.
+* **`index`:** (*integer* `number`) Slot save index (`0`-based).  Must be in the range `0`–`Config.saves.maxSlotSaves`.
 
 #### Returns: *none*
 
@@ -869,7 +869,7 @@ Saves a slot save to the given index.
 
 #### Parameters:
 
-* **`index`:** (`integer`) Slot save index (`0`-based).  Must be in the range `0`–`Config.saves.maxSlotSaves`.
+* **`index`:** (*integer* `number`) Slot save index (`0`-based).  Must be in the range `0`–`Config.saves.maxSlotSaves`.
 * **`desc`:** (optional, `string`) The description of the slot save.  If omitted or `null`, defaults to the active passage's description.
 * **`metadata`:** (optional, `any`) The data to be stored in the save object's `metadata` property.  *Must* be JSON-serializable.
 
@@ -1395,7 +1395,7 @@ catch (error) {
 
 <!-- *********************************************************************** -->
 
-### `Save.onLoad.size` → `integer`<!-- legacy --><span id="save-api-getter-onload-size"></span><!-- /legacy --> {#save-api-onload-getter-size}
+### `Save.onLoad.size` → *integer* `number`<!-- legacy --><span id="save-api-getter-onload-size"></span><!-- /legacy --> {#save-api-onload-getter-size}
 
 The total number of currently registered on-load handlers.
 
@@ -1405,7 +1405,7 @@ The total number of currently registered on-load handlers.
 
 #### Value:
 
-The `integer` count of currently registered on-load handlers.
+The *integer* `number` count of currently registered on-load handlers.
 
 #### Examples:
 
@@ -1531,7 +1531,7 @@ Save.onLoad.delete(myOnLoadHandler);
 
 <!-- *********************************************************************** -->
 
-### `Save.onSave.size` → `integer`<!-- legacy --><span id="save-api-getter-onsave-size"></span><!-- /legacy --> {#save-api-onsave-getter-size}
+### `Save.onSave.size` → *integer* `number`<!-- legacy --><span id="save-api-getter-onsave-size"></span><!-- /legacy --> {#save-api-onsave-getter-size}
 
 The total number of currently registered on-save handlers.
 
@@ -1541,7 +1541,7 @@ The total number of currently registered on-save handlers.
 
 #### Value:
 
-The `integer` count of currently registered on-save handlers.
+The *integer* `number` count of currently registered on-save handlers.
 
 #### Examples:
 
@@ -1801,7 +1801,7 @@ This method has been deprecated and should no longer be used.  See the <a href="
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`Save.slots.length` → `integer`</span> {#save-api-getter-slots-length}
+### <span class="deprecated">`Save.slots.length` → *integer* `number`</span> {#save-api-getter-slots-length}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This method has been deprecated and should no longer be used.  See the <a href="#save-api-browser-slot-getter-size"><code>Save.browser.slot.size</code></a> property for its replacement.
@@ -1814,7 +1814,7 @@ This method has been deprecated and should no longer be used.  See the <a href="
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`Save.slots.count()` → `integer`</span> {#save-api-method-slots-count}
+### <span class="deprecated">`Save.slots.count()` → *integer* `number`</span> {#save-api-method-slots-count}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This method has been deprecated and should no longer be used.

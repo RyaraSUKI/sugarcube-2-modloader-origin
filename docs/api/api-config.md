@@ -130,7 +130,7 @@ Config.enableOptionalDebugging = true;
 
 <!-- *********************************************************************** -->
 
-### `Config.loadDelay` ↔ `integer` (default: `0`) {#config-api-property-loaddelay}
+### `Config.loadDelay` ↔ *integer* `number` (default: `0`) {#config-api-property-loaddelay}
 
 Sets the integer delay (in milliseconds) before the loading screen is dismissed, once the document has signaled its readiness.  Not generally necessary, however, some browsers render slower than others and may need a little extra time to get a media-heavy page done.  This allows you to fine tune for those cases.
 
@@ -211,7 +211,7 @@ Config.history.controls = false;
 
 <!-- *********************************************************************** -->
 
-### `Config.history.maxStates` ↔ `integer` (default: `40`) {#config-api-property-history-maxstates}
+### `Config.history.maxStates` ↔ *integer* `number` (default: `40`) {#config-api-property-history-maxstates}
 
 Sets the maximum number of states (moments) to which the history is allowed to grow.  Should the history exceed the limit, states will be dropped from the past (oldest first).
 
@@ -242,7 +242,7 @@ Config.history.maxStates = 25;
 
 <!-- *********************************************************************** -->
 
-### `Config.macros.maxLoopIterations` ↔ `integer` (default: `1000`) {#config-api-property-macros-maxloopiterations}
+### `Config.macros.maxLoopIterations` ↔ *integer* `number` (default: `1000`) {#config-api-property-macros-maxloopiterations}
 
 Sets the maximum number of iterations allowed before the [`<<for>>` macro](#macros-macro-for) conditional forms are terminated with an error.
 
@@ -433,7 +433,7 @@ Config.passages.start = "That Other Starting Passage";
 
 <!-- *********************************************************************** -->
 
-### `Config.passages.transitionOut` ↔ `string` | `integer` (default: *none*) {#config-api-property-passages-transitionout}
+### `Config.passages.transitionOut` ↔ `string` | *integer* `number` (default: *none*) {#config-api-property-passages-transitionout}
 
 Determines whether outgoing passage transitions are enabled.  Valid values are the name of the property being animated, which causes the outgoing passage element to be removed once that transition animation is complete, or an integer delay (in milliseconds), which causes the outgoing passage element to be removed once the delay has expired.  You will also need some CSS styles to make this work—examples given below.
 
@@ -662,7 +662,7 @@ Config.saves.isAllowed = function (saveType) {
 
 <!-- *********************************************************************** -->
 
-### `Config.saves.maxAutoSaves` ↔ `integer` (default: `0`) {#config-api-property-saves-maxautosaves}
+### `Config.saves.maxAutoSaves` ↔ *integer* `number` (default: `0`) {#config-api-property-saves-maxautosaves}
 
 Sets the maximum number of available auto saves.  Using a value of `0` disables auto saves.
 
@@ -686,7 +686,7 @@ Config.saves.maxAutoSaves = 3;
 
 <!-- *********************************************************************** -->
 
-### `Config.saves.maxSlotSaves` ↔ `integer` (default: `8`) {#config-api-property-saves-maxslotsaves}
+### `Config.saves.maxSlotSaves` ↔ *integer* `number` (default: `8`) {#config-api-property-saves-maxslotsaves}
 
 Sets the maximum number of available slot saves.  Using a value of `0` disables slot saves.
 
@@ -784,7 +784,7 @@ This setting has been deprecated and should no longer be used.  See the <a href=
 
 <!-- *********************************************************************** -->
 
-### <span class="deprecated">`Config.saves.slots` `integer` (default: `8`)</span> {#config-api-property-saves-slots}
+### <span class="deprecated">`Config.saves.slots` ↔ *integer* `number` (default: `8`)</span> {#config-api-property-saves-slots}
 
 <p role="note" class="warning"><b>Deprecated:</b>
 This setting has been deprecated and should no longer be used.  See the <a href="#config-api-property-saves-maxslotsaves"><code>Config.saves.maxSlotSaves</code></a> setting for its replacement.
@@ -816,7 +816,7 @@ This setting has been deprecated and should no longer be used.  Saving to disk o
 
 <!-- *********************************************************************** -->
 
-### `Config.ui.stowBarInitially` ↔ `boolean` | `integer` (default: `800`) {#config-api-property-ui-stowbarinitially}
+### `Config.ui.stowBarInitially` ↔ `boolean` | *integer* `number` (default: `800`) {#config-api-property-ui-stowbarinitially}
 
 Determines whether the UI bar (sidebar) starts in the stowed (shut) state initially.  Valid values are boolean `true`/`false`, which causes the UI bar to always/never start in the stowed state, or an integer, which causes the UI bar to start in the stowed state if the viewport width is less-than-or-equal-to the specified number of pixels.
 

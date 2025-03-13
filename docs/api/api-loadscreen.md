@@ -9,7 +9,7 @@ To simply add a delay to the dismissal of the loading screen to hide initial fla
 
 <!-- *********************************************************************** -->
 
-### `LoadScreen.lock()` → `integer` {#loadscreen-api-method-lock}
+### `LoadScreen.lock()` → *integer* `number` {#loadscreen-api-method-lock}
 
 Acquire a loading screen lock and, if necessary, display the loading screen.
 
@@ -21,7 +21,7 @@ Acquire a loading screen lock and, if necessary, display the loading screen.
 
 #### Returns:
 
-The (`integer`) lock ID.
+The (*integer* `number`) lock ID.
 
 #### Throws: *none*
 
@@ -46,7 +46,7 @@ Release the loading screen lock with the given ID and, if no other locks exist, 
 
 #### Parameters:
 
-* **`lockId`:** (`integer`) The loading screen lock ID.
+* **`lockId`:** (*integer* `number`) The loading screen lock ID.
 
 #### Returns: *none*
 

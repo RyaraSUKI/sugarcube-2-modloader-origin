@@ -70,7 +70,7 @@ State.current.variables  → The variables of the current moment within the full
 
 <!-- *********************************************************************** -->
 
-### `State.length` → `integer` {#state-api-getter-length}
+### `State.length` → *integer* `number` {#state-api-getter-length}
 
 Returns the number of moments within the past in-play history (past only).
 
@@ -104,7 +104,7 @@ State.passage  → The passage title of the present moment
 
 <!-- *********************************************************************** -->
 
-### `State.size` → `integer` {#state-api-getter-size}
+### `State.size` → *integer* `number` {#state-api-getter-size}
 
 Returns the number of moments within the full in-play history (past + future).
 
@@ -161,7 +161,7 @@ State.top.variables  → The variables of the most recent moment within the full
 
 <!-- *********************************************************************** -->
 
-### `State.turns` → `integer` {#state-api-getter-turns}
+### `State.turns` → *integer* `number` {#state-api-getter-turns}
 
 Returns the total number (count) of played moments within the extended past history (expired + past).
 
@@ -273,7 +273,7 @@ Returns the moment, relative to the bottom of the past in-play history (past onl
 
 #### Parameters:
 
-* **`index`:** (`integer`) The index of the moment to return.
+* **`index`:** (*integer* `number`) The index of the moment to return.
 
 #### Examples:
 
@@ -315,7 +315,7 @@ Returns the moment, relative to the top of the past in-play history (past only),
 
 #### Parameters:
 
-* **`offset`:** (optional, `integer`) The offset, from the top of the past in-play history, of the moment to return.  If not given, an offset of `0` is used.
+* **`offset`:** (optional, *integer* `number`) The offset, from the top of the past in-play history, of the moment to return.  If not given, an offset of `0` is used.
 
 #### Examples:
 
@@ -328,7 +328,7 @@ State.peek(State.length - 1)  → Returns the least recent moment within the pas
 
 <!-- *********************************************************************** -->
 
-### `State.metadata.size` → `integer` {#state-api-method-metadata-size}
+### `State.metadata.size` → *integer* `number` {#state-api-method-metadata-size}
 
 Returns the size of the story metadata store—i.e., the number of stored pairs.
 
@@ -577,7 +577,7 @@ State.prng.isEnabled()  → Returns whether the seedable PRNG is enabled
 
 <!-- *********************************************************************** -->
 
-### `State.prng.pull` → `integer` | `NaN` {#state-api-getter-prng-pull}
+### `State.prng.pull` → *integer* `number` | `NaN` {#state-api-getter-prng-pull}
 
 Returns the current pull count—i.e., how many requests have been made—from the [seedable PRNG](#state-api-method-prng-init) or, if the PRNG is not enabled, `NaN`.
 
