@@ -210,7 +210,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 				_passagesOnProcess = value;
 			},
 
-			// TODO: (v3) This should be under Navigation settings → `Config.navigation.(start|startingPassage)`.
+			// TODO: (v3) This should be under Navigation settings → `Config.navigation.startPassageName`.
 			get start() { return _passagesStart; },
 			set start(value) {
 				if (value != null) { // nullish test
