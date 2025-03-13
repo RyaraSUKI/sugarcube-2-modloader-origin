@@ -29,6 +29,10 @@ You <em>must</em> provide your own styling for the <code>link-visited</code> cla
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+A `boolean` value signifying whether links to visited passages have the class added.
+
 #### Examples:
 
 ```javascript
@@ -55,6 +59,10 @@ Determines whether the output of the Wikifier is post-processed into more sane m
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+A `boolean` value signifying whether post-processing occurs.
+
 #### Examples:
 
 ```javascript
@@ -79,24 +87,28 @@ This setting is automatically set based on whether you're using a testing mode i
 
 * `v2.2.0`: Introduced.
 
+#### Value:
+
+A `boolean` value signifying whether SugarCube is running in test mode.
+
 #### Examples:
 
 ##### Forcibly enabling test mode
 
 ```javascript
-// Forcibly enable test mode
+// Forcibly enable test mode.
 Config.debug = true;
 ```
 
-##### Check if test mode is enabled via JavaScript
+##### Check if test mode is enabled (in JavaScript)
 
 ```javascript
 if (Config.debug) {
-	/* do something debug related */
+	// Do something debug related.
 }
 ```
 
-##### Check if test mode is enabled via macros
+##### Check if test mode is enabled (in macros)
 
 ```
 <<if Config.debug>>
@@ -122,6 +134,10 @@ List of optional errors and warnings: *(not exhaustive)*
 
 * `v2.37.0`: Introduced.
 
+#### Value:
+
+A `boolean` value signifying whether optional debugging errors and warnings are enabled.
+
 #### Examples:
 
 ```javascript
@@ -137,6 +153,10 @@ Sets the integer delay (in milliseconds) before the loading screen is dismissed,
 #### History:
 
 * `v2.0.0`: Introduced.
+
+#### Value:
+
+An *integer* `number` value denoting the delay (in milliseconds) before the loading screen is dismissed.
 
 #### Examples:
 
@@ -161,6 +181,10 @@ Determines whether the audio subsystem automatically pauses tracks that have bee
 
 * `v2.28.0`: Introduced.
 
+#### Value:
+
+A `boolean` value signifying whether tracks that have faded to `0` are automatically paused.
+
 #### Examples:
 
 ```javascript
@@ -180,6 +204,10 @@ It is unlikely that you will ever want to disable this setting.
 #### History:
 
 * `v2.28.0`: Introduced.
+
+#### Value:
+
+A `boolean` value signifying whether track metadata is preloaded.
 
 #### Examples:
 
@@ -203,6 +231,10 @@ Determines whether the story's history controls (Backward, Jump To, & Forward bu
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+A `boolean` value signifying whether the story history controls are enabled.
+
 #### Examples:
 
 ```javascript
@@ -224,13 +256,17 @@ For game-oriented projects, as opposed to more story-oriented interactive fictio
 * `v2.0.0`: Introduced.
 * `v2.36.0`: Reduced the default to `40`.
 
+#### Value:
+
+An *integer* `number` value denoting how many moments are allowed within the history.
+
 #### Examples:
 
 ```javascript
-// Limit the history to a single state (recommended for games)
+// Limit the history to a single moment (recommended for games)
 Config.history.maxStates = 1;
 
-// Limit the history to 25 states
+// Limit the history to 25 moments
 Config.history.maxStates = 25;
 ```
 
@@ -254,6 +290,10 @@ This setting exists to prevent a misconfigured loop from making the browser unre
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+An *integer* `number` value denoting the total allowed number of conditional form loop iteration (per instance).
+
 #### Examples:
 
 ```javascript
@@ -271,11 +311,15 @@ Sets the default [`KeyboardEvent.key`](https://developer.mozilla.org/en-US/docs/
 
 * `v2.33.1`: Introduced.
 
+#### Value:
+
+A `string` value denoting the keyboard key that causes `<<type>>` to immediately finish typing.
+
 #### Examples:
 
 ```javascript
 // Change the default skip key to Control (CTRL)
-Config.macros.typeSkipKey = "Control";
+Config.macros.typeSkipKey = 'Control';
 ```
 
 <!-- *********************************************************************** -->
@@ -287,6 +331,10 @@ Determines whether the [`<<type>>` macro](#macros-macro-type) types out content 
 #### History:
 
 * `v2.32.0`: Introduced.
+
+#### Value:
+
+A `boolean` value signifying whether `<<type>>` types out previously visited passages.
 
 #### Examples:
 
@@ -318,16 +366,20 @@ This setting has been deprecated and should no longer be used.  See the <a href=
 
 ### `Config.navigation.override` ↔ `Function` (default: *none*) {#config-api-property-navigation-override}
 
-Allows the destination of passage navigation to be overridden.  The callback is passed one parameter, the original destination passage title.  If its return value is falsy, the override is cancelled and navigation to the original destination continues unperturbed.  If its return value is truthy, the override succeeds and that value is used as the new destination of the navigation.
+Allows the destination of passage navigation to be overridden.  The callback is passed one parameter, the original destination passage name.  If its return value is falsy, the override is cancelled and navigation to the original destination continues unperturbed.  If its return value is truthy, the override succeeds and that value is used as the new destination of the navigation.
 
 #### History:
 
 * `v2.13.0`: Introduced.
 
+#### Value:
+
+The callback value (`Function`).
+
 #### Examples:
 
 ```javascript
-Config.navigation.override = function (destinationPassage) {
+Config.navigation.override = (destinationPassage) => {
 	/* code that returns a passage name or a falsy value */
 };
 ```
@@ -335,13 +387,12 @@ Config.navigation.override = function (destinationPassage) {
 ##### Based upon a story variable
 
 ```javascript
-// Force the player to the "You Died" passage if they let $health get too low.
-Config.navigation.override = function (dest) {
+Config.navigation.override = (destinationPassage) => {
 	var sv = State.variables;
 
 	// If $health is less-than-or-equal to 0, go to the "You Died" passage instead.
 	if (sv.health <= 0) {
-		return "You Died";
+		return 'You Died';
 	}
 };
 ```
@@ -356,11 +407,15 @@ Config.navigation.override = function (dest) {
 
 ### `Config.passages.displayTitles` ↔ `boolean` (default: `false`) {#config-api-property-passages-displaytitles}
 
-Determines whether passage titles are combined with the story title, within the browser's/tab's titlebar, when passages are displayed.
+Determines whether the current passage name is combined with the story's name within the browser tab's title bar.
 
 #### History:
 
 * `v2.0.0`: Introduced.
+
+#### Value:
+
+A `boolean` value signifying whether passage names are combined with the story's name within the title bar.
 
 #### Examples:
 
@@ -382,6 +437,10 @@ Does not affect <code>script</code> or <code>stylesheet</code> tagged passages, 
 
 * `v2.19.0`: Introduced.
 
+#### Value:
+
+A `boolean` value signifying whether rendering passages have a global no-break enabled.
+
 #### Examples:
 
 ```javascript
@@ -392,43 +451,50 @@ Config.passages.nobr = true;
 
 ### `Config.passages.onProcess` ↔ `Function` (default: *none*) {#config-api-property-passages-onprocess}
 
-Allows custom processing of passage text.  The function is invoked each time the [`<Passage>.processText()` method](#passage-api-prototype-method-processtext) is called.  It is passed an abbreviated version of the associated passage's [`Passage` instance](#passage-api)—containing only the `tags`, `text`, and `title` properties.  Its return value should be the post-processed text.
+Allows custom processing of passage text.  The function is invoked each time the [`<Passage>.processText()` method](#passage-api-prototype-method-processtext) is called.  It is passed an abbreviated version of the associated passage's [`Passage` instance](#passage-api)—containing only the `name`, `tags`, and `text` properties.  Its return value should be the post-processed text.
 
 <p role="note"><b>Note:</b>
 Does not affect <code>script</code> or <code>stylesheet</code> tagged passages, for Twine&nbsp;1/Twee, or the Story JavaScript or Story Stylesheet sections, for Twine&nbsp;2.
 </p>
 
-<p role="note"><b>Note:</b>
-The function will be called just before the built-in no-break passage processing if you're also using that—see the <a href="#config-api-property-passages-nobr"><code>Config.passages.nobr</code> setting</a> and <a href="#special-tag-nobr"><code>nobr</code> special tag</a>.
-</p>
+<div role="note"><b>Note:</b>
+	<p>The function will be called just before the built-in no-break passage processing if you're also using that.</p>
+	<p>See the <a href="#config-api-property-passages-nobr"><code>Config.passages.nobr</code> setting</a> and <a href="#special-tag-nobr"><code>nobr</code> special tag</a>.</p>
+</div>
 
 #### History:
 
 * `v2.30.0`: Introduced.
 
+#### Value:
+
+The callback value (`Function`).
+
 #### Examples:
 
 ```javascript
-// Change instancess of "cat" to "dog"
-Config.passages.onProcess = function (p) {
-	return p.text.replace(/\bcat(s?)\b/g, "dog$1");
-};
+// Change instances of "cat" to "dog" in passages
+Config.passages.onProcess = (p) => p.text.replace(/\bcat(s?)\b/g, 'dog$1');
 ```
 
 <!-- *********************************************************************** -->
 
 ### `Config.passages.start` ↔ `string` (Twine&nbsp;2 default: *user-selected*; Twine&nbsp;1/Twee default: `"Start"`) {#config-api-property-passages-start}
 
-Sets the starting passage, the very first passage that will be displayed.
+Sets the starting passage name, the very first passage that will be displayed.
 
 #### History:
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+A `string` value denoting the starting passage name.
+
 #### Examples:
 
 ```javascript
-Config.passages.start = "That Other Starting Passage";
+Config.passages.start = 'That Other Starting Passage';
 ```
 
 <!-- *********************************************************************** -->
@@ -438,21 +504,25 @@ Config.passages.start = "That Other Starting Passage";
 Determines whether outgoing passage transitions are enabled.  Valid values are the name of the property being animated, which causes the outgoing passage element to be removed once that transition animation is complete, or an integer delay (in milliseconds), which causes the outgoing passage element to be removed once the delay has expired.  You will also need some CSS styles to make this work—examples given below.
 
 <p role="note"><b>Note:</b>
-If using an integer delay, ideally, it should probably be slightly longer than the outgoing transition delay that you intend to use—e.g., an additional 10ms or so should be sufficient.
+If using an integer delay, ideally, it should probably be slightly longer than the outgoing transition delay that you intend to use—e.g., an additional 25ms or so should be sufficient.
 </p>
 
 #### History:
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+A `string` value denoting the CSS property being animated or an *integer* `number` value denoting the integer delay.
+
 #### Examples:
 
 ```javascript
 // Remove outgoing elements when their opacity animation ends
-Config.passages.transitionOut = "opacity";
+Config.passages.transitionOut = 'opacity';
 
-// Remove outgoing elements after 1010ms (1.01s)
-Config.passages.transitionOut = 1010;
+// Remove outgoing elements after 1500ms (1.5s)
+Config.passages.transitionOut = 1500;
 ```
 
 #### CSS styles:
@@ -515,34 +585,34 @@ Sets browser saves descriptions.  If unset, a brief description of the current t
 
 * `v2.37.0`: Introduced.
 
+#### Value:
+
+The callback value (`Function`).
+
 #### Examples:
 
 ##### Using passages' names
 
 ```javascript
-Config.saves.descriptions = function (saveType) {
-	return passage();
-};
+Config.saves.descriptions = (saveType) => passage();
 ```
 
 ##### Using descriptions mapped by passages' names
 
 ```javascript
-var saveDescriptions = {
-	"passage_title_a" : "description text a…",
-	"passage_title_b" : "description text b…",
-	"passage_title_c" : "description text c…"
+let saveDescriptions = {
+	'passage_title_a' : 'description text a…',
+	'passage_title_b' : 'description text b…',
+	'passage_title_c' : 'description text c…'
 };
-Config.saves.descriptions = function (saveType) {
-	return saveDescriptions[passage()];
-};
+Config.saves.descriptions = (saveType) => saveDescriptions[passage()];
 ```
 
 ##### Using the provided save type
 
 ```javascript
-Config.saves.descriptions = function (saveType) {
-	const base = `(${L10n.get("turn")} ${State.turns})`;
+Config.saves.descriptions = (saveType) => {
+	const base = `(${L10n.get('turn')} ${State.turns})`;
 
 	switch (saveType) {
 		case Save.Type.Auto:
@@ -559,18 +629,22 @@ Config.saves.descriptions = function (saveType) {
 
 <!-- *********************************************************************** -->
 
-### `Config.saves.id` ↔ `string` (default: *slugified story title*) {#config-api-property-saves-id}
+### `Config.saves.id` ↔ `string` (default: *slugified story name*) {#config-api-property-saves-id}
 
-Sets the story ID associated with saves.
+Sets the ID associated with saves.
 
 #### History:
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+A `string` value denoting the ID associated with saves.
+
 #### Examples:
 
 ```javascript
-Config.saves.id = "a-big-huge-story-part-1";
+Config.saves.id = 'a-big-huge-story-part-1';
 ```
 
 <!-- *********************************************************************** -->
@@ -588,6 +662,10 @@ Determines whether saving is allowed within the current context.  If unset, save
 * `v2.0.0`: Introduced.
 * `v2.37.0`: Added save type parameter.
 
+#### Value:
+
+The callback value (`Function`).
+
 #### Examples:
 
 ##### Basic usage
@@ -595,7 +673,7 @@ Determines whether saving is allowed within the current context.  If unset, save
 Allows saves on passages if it returns a truthy value.
 
 ```javascript
-Config.saves.isAllowed = function (saveType) {
+Config.saves.isAllowed = (saveType) => {
 	/* code returning a boolean value */
 };
 ```
@@ -603,9 +681,7 @@ Config.saves.isAllowed = function (saveType) {
 Disallow saving on passages tagged with `menu`.
 
 ```javascript
-Config.saves.isAllowed = function (saveType) {
-	return !tags().includes("menu");
-};
+Config.saves.isAllowed = (saveType) => !tags().includes('menu');
 ```
 
 ##### Using the save type parameter
@@ -613,9 +689,9 @@ Config.saves.isAllowed = function (saveType) {
 Attempt a new auto save only on passages tagged with `autosave`.  Other save types are not limited.
 
 ```javascript
-Config.saves.isAllowed = function (saveType) {
+Config.saves.isAllowed = (saveType) => {
 	if (saveType === Save.Type.Auto) {
-		return tags().includes("autosave");
+		return tags().includes('autosave');
 	}
 
 	return true;
@@ -625,13 +701,12 @@ Config.saves.isAllowed = function (saveType) {
 Attempt a new auto save only on every eighth turn and limit all other save types to passages tagged with `cansave`.
 
 ```javascript
-// Using an `if` statement
-Config.saves.isAllowed = function (saveType) {
+Config.saves.isAllowed = (saveType) => {
 	if (saveType === Save.Type.Auto) {
 		return turns() % 8 === 0;
 	}
 
-	return tags().includes("cansave");
+	return tags().includes('cansave');
 };
 ```
 
@@ -642,7 +717,7 @@ For example purposes only, not really recommended.
 </p>
 
 ```javascript
-Config.saves.isAllowed = function (saveType) {
+Config.saves.isAllowed = (saveType) => {
 	switch (saveType) {
 		case Save.Type.Auto:
 			// Only every tenth turn
@@ -651,7 +726,7 @@ Config.saves.isAllowed = function (saveType) {
 		case Save.Type.Disk:
 		case Save.Type.Slot:
 			// Only on passages tagged `cansave`
-			return tags().includes("cansave");
+			return tags().includes('cansave');
 
 		case Save.Type.Base64:
 			// Always
@@ -678,6 +753,10 @@ As available browser-based storage is very limited, it is <strong><em>strongly r
 
 * `v2.37.0`: Introduced.
 
+#### Value:
+
+An *integer* `number` value denoting the maximum number of browser auto saves.
+
 #### Examples:
 
 ```javascript
@@ -698,6 +777,10 @@ As available browser-based storage is very limited, it is <strong><em>strongly r
 
 * `v2.37.0`: Introduced.
 
+#### Value:
+
+An *integer* `number` value denoting the maximum number of browser slot saves.
+
 #### Examples:
 
 ```javascript
@@ -711,6 +794,10 @@ Config.saves.maxSlotSaves = 4;
 Sets the `version` property of saves.
 
 <p role="note"><b>Note:</b>
+It is <strong><em>strongly recommended</em></strong> that you use an <em>integer</em> <code>number</code> for the version.
+</p>
+
+<p role="note"><b>Note:</b>
 This setting is only used to set the <code>version</code> property of saves.  Thus, it is only truly useful if you plan to upgrade out-of-date saves via the <a href="#save-api-events"><code>Save</code> Events API</a>—specifically the <a href="#save-api-method-onload-add"><code>Save.onLoad.add()</code> static method</a>.
 </p>
 
@@ -718,14 +805,19 @@ This setting is only used to set the <code>version</code> property of saves.  Th
 
 * `v2.0.0`: Introduced.
 
+#### Value:
+
+An `any` value denoting the version of saves.
+
 #### Examples:
 
 ```javascript
-// As an integer (recommended)
+// As an integer (strongly recommended)
 Config.saves.version = 3;
 
-// As a string (strongly not recommended)
+// As a string (strongly NOT recommended)
 Config.saves.version = "v3";
+Config.saves.version = "1.3.12";
 ```
 
 <!-- *********************************************************************** -->
@@ -824,6 +916,10 @@ Determines whether the UI bar (sidebar) starts in the stowed (shut) state initia
 
 * `v2.11.0`: Introduced.
 
+#### Value:
+
+A `boolean` value signifying whether the UI bar starts stowed initially or an *integer* `number` whose value denotes the width in pixels that the viewport has to be less-than-or-equal-to for the UI bar to start stowed initially.
+
 #### Examples:
 
 ```javascript
@@ -841,15 +937,19 @@ Config.ui.stowBarInitially = 800;
 
 ### `Config.ui.updateStoryElements` ↔ `boolean` (default: `true`) {#config-api-property-ui-updatestoryelements}
 
-Determines whether certain elements within the UI bar are updated when passages are displayed.  The affected elements are the story: banner, subtitle, author, caption, and menu.
+Determines whether certain elements within the UI bar are updated upon passage navigation.  The affected elements are (in order): `StoryDisplayTitle`, `StoryBanner`, `StorySubtitle`, `StoryAuthor`, `StoryCaption`, and `StoryMenu`.
 
 <p role="note"><b>Note:</b>
-The story title is not included in updates because SugarCube uses it as the basis for the key used to store and load data used when playing the story and for saves.
+The <code>StoryTitle</code> passage is not included in updates because SugarCube uses it as the basis for the key used to store and load data used when playing the story and for saves.  If you need a dynamic title, then that's the purpose of <code>StoryDisplayTitle</code>.
 </p>
 
 #### History:
 
 * `v2.0.0`: Introduced.
+
+#### Value:
+
+A `boolean` value signifying whether certain UI bar elements are updated upon navigation.
 
 #### Examples:
 

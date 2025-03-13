@@ -11,7 +11,7 @@ All properties of `Passage` objects should be treated as if they were ***read-on
 
 ### `<Passage>.id` → `string` {#passage-api-prototype-getter-id}
 
-The DOM-compatible ID of the passage, created from the slugified passage title.
+The passage's DOM-compatible ID, created from the slugified passage name.
 
 #### History:
 

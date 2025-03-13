@@ -170,8 +170,8 @@ In order of processing: *(for reference, this also shows tasks and various speci
 	1. [`PassageDone` special passage](#special-passage-passagedone).
 	2. `:passagedisplay` event.
 5. UI bar special passages update.  Happens before the end of passage navigation.
-	1. [`StoryBanner` special passage](#special-passage-storybanner).
-	2. [`StoryDisplayTitle` special passage](#special-passage-storydisplaytitle).
+	1. [`StoryDisplayTitle` special passage](#special-passage-storydisplaytitle).
+	2. [`StoryBanner` special passage](#special-passage-storybanner).
 	3. [`StorySubtitle` special passage](#special-passage-storysubtitle).
 	4. [`StoryAuthor` special passage](#special-passage-storyauthor).
 	5. [`StoryCaption` special passage](#special-passage-storycaption).
