@@ -94,8 +94,8 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 		#element;
 
 		// Public fields.
-		name;
 		id;
+		name;
 		tags;
 		classes;
 
@@ -103,10 +103,17 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 			// Passage data element (within the story data element; i.e. T1: '[tiddler]', T2: 'tw-passagedata').
 			this.#element = el ?? null;
 
+			const decodedName = decodeEntities(name);
+
 			Object.defineProperties(this, {
-				// Passage title.
+				// DOM-compatible ID, created from the passage name.
+				id : {
+					value : `passage-${createSlug(decodedName)}`
+				},
+
+				// Passage name.
 				name : {
-					value : decodeEntities(name)
+					value : decodedName
 				},
 
 				// Passage tags array (unique).
@@ -121,20 +128,13 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 
 			// Properties dependant upon the above set.
 			Object.defineProperties(this, {
-				// Passage DOM-compatible ID.
-				id : {
-					value : `passage-${createSlug(this.name)}`
-				},
-
 				// Passage classes array (sorted and unique).
 				classes : {
 					value : Object.freeze(this.tags.length === 0 ? [] : (() =>
-						/*
-							Return the sorted list of unique classes.
-
-							NOTE: The `this.tags` array is already sorted and unique,
-							so we only need to filter and map here.
-						*/
+						// Return the sorted list of unique classes.
+						//
+						// NOTE: The `this.tags` array is already sorted and unique, so
+						// we only need to filter and map here.
 						this.tags
 							.filter(tag => !tagsToSkipRE.test(tag))
 							.map(tag => createSlug(tag))
@@ -175,9 +175,13 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 			// Handle `Config.passages.onProcess`.
 			if (Config.passages.onProcess) {
 				processed = Config.passages.onProcess.call(null, {
-					title : this.name,
-					tags  : this.tags,
-					text  : processed
+					name : this.name,
+					tags : this.tags,
+					text : processed,
+
+					/* legacy */
+					title : this.name
+					/* /legacy */
 				});
 			}
 
