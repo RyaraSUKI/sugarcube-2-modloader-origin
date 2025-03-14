@@ -24,8 +24,8 @@ Values may be of most primitive types and some object types, see [Supported Type
 <div role="note"><b>Note:</b>
 	<p>There are two other variables where you may store values:</p>
 	<ul>
-		<li>The <a href="#special-variable-setup"><code>setup</code></a> object provided by SugarCube.  Its properties may be used for storing non-persistent values and it is completely safe to use.</li>
-		<li>The <code>window</code> object provided by the browser.  Its properties may also be used for storing non-persistent values, however, care <em>must</em> be taken not to overwrite any of its <em>many</em> predefined properties.  Additionally, any property defined on it becomes an auto-global—e.g., <code>window.characterClasses</code> can be accessed as <code>characterClasses</code> regardless of scope.</li>
+		<li>The <a href="#special-variable-setup"><code>setup</code></a> object provided by SugarCube.  Its properties may be used for storing non-persistent values—i.e., values that are not persisted through navigation or stored in saves.</li>
+		<li>The <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window"><code>window</code></a> object provided by the browser.  Its properties may also be used for storing non-persistent values (see above), however, care <em>must</em> be taken not to overwrite any of its <em>many</em> predefined properties.  Another feature is that any property defined on it becomes an auto-global—e.g., <code>window.doTheThing</code> may be accessed as <code>doTheThing</code> regardless of scope.</li>
 	</ul>
 </div>
 
@@ -99,7 +99,7 @@ Unsupported object types, either native or custom, can be made compatible by imp
 <p>Due to how SugarCube stores the state history a few constructs are <strong><em>not supported</em></strong> within story variables.</p>
 <ul>
 	<li>Circular references.  If you need them, then you'll need to keep them out of story variables.</li>
-	<li>Property attributes, including getters/setters, and symbol properties.  If you need them, then you'll need to use a class or similar non-generic object.</li>
+	<li>Property attributes, including getters/setters, and symbol properties.  If you need them, then you'll need to use a class or similar non-generic object to encapsulate them.</li>
 	<li>
 		<p>Functions, including static—i.e., non-instance—methods, due to a few issues.</p>
 		<ol>
