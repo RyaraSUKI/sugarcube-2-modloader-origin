@@ -47,12 +47,12 @@ While there are no custom properties, the event is fired from the dialog's body,
 
 ```javascript
 /* Execute the handler function when the event triggers. */
-$(document).on(':dialogclosed', function (ev) {
+$(document).on(':dialogclosed', (ev) => {
 	/* JavaScript code */
 });
 
 /* Execute the handler function exactly once. */
-$(document).one(':dialogclosed', function (ev) {
+$(document).one(':dialogclosed', (ev) => {
 	/* JavaScript code */
 });
 ```
@@ -77,12 +77,12 @@ While there are no custom properties, the event is fired from the dialog's body,
 
 ```javascript
 /* Execute the handler function when the event triggers. */
-$(document).on(':dialogclosing', function (ev) {
+$(document).on(':dialogclosing', (ev) => {
 	/* JavaScript code */
 });
 
 /* Execute the handler function exactly once. */
-$(document).one(':dialogclosing', function (ev) {
+$(document).one(':dialogclosing', (ev) => {
 	/* JavaScript code */
 });
 ```
@@ -107,12 +107,12 @@ While there are no custom properties, the event is fired from the dialog's body,
 
 ```javascript
 /* Execute the handler function when the event triggers. */
-$(document).on(':dialogopened', function (ev) {
+$(document).on(':dialogopened', (ev) => {
 	/* JavaScript code */
 });
 
 /* Execute the handler function exactly once. */
-$(document).one(':dialogopened', function (ev) {
+$(document).one(':dialogopened', (ev) => {
 	/* JavaScript code */
 });
 ```
@@ -137,12 +137,12 @@ While there are no custom properties, the event is fired from the dialog's body,
 
 ```javascript
 /* Execute the handler function when the event triggers. */
-$(document).on(':dialogopening', function (ev) {
+$(document).on(':dialogopening', (ev) => {
 	/* JavaScript code */
 });
 
 /* Execute the handler function exactly once. */
-$(document).one(':dialogopening', function (ev) {
+$(document).one(':dialogopening', (ev) => {
 	/* JavaScript code */
 });
 ```
@@ -155,7 +155,7 @@ $(document).one(':dialogopening', function (ev) {
 
 Navigation events allow the execution of JavaScript code at specific points during passage navigation.
 
-In order of processing: *(for reference, this also shows tasks and various special passages)*
+In order of processing: *(for reference, this also shows the `:uiupdate` event and various special passages)*
 
 1. Passage init.  Happens before the modification of the state history.
 	1. `:passageinit` event.
@@ -169,13 +169,14 @@ In order of processing: *(for reference, this also shows tasks and various speci
 4. Passage display.  Happens after the display—i.e., output—of the incoming passage.
 	1. [`PassageDone` special passage](#special-passage-passagedone).
 	2. `:passagedisplay` event.
-5. UI bar special passages update.  Happens before the end of passage navigation.
-	1. [`StoryDisplayTitle` special passage](#special-passage-storydisplaytitle).
-	2. [`StoryBanner` special passage](#special-passage-storybanner).
-	3. [`StorySubtitle` special passage](#special-passage-storysubtitle).
-	4. [`StoryAuthor` special passage](#special-passage-storyauthor).
-	5. [`StoryCaption` special passage](#special-passage-storycaption).
-	6. [`StoryMenu` special passage](#special-passage-storymenu).
+5. UI update.  Happens before the end of passage navigation.
+	1. `:uiupdate` event.
+		1. [`StoryDisplayTitle` special passage](#special-passage-storydisplaytitle).
+		2. [`StoryBanner` special passage](#special-passage-storybanner).
+		3. [`StorySubtitle` special passage](#special-passage-storysubtitle).
+		4. [`StoryAuthor` special passage](#special-passage-storyauthor).
+		5. [`StoryCaption` special passage](#special-passage-storycaption).
+		6. [`StoryMenu` special passage](#special-passage-storymenu).
 6. Passage end.  Happens at the end of passage navigation.
 	1. `:passageend` event.
 
@@ -200,7 +201,7 @@ Triggered before the modification of the state history.
 
 ```javascript
 /* Execute the handler function each time the event triggers. */
-$(document).on(':passageinit', function (ev) {
+$(document).on(':passageinit', (ev) => {
 	/* Log details about the current moment. */
 	console.group('Details about the current moment');
 	console.log('passage name:', ev.detail.passage.name);
@@ -211,7 +212,7 @@ $(document).on(':passageinit', function (ev) {
 });
 
 /* Execute the handler function exactly once. */
-$(document).one(':passageinit', function (ev) {
+$(document).one(':passageinit', (ev) => {
 	/* Do something useful here. */
 });
 ```
@@ -240,7 +241,7 @@ Triggered before the rendering of the incoming passage.
 
 ```javascript
 /* Execute the handler function each time the event triggers. */
-$(document).on(':passagestart', function (ev) {
+$(document).on(':passagestart', (ev) => {
 	/* Log details about the current moment. */
 	console.group('Details about the current moment');
 	console.log('buffer:', ev.detail.content);
@@ -252,7 +253,7 @@ $(document).on(':passagestart', function (ev) {
 });
 
 /* Execute the handler function exactly once. */
-$(document).one(':passagestart', function (ev) {
+$(document).one(':passagestart', (ev) => {
 	/* Do something useful here. */
 });
 ```
@@ -264,7 +265,7 @@ $(document).one(':passagestart', function (ev) {
 	Process the given markup and append the result to the incoming
 	passage's element.
 */
-$(document).on(':passagestart', function (ev) {
+$(document).on(':passagestart', (ev) => {
 	$(ev.detail.content).wiki("In the //beginning//.");
 });
 ```
@@ -293,7 +294,7 @@ Triggered after the rendering of the incoming passage.
 
 ```javascript
 /* Execute the handler function each time the event triggers. */
-$(document).on(':passagerender', function (ev) {
+$(document).on(':passagerender', (ev) => {
 	/* Log details about the current moment. */
 	console.group('Details about the current moment');
 	console.log('buffer:', ev.detail.content);
@@ -305,7 +306,7 @@ $(document).on(':passagerender', function (ev) {
 });
 
 /* Execute the handler function exactly once. */
-$(document).one(':passagerender', function (ev) {
+$(document).one(':passagerender', (ev) => {
 	/* Do something useful here. */
 });
 ```
@@ -317,7 +318,7 @@ $(document).one(':passagerender', function (ev) {
 	Process the given markup and append the result to the incoming
 	passage's element.
 */
-$(document).on(':passagerender', function (ev) {
+$(document).on(':passagerender', (ev) => {
 	$(ev.detail.content).wiki("At the //end// of some renderings.");
 });
 ```
@@ -347,7 +348,7 @@ Triggered after the display—i.e., output—of the incoming passage.
 
 ```javascript
 /* Execute the handler function each time the event triggers. */
-$(document).on(':passagedisplay', function (ev) {
+$(document).on(':passagedisplay', (ev) => {
 	/* Log details about the current moment. */
 	console.group('Details about the current moment');
 	console.log('buffer:', ev.detail.content);
@@ -359,7 +360,7 @@ $(document).on(':passagedisplay', function (ev) {
 });
 
 /* Execute the handler function exactly once. */
-$(document).one(':passagedisplay', function (ev) {
+$(document).one(':passagedisplay', (ev) => {
 	/* Do something useful here. */
 });
 ```
@@ -371,7 +372,7 @@ $(document).one(':passagedisplay', function (ev) {
 	Process the given markup and append the result to the incoming
 	passage's element.
 */
-$(document).on(':passagedisplay', function (ev) {
+$(document).on(':passagedisplay', (ev) => {
 	$(ev.detail.content).wiki("It's //showtime//!");
 });
 ```
@@ -401,7 +402,7 @@ Triggered at the end of passage navigation.
 
 ```javascript
 /* Execute the handler function each time the event triggers. */
-$(document).on(':passageend', function (ev) {
+$(document).on(':passageend', (ev) => {
 	/* Log details about the current moment. */
 	console.group('Details about the current moment');
 	console.log('buffer:', ev.detail.content);
@@ -413,7 +414,7 @@ $(document).on(':passageend', function (ev) {
 });
 
 /* Execute the handler function exactly once. */
-$(document).one(':passageend', function (ev) {
+$(document).one(':passageend', (ev) => {
 	/* Do something useful here. */
 });
 ```
@@ -425,7 +426,7 @@ $(document).one(':passageend', function (ev) {
 	Process the given markup and append the result to the incoming
 	passage's element.
 */
-$(document).on(':passageend', function (ev) {
+$(document).on(':passageend', (ev) => {
 	$(ev.detail.content).wiki("So long and //thanks for all the fish//!");
 });
 ```
@@ -527,13 +528,13 @@ Track event triggered when a fade completes normally.
 
 ```javascript
 /* Execute the handler function when the event triggers for one track via <AudioTrack>. */
-aTrack.on(':faded', function (ev) {
+aTrack.on(':faded', (ev) => {
 	/* JavaScript code */
 });
 
 /* Execute the handler function when the event triggers for multiple tracks via <AudioRunner>. */
-someTracks.on(':faded', function (ev) {
-	/* do something */
+someTracks.on(':faded', (ev) => {
+	/* JavaScript code */
 });
 ```
 
@@ -553,13 +554,13 @@ Track event triggered when a fade starts.
 
 ```javascript
 /* Execute the handler function when the event triggers for one track via <AudioTrack>. */
-aTrack.on(':fading', function (ev) {
+aTrack.on(':fading', (ev) => {
 	/* JavaScript code */
 });
 
 /* Execute the handler function when the event triggers for multiple tracks via <AudioRunner>. */
-someTracks.on(':fading', function (ev) {
-	/* do something */
+someTracks.on(':fading', (ev) => {
+	/* JavaScript code */
 });
 ```
 
@@ -583,13 +584,13 @@ Track event triggered when playback is stopped after [`<AudioTrack>.stop()`](#au
 
 ```javascript
 /* Execute the handler function when the event triggers for one track via <AudioTrack>. */
-aTrack.on(':stopped', function (ev) {
+aTrack.on(':stopped', (ev) => {
 	/* JavaScript code */
 });
 
 /* Execute the handler function when the event triggers for multiple tracks via <AudioRunner>. */
-someTracks.on(':stopped', function (ev) {
-	/* do something */
+someTracks.on(':stopped', (ev) => {
+	/* JavaScript code */
 });
 ```
 
@@ -617,7 +618,7 @@ Global event triggered once just before the page is reloaded when [`Engine.resta
 
 ```javascript
 /* Execute the handler function when the event triggers. */
-$(document).one(':enginerestart', function (ev) {
+$(document).one(':enginerestart', (ev) => {
 	/* JavaScript code */
 });
 ```
@@ -638,7 +639,7 @@ Global event triggered once just before the dismissal of the loading screen at s
 
 ```javascript
 /* Execute the handler function exactly once, since it's only fired once. */
-$(document).one(':storyready', function (ev) {
+$(document).one(':storyready', (ev) => {
 	/* JavaScript code */
 });
 ```
@@ -647,7 +648,7 @@ $(document).one(':storyready', function (ev) {
 
 ### `:uiupdate` event {#events-system-event-uiupdate}
 
-Global event triggered when the built-in user interface is being updated.
+Global event triggered when the built-in user interface is being updated when [`UI.update()`](#ui-api-method-update) is called.
 
 #### History:
 
@@ -658,8 +659,13 @@ Global event triggered when the built-in user interface is being updated.
 #### Examples:
 
 ```javascript
-/* Execute the handler function when the event triggers. */
-$(document).on(':uiupdate', function (ev) {
+/* Execute the handler function each time the event triggers. */
+$(document).on(':uiupdate', (ev) => {
+	/* JavaScript code */
+});
+
+/* Execute the handler function exactly once. */
+$(document).one(':uiupdate', (ev) => {
 	/* JavaScript code */
 });
 ```
@@ -692,7 +698,7 @@ Injecting additional <code>&lt;&lt;type&gt;&gt;</code> macro invocations <em>aft
 
 ```javascript
 /* Execute the handler function when the event triggers. */
-$(document).on(':typingcomplete', function (ev) {
+$(document).on(':typingcomplete', (ev) => {
 	/* JavaScript code */
 });
 ```
@@ -714,7 +720,7 @@ Local event triggered on the typing wrapper when the typing of a section starts.
 
 ```javascript
 /* Execute the handler function when the event triggers. */
-$(document).on(':typingstart', function (ev) {
+$(document).on(':typingstart', (ev) => {
 	/* JavaScript code */
 });
 ```
@@ -736,7 +742,7 @@ Local event triggered on the typing wrapper when the typing of a section stops.
 
 ```javascript
 /* Execute the handler function when the event triggers. */
-$(document).on(':typingstop', function (ev) {
+$(document).on(':typingstop', (ev) => {
 	/* JavaScript code */
 });
 ```

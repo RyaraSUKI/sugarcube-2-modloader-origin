@@ -97,7 +97,7 @@ if (Story.add(descriptor)) {
 Deletes the `Passage` instance with the given name.
 
 <p role="note"><b>Note:</b>
-This method cannot add <a href="#code-passages">code passages</a> or passages tagged with <a href="#code-tags">code tags</a>.
+This method cannot delete the starting passage, <a href="#code-passages">code passages</a>, or passages tagged with <a href="#code-tags">code tags</a>.
 </p>
 
 #### History:
