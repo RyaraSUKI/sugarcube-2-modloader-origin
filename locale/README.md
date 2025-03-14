@@ -13,6 +13,7 @@ For the template that should be used as the basis of localizations, see the `l10
 * `fr-FR.js` – Français, by: manonamora.
 * `pt-BR.js` – Português (Brazil), by: Janos Biro.
 * `tr-TR.js` – Türkçe, by: erencanakyuz.
+* `zh-CN.js` – 简体中文, by: Alt236679.
 
 ## Past Contributors
 
