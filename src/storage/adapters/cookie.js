@@ -10,11 +10,11 @@
 
 SimpleStore.adapters.push((() => {
 	// Expiry constants.
-	const _MAX_EXPIRY = 'Tue, 19 Jan 2038 03:14:07 GMT'; // (new Date((Math.pow(2, 31) - 1) * 1000)).toUTCString()
-	const _MIN_EXPIRY = 'Thu, 01 Jan 1970 00:00:00 GMT'; // (new Date(0)).toUTCString()
+	const MAX_EXPIRY = 'Tue, 19 Jan 2038 03:14:07 GMT'; // (new Date((Math.pow(2, 31) - 1) * 1000)).toUTCString()
+	const MIN_EXPIRY = 'Thu, 01 Jan 1970 00:00:00 GMT'; // (new Date(0)).toUTCString()
 
 	// Adapter readiness state.
-	let _ok = false;
+	let ok = false;
 
 
 	/*******************************************************************************
@@ -30,6 +30,7 @@ SimpleStore.adapters.push((() => {
 		name;       // Our name.
 		id;         // Our storage ID.
 		persistent; // Are we a persistent store?
+
 
 		constructor(storageId, persistent) {
 			const prefix = `${storageId}${persistent ? '!' : '*'}.`;
@@ -51,6 +52,9 @@ SimpleStore.adapters.push((() => {
 				}
 			});
 		}
+
+
+		// Public methods.
 
 		get size() {
 			if (BUILD_DEBUG) { console.log(`[<SimpleStore:${this.name}>.size : Number]`); }
@@ -95,7 +99,7 @@ SimpleStore.adapters.push((() => {
 				return false;
 			}
 
-			return CookieAdapter._getCookie(this.#prefix + key) !== null;
+			return CookieAdapter.#getCookie(this.#prefix + key) !== null;
 		}
 
 		get(key) {
@@ -105,9 +109,9 @@ SimpleStore.adapters.push((() => {
 				return null;
 			}
 
-			const value = CookieAdapter._getCookie(this.#prefix + key);
+			const value = CookieAdapter.#getCookie(this.#prefix + key);
 
-			return value === null ? null : CookieAdapter._deserialize(value);
+			return value === null ? null : CookieAdapter.#deserialize(value);
 		}
 
 		set(key, value) {
@@ -118,12 +122,12 @@ SimpleStore.adapters.push((() => {
 			}
 
 			try {
-				CookieAdapter._setCookie(
+				CookieAdapter.#setCookie(
 					this.#prefix + key,
-					CookieAdapter._serialize(value),
+					CookieAdapter.#serialize(value),
 
 					// An undefined expiry denotes a session cookie.
-					this.persistent ? _MAX_EXPIRY : undefined
+					this.persistent ? MAX_EXPIRY : undefined
 				);
 
 				if (!this.has(key)) {
@@ -144,23 +148,21 @@ SimpleStore.adapters.push((() => {
 		delete(key) {
 			if (BUILD_DEBUG) { console.log(`[<SimpleStore:${this.name}>.delete(key: "${key}") : Boolean]`); }
 
-			/*
-				Attempting to delete a cookie implies setting it, so we test for its existence
-				beforehand, to avoid creating it in the event that it does not already exist.
-			*/
+			// Attempting to delete a cookie implies setting it, so we test for its existence
+			// beforehand, to avoid creating it in the event that it does not already exist.
 			if (typeof key !== 'string' || !key || !this.has(key)) {
 				return false;
 			}
 
 			try {
-				CookieAdapter._setCookie(
+				CookieAdapter.#setCookie(
 					this.#prefix + key,
 
 					// Use `undefined` as the value.
 					undefined,
 
 					// Use the epoch as the expiry.
-					_MIN_EXPIRY
+					MIN_EXPIRY
 				);
 
 				if (this.has(key)) {
@@ -192,7 +194,10 @@ SimpleStore.adapters.push((() => {
 			return true;
 		}
 
-		static _getCookie(prefixedKey) {
+
+		// Static private methods.
+
+		static #getCookie(prefixedKey) {
 			if (!prefixedKey || document.cookie === '') {
 				return null;
 			}
@@ -217,7 +222,7 @@ SimpleStore.adapters.push((() => {
 			return null;
 		}
 
-		static _setCookie(prefixedKey, value, expiry) {
+		static #setCookie(prefixedKey, value, expiry) {
 			if (!prefixedKey) {
 				return;
 			}
@@ -236,11 +241,11 @@ SimpleStore.adapters.push((() => {
 			document.cookie = payload;
 		}
 
-		static _serialize(obj) {
+		static #serialize(obj) {
 			return LZString.compressToBase64(Serial.stringify(obj));
 		}
 
-		static _deserialize(str) {
+		static #deserialize(str) {
 			return Serial.parse(LZString.decompressFromBase64(str));
 		}
 	}
@@ -251,86 +256,73 @@ SimpleStore.adapters.push((() => {
 	*******************************************************************************/
 
 	function create(storageId, persistent) {
-		if (!_ok) {
+		if (!ok) {
 			throw new Error('adapter not initialized');
 		}
 
 		return new CookieAdapter(storageId, persistent);
 	}
 
-	function init(
-		// Only used for stores updates.
-		storageId
-	) {
+	function init() {
 		// Cookie feature test.
 		try {
+			function getCookie(prefixedKey) {
+				if (!prefixedKey || document.cookie === '') {
+					return null;
+				}
+
+				const cookies = document.cookie.split(/;\s*/);
+
+				for (let i = 0; i < cookies.length; ++i) {
+					const kvPair = cookies[i].split('=');
+					const key    = decodeURIComponent(kvPair[0]);
+
+					if (prefixedKey === key) {
+						const value = decodeURIComponent(kvPair[1]);
+
+						// NOTE: All stored values are serialized and an empty string will
+						// always serialize to a non-empty string.  Therefore, receiving an
+						// empty string here denotes a deleted value rather than a serialized
+						// empty string, so we return `null` for such pairs.
+						return value || null;
+					}
+				}
+
+				return null;
+			}
+
+			function setCookie(prefixedKey, value, expiry) {
+				if (!prefixedKey) {
+					return;
+				}
+
+				let payload = `${encodeURIComponent(prefixedKey)}=`;
+
+				if (value != null) { // nullish test
+					payload += encodeURIComponent(value);
+				}
+
+				if (expiry != null) { // nullish test
+					payload += `; expires=${expiry}`;
+				}
+
+				payload += '; path=/';
+				document.cookie = payload;
+			}
+
 			const tid = `_sc_${String(Date.now())}`;
 
 			// We only test a session cookie as that should suffice.
-			CookieAdapter._setCookie(tid, CookieAdapter._serialize(tid), undefined);
-			_ok = CookieAdapter._deserialize(CookieAdapter._getCookie(tid)) === tid;
-			CookieAdapter._setCookie(tid, undefined, _MIN_EXPIRY);
+			setCookie(tid, LZString.compressToBase64(Serial.stringify(tid)), undefined);
+			ok = Serial.parse(LZString.decompressFromBase64(getCookie(tid))) === tid;
+			setCookie(tid, undefined, MIN_EXPIRY);
 		}
 		catch (ex) {
-			_ok = false;
+			ok = false;
 		}
 
-		/* legacy */
-		// Attempt to update the cookie stores, if necessary.  This should happen only during initialization.
-		if (_ok) {
-			_updateCookieStores(storageId);
-		}
-		/* /legacy */
-
-		return _ok;
+		return ok;
 	}
-
-	/* legacy */
-	// Updates old non-segmented cookie stores into segmented stores.
-	function _updateCookieStores(storageId) {
-		if (document.cookie === '') {
-			return;
-		}
-
-		const oldPrefix     = `${storageId}.`;
-		const oldPrefixRe   = new RegExp(`^${RegExp.escape(oldPrefix)}`);
-		const persistPrefix = `${storageId}!.`;
-		const sessionPrefix = `${storageId}*.`;
-		const sessionTestRe = /\.(?:state|rcWarn)$/;
-		const cookies       = document.cookie.split(/;\s*/);
-
-		for (let i = 0; i < cookies.length; ++i) {
-			const kvPair = cookies[i].split('=');
-			const key    = decodeURIComponent(kvPair[0]);
-
-			if (oldPrefixRe.test(key)) {
-				// NOTE: All stored values are serialized and an empty string will always
-				// serialize to a non-empty string.  Therefore, receiving an empty string
-				// here denotes a deleted value rather than a serialized empty string, so
-				// we skip processing of such pairs.
-				const value = decodeURIComponent(kvPair[1]);
-
-				if (value !== '') {
-					const persist = !sessionTestRe.test(key);
-
-					// Delete the old k/v pair.
-					CookieAdapter._setCookie(
-						key,
-						undefined,
-						_MIN_EXPIRY
-					);
-
-					// Set the new k/v pair.
-					CookieAdapter._setCookie(
-						key.replace(oldPrefixRe, () => persist ? persistPrefix : sessionPrefix),
-						value,
-						persist ? _MAX_EXPIRY : undefined
-					);
-				}
-			}
-		}
-	}
-	/* /legacy */
 
 
 	/*******************************************************************************

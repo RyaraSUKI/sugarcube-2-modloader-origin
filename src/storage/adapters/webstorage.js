@@ -10,7 +10,7 @@
 
 SimpleStore.adapters.push((() => {
 	// Adapter readiness state.
-	let _ok = false;
+	let ok = false;
 
 
 	/*******************************************************************************
@@ -27,6 +27,7 @@ SimpleStore.adapters.push((() => {
 		name;       // Our name.
 		id;         // Our storage ID.
 		persistent; // Are we a persistent store?
+
 
 		constructor(storageId, persistent) {
 			const prefix = `${storageId}.`;
@@ -58,6 +59,9 @@ SimpleStore.adapters.push((() => {
 				}
 			});
 		}
+
+
+		// Public methods.
 
 		get size() {
 			if (BUILD_DEBUG) { console.log(`[<SimpleStore:${this.name}>.size : Number]`); }
@@ -107,7 +111,7 @@ SimpleStore.adapters.push((() => {
 			// QUESTION: Has `<Storage>.getItem()` ever returned any value other than
 			// `null` for non-existent keys?  I seem to recall a browser bug where
 			// `undefined` was returned, but I can't find any details about it now.
-			return value == null ? null : WebStorageAdapter._deserialize(value); // nullish test
+			return value == null ? null : WebStorageAdapter.#deserialize(value); // nullish test
 		}
 
 		set(key, value) {
@@ -118,7 +122,7 @@ SimpleStore.adapters.push((() => {
 			}
 
 			try {
-				this.#engine.setItem(this.#prefix + key, WebStorageAdapter._serialize(value));
+				this.#engine.setItem(this.#prefix + key, WebStorageAdapter.#serialize(value));
 			}
 			catch (ex) {
 				// If the exception is a quota exceeded error, massage it into something
@@ -166,11 +170,14 @@ SimpleStore.adapters.push((() => {
 			return true;
 		}
 
-		static _serialize(obj) {
+
+		// Static private methods.
+
+		static #serialize(obj) {
 			return LZString.compressToUTF16(Serial.stringify(obj));
 		}
 
-		static _deserialize(str) {
+		static #deserialize(str) {
 			return Serial.parse(LZString.decompressFromUTF16(str));
 		}
 	}
@@ -181,7 +188,7 @@ SimpleStore.adapters.push((() => {
 	*******************************************************************************/
 
 	function create(storageId, persistent) {
-		if (!_ok) {
+		if (!ok) {
 			throw new Error('adapter not initialized');
 		}
 
@@ -210,9 +217,9 @@ SimpleStore.adapters.push((() => {
 
 		// Just to be safe, we feature test for both `localStorage` and `sessionStorage`,
 		// as you never know what browser implementation bugs you're going to run into.
-		_ok = hasWebStorage('localStorage') && hasWebStorage('sessionStorage');
+		ok = hasWebStorage('localStorage') && hasWebStorage('sessionStorage');
 
-		return _ok;
+		return ok;
 	}
 
 	const isQuotaErrorRE = /quota.?(?:exceeded|reached)/i;

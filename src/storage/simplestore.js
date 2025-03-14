@@ -9,10 +9,10 @@
 
 var SimpleStore = (() => { // eslint-disable-line no-unused-vars, no-var
 	// In-order list of database adapters.
-	const _adapters = [];
+	const adapters = [];
 
 	// The initialized adapter.
-	let _initialized = null;
+	let initialized = null;
 
 
 	/*******************************************************************************
@@ -20,15 +20,15 @@ var SimpleStore = (() => { // eslint-disable-line no-unused-vars, no-var
 	*******************************************************************************/
 
 	function create(storageId, persistent) {
-		if (_initialized) {
-			return _initialized.create(storageId, persistent);
+		if (initialized) {
+			return initialized.create(storageId, persistent);
 		}
 
 		// Return the first adapter which successfully initializes, elsewise throw an exception.
-		for (let i = 0; i < _adapters.length; ++i) {
-			if (_adapters[i].init(storageId, persistent)) {
-				_initialized = _adapters[i];
-				return _initialized.create(storageId, persistent);
+		for (let i = 0; i < adapters.length; ++i) {
+			if (adapters[i].init(storageId, persistent)) {
+				initialized = adapters[i];
+				return initialized.create(storageId, persistent);
 			}
 		}
 
@@ -44,7 +44,7 @@ var SimpleStore = (() => { // eslint-disable-line no-unused-vars, no-var
 		// Adapters List.
 		//
 		// QUESTION: Should this be a getter, rather than being exported directly?
-		adapters : { value : _adapters },
+		adapters : { value : adapters },
 
 		// Core Functions.
 		create : { value : create }
