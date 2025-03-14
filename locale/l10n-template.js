@@ -1,6 +1,6 @@
 /***********************************************************************************************************************
 
-	l10n-template.js – Localization Template
+	locale/l10n-template.js – Localization Template
 
 	Copyright © 2019–2021 Thomas Michael Edwards <thomasmedwards@gmail.com>. All rights reserved.
 	Use of this source code is governed by a BSD 2-clause "Simplified" License, which may be found in the LICENSE file.

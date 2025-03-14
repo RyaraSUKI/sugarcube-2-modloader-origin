@@ -10,6 +10,10 @@ For the template that should be used as the basis of localizations, see the `l10
 
 ## Contributors
 
+* `fr-FR.js` – Français, by: manonamora.
+* `pt-BR.js` – Português (Brazil), by: Janos Biro.
+* `tr-TR.js` – Türkçe, by: erencanakyuz.
+
 ## Past Contributors
 
 * `ar-EG.js` – العربية (مصر), by: Mustafa Rawi.
