@@ -332,15 +332,10 @@ Your project's JavaScript section (Twine&nbsp;2: the Story JavaScript; Twine&nbs
 #### History:
 
 * `v2.16.0`: Introduced.
-* `v2.37.0`: Added the ability to load JS Modules.
 
 #### Parameters:
 
-* **`urls`:** (`string` | `Object` | `Array<string | Object>`) The URLs of the external scripts to import.  Loose URLs are imported concurrently, arrays of URLs are imported sequentially.  URLs may also be specified as objects with a `type` and a `src` property.
-
-<p role="note"><b>Note:</b>
-URLs ending in <code>.mjs</code> are imported as modules.
-</p>
+* **`urls`:** (`string` | `Array<string>`) The URLs of the external scripts to import.  Loose URLs are imported concurrently, arrays of URLs are imported sequentially.
 
 #### Returns:
 
@@ -355,17 +350,6 @@ An `Error` instance.
 ##### Basic usage
 
 ```javascript
-// Import scripts a.js as normal, b.mjs as a module, and c.js as a
-// module
-importScripts(
-	'https://somesite/a/path/a.js',
-	'https://somesite/a/path/b.mjs',
-	{
-		type : 'module',
-		src  : 'https://somesite/a/path/c.js'
-	}
-);
-
 // Import all scripts concurrently
 importScripts(
 	'https://somesite/a/path/a.js',
