@@ -6,7 +6,7 @@
 	Use of this source code is governed by a BSD 2-clause "Simplified" License, which may be found in the LICENSE file.
 
 ***********************************************************************************************************************/
-/* global Story, Wikifier, errorPrologRegExp */
+/* global Story, Wikifier, errorPrologRE */
 
 /*
 	Wikifier methods plugin.
@@ -42,7 +42,7 @@
 
 			// Gather the text of any error elements within the fragment…
 			const errors = Array.from(frag.querySelectorAll('.error'))
-				.map(errEl => errEl.textContent.replace(errorPrologRegExp, ''));
+				.map(errEl => errEl.textContent.replace(errorPrologRE, ''));
 
 			// …and throw an exception, if there were any errors.
 			if (errors.length > 0) {

@@ -15,11 +15,11 @@
 /*
 	TODO: Make this use jQuery throughout.
 */
-
 class DebugView { // eslint-disable-line no-unused-vars
 	parent; // Our parent element.
 	view;   // Our debug view (`<span>`) wrapper element.
 	break;  // Our word break (`<wbr>`) element.
+
 
 	constructor(parent, type, name, title) {
 		Object.defineProperties(this, {
@@ -53,6 +53,9 @@ class DebugView { // eslint-disable-line no-unused-vars
 		this.parent.appendChild(this.view);
 		this.parent.appendChild(this.break);
 	}
+
+
+	// Public methods.
 
 	get output() {
 		return this.view;
@@ -117,6 +120,9 @@ class DebugView { // eslint-disable-line no-unused-vars
 		$view.remove();
 		jQuery(this.break).remove();
 	}
+
+
+	// Static methods.
 
 	static isEnabled() {
 		return jQuery(document.documentElement).attr('data-debug-view') === 'enabled';

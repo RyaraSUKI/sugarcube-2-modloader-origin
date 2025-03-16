@@ -17,7 +17,7 @@
 		Opera (Presto)           → `Uncaught exception: \w*(?:Error|Exception): …`
 		Safari (ca. v5.1)        → `\w*(?:Error|_ERR): …`
 */
-var errorPrologRegExp = /^(?:(?:uncaught\s+(?:exception:\s+)?)?\w*(?:error|exception|_err):\s+)+/i; // eslint-disable-line no-unused-vars, no-var
+var errorPrologRE = /^(?:(?:uncaught\s+(?:exception:\s+)?)?\w*(?:error|exception|_err):\s+)+/i; // eslint-disable-line no-unused-vars, no-var
 
 var Alert = (() => { // eslint-disable-line no-unused-vars, no-var
 	/*******************************************************************************
@@ -38,7 +38,7 @@ var Alert = (() => { // eslint-disable-line no-unused-vars, no-var
 		const isObject = error !== null && typeof error === 'object';
 		const isExLike = isObject && 'message' in error;
 		const what     = (
-			isExLike ? String(error.message).replace(errorPrologRegExp, '') : String(error)
+			isExLike ? String(error.message).replace(errorPrologRE, '') : String(error)
 		).trim() || 'unknown error';
 
 		if (where != null) { // nullish test

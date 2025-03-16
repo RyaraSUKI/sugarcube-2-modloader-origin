@@ -8,7 +8,7 @@
 ***********************************************************************************************************************/
 /*
 	global Alert, Config, Dialog, Engine, Has, L10n, Save, Setting, State, Story, Wikifier,
-	       createSlug, errorPrologRegExp, triggerEvent
+	       createSlug, errorPrologRE, triggerEvent
 */
 
 var UI = (() => { // eslint-disable-line no-unused-vars, no-var
@@ -34,7 +34,7 @@ var UI = (() => { // eslint-disable-line no-unused-vars, no-var
 
 			// Gather the text of any error elements within the fragment…
 			const errors = Array.from(frag.querySelectorAll('.error'))
-				.map(errEl => errEl.textContent.replace(errorPrologRegExp, ''));
+				.map(errEl => errEl.textContent.replace(errorPrologRE, ''));
 
 			// …and throw an exception, if there were any errors.
 			if (errors.length > 0) {

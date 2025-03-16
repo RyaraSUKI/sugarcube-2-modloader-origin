@@ -29,7 +29,7 @@ var Visibility = (() => { // eslint-disable-line no-unused-vars, no-var
 			return Object.freeze([
 				// Specification.
 				{
-					hiddenProperty : 'hidden',          // boolean; historical in 2nd edition
+					hiddenProperty : 'hidden',          // boolean; historic in 2nd edition
 					stateProperty  : 'visibilityState', // string, values: 'hidden', 'visible'; 1st edition had more values
 					changeEvent    : 'visibilitychange'
 				},
@@ -57,8 +57,6 @@ var Visibility = (() => { // eslint-disable-line no-unused-vars, no-var
 			].find(vnd => vnd.hiddenProperty in document));
 		}
 		catch (ex) { /* no-op */ }
-
-		return undefined;
 	})();
 
 
@@ -79,8 +77,8 @@ var Visibility = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function isHidden() {
-		// return Boolean(vendor && document[vendor.stateProperty] === 'hidden');
-		return Boolean(vendor && document[vendor.hiddenProperty]); // NOTE: Historical, but probably better for 1st edition.
+		return Boolean(vendor && document[vendor.stateProperty] === 'hidden');
+		// return Boolean(vendor && document[vendor.hiddenProperty]); // Historic, but maybe better for 1st edition
 	}
 
 

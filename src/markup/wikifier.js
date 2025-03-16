@@ -8,7 +8,7 @@
 ***********************************************************************************************************************/
 /*
 	global Config, Engine, Patterns, Scripting, State, Story, TempState, WikifierUtil,
-	       convertBreaks, errorPrologRegExp, getTypeOf, hasBlockContext, isExternalLink
+	       convertBreaks, errorPrologRE, getTypeOf, hasBlockContext, isExternalLink
 */
 
 /*
@@ -284,7 +284,7 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 			const errors = output.querySelector('.error');
 
 			if (errors !== null) {
-				throw new Error(errors.textContent.replace(errorPrologRegExp, ''));
+				throw new Error(errors.textContent.replace(errorPrologRE, ''));
 			}
 
 			return output;

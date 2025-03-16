@@ -61,28 +61,26 @@ var Fullscreen = (() => { // eslint-disable-line no-unused-vars, no-var
 			].find(vnd => vnd.isEnabled in document));
 		}
 		catch (ex) { /* no-op */ }
-
-		return undefined;
 	})();
 
 
 	/*******************************************************************************
-		Feature Detection Functions.
+		Feature Detection Function.
 	*******************************************************************************/
 
 	// Return whether the request and exit fullscreen methods return a `Promise`.
 	//
 	// NOTE: The initial result is cached for future calls.
-	const _returnsPromise = (function () {
+	const returnsPromise = (function () {
 		// Cache of whether the request and exit methods return a `Promise`.
-		let _hasPromise = null;
+		let hasPromise = null;
 
-		function _returnsPromise() {
-			if (_hasPromise !== null) {
-				return _hasPromise;
+		function returnsPromise() {
+			if (hasPromise !== null) {
+				return hasPromise;
 			}
 
-			_hasPromise = false;
+			hasPromise = false;
 
 			if (vendor) {
 				try {
@@ -100,15 +98,15 @@ var Fullscreen = (() => { // eslint-disable-line no-unused-vars, no-var
 					// is acceptable, since it will be caught and `false` eventually returned.
 					value.catch(() => { /* no-op */ });
 
-					_hasPromise = value instanceof Promise;
+					hasPromise = value instanceof Promise;
 				}
 				catch (ex) { /* no-op */ }
 			}
 
-			return _hasPromise;
+			return hasPromise;
 		}
 
-		return _returnsPromise;
+		return returnsPromise;
 	})();
 
 
@@ -116,14 +114,14 @@ var Fullscreen = (() => { // eslint-disable-line no-unused-vars, no-var
 		Utility Functions.
 	*******************************************************************************/
 
-	function _selectElement(requestedEl) {
+	function selectElement(requestedEl) {
 		let selectedEl = requestedEl || document.documentElement;
 
 		// Document element scrolling workaround for older browsers.
 		if (
 			selectedEl === document.documentElement
 			&& (
-				vendor.requestFn === 'msRequestFullscreen'   // IE 11
+				vendor.requestFn === 'msRequestFullscreen'      // IE 11
 				|| Browser.isOpera && Browser.operaVersion < 15 // Opera 12 (Presto)
 			)
 		) {
@@ -159,7 +157,7 @@ var Fullscreen = (() => { // eslint-disable-line no-unused-vars, no-var
 			return Promise.reject(new Error('fullscreen not supported'));
 		}
 
-		const element = _selectElement(requestedEl);
+		const element = selectElement(requestedEl);
 
 		if (typeof element[vendor.requestFn] !== 'function') {
 			return Promise.reject(new Error('fullscreen not supported'));
@@ -168,10 +166,7 @@ var Fullscreen = (() => { // eslint-disable-line no-unused-vars, no-var
 			return Promise.resolve();
 		}
 
-		if (_returnsPromise()) {
-			return element[vendor.requestFn](options);
-		}
-		else { // eslint-disable-line no-else-return
+		if (!returnsPromise()) {
 			const namespace = '.Fullscreen_requestFullscreen';
 
 			return new Promise((resolve, reject) => {
@@ -191,6 +186,8 @@ var Fullscreen = (() => { // eslint-disable-line no-unused-vars, no-var
 				element[vendor.requestFn](options);
 			});
 		}
+
+		return element[vendor.requestFn](options);
 	}
 
 	function exitFullscreen() {
@@ -201,10 +198,7 @@ var Fullscreen = (() => { // eslint-disable-line no-unused-vars, no-var
 			return Promise.reject(new TypeError('fullscreen mode not active'));
 		}
 
-		if (_returnsPromise()) {
-			return document[vendor.exitFn]();
-		}
-		else { // eslint-disable-line no-else-return
+		if (!returnsPromise()) {
 			const namespace = '.Fullscreen_exitFullscreen';
 
 			return new Promise((resolve, reject) => {
@@ -224,6 +218,8 @@ var Fullscreen = (() => { // eslint-disable-line no-unused-vars, no-var
 				document[vendor.exitFn]();
 			});
 		}
+
+		return document[vendor.exitFn]();
 	}
 
 	function toggleFullscreen(options, requestedEl) {
@@ -235,7 +231,7 @@ var Fullscreen = (() => { // eslint-disable-line no-unused-vars, no-var
 			return;
 		}
 
-		const element = _selectElement(requestedEl);
+		const element = selectElement(requestedEl);
 
 		jQuery(element).on(vendor.changeEvent, handlerFn);
 	}
@@ -245,7 +241,7 @@ var Fullscreen = (() => { // eslint-disable-line no-unused-vars, no-var
 			return;
 		}
 
-		const element = _selectElement(requestedEl);
+		const element = selectElement(requestedEl);
 
 		if (handlerFn) {
 			jQuery(element).off(vendor.changeEvent, handlerFn);
@@ -260,7 +256,7 @@ var Fullscreen = (() => { // eslint-disable-line no-unused-vars, no-var
 			return;
 		}
 
-		const element = _selectElement(requestedEl);
+		const element = selectElement(requestedEl);
 
 		jQuery(element).on(vendor.errorEvent, handlerFn);
 	}
@@ -270,7 +266,7 @@ var Fullscreen = (() => { // eslint-disable-line no-unused-vars, no-var
 			return;
 		}
 
-		const element = _selectElement(requestedEl);
+		const element = selectElement(requestedEl);
 
 		if (handlerFn) {
 			jQuery(element).off(vendor.errorEvent, handlerFn);

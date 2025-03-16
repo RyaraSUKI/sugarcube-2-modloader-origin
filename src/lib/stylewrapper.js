@@ -20,6 +20,7 @@ class StyleWrapper { // eslint-disable-line no-unused-vars
 	// Private fields.
 	#styleEl;
 
+
 	constructor(element) {
 		if (element == null) { // nullish test
 			throw new TypeError('element parameter must be an HTMLStyleElement instance');
@@ -27,6 +28,9 @@ class StyleWrapper { // eslint-disable-line no-unused-vars
 
 		this.#styleEl = element;
 	}
+
+
+	// Pubic methods.
 
 	isEmpty() {
 		// This should work in all supported browsers.
