@@ -33,8 +33,8 @@ cd sugarcube-2
 
 There are two major branches within the repository:
 
-* `master`: The stable release branch
 * `develop`: The main development branch
+* `master`: The stable release branch
 
 Be sure to switch to the branch you wish to work on by issuing the appropriate `git checkout` command.
 
