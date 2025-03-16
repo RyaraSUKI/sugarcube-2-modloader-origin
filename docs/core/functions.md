@@ -367,7 +367,7 @@ A `Promise` that simply resolves, or rejects with an error if the script could n
 
 #### Throws:
 
-An `Error` instance.
+An `Error` or `TypeError` instance.
 
 #### Examples:
 
@@ -463,7 +463,7 @@ A `Promise` that simply resolves, or rejects with an error if the style could no
 
 #### Throws:
 
-An `Error` instance.
+An `Error` or `TypeError` instance.
 
 #### Examples:
 

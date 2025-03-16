@@ -385,28 +385,10 @@ var Scripting = (() => { // eslint-disable-line no-unused-vars, no-var
 		// Add a <script> element which will load the script from the given URL.
 		function addScript(url) {
 			return new Promise((resolve, reject) => {
-				let kind;
-				let src;
-
-				if (typeof url === 'string') {
-					kind = url.trim().toLowerCase().endsWith('.mjs') ? 'module' : 'text/javascript';
-					src  = url;
-				}
-				else if (typeof url === 'object') {
-					kind = url.type;
-					src  = url.src;
-				}
-				else {
-					throw new Error('importScripts url parameter must be a string or object');
+				if (typeof url !== 'string') {
+					throw new TypeError('url parameter must be a string');
 				}
 
-				/*
-					WARNING: The ordering of the code within this function is important,
-					as some browsers don't play well with different arrangements, so
-					be careful when mucking around with it.
-
-					The best supported ordering seems be: events → DOM append → attributes.
-				*/
 				jQuery(document.createElement('script'))
 					.one('load abort error', ev => {
 						jQuery(ev.target).off();
@@ -415,14 +397,14 @@ var Scripting = (() => { // eslint-disable-line no-unused-vars, no-var
 							resolve(ev.target);
 						}
 						else {
-							reject(new Error(`importScripts failed to load the script "${src}"`));
+							reject(new Error(`failed to load script "${url}"`));
 						}
 					})
 					.appendTo(document.head)
 					.attr({
-						id   : `script-imported-${slugifyUrl(src)}`,
-						type : kind,
-						src
+						id   : `script-imported-${slugifyUrl(url)}`,
+						type : 'text/javascript',
+						src  : url
 					});
 			});
 		}
@@ -431,16 +413,9 @@ var Scripting = (() => { // eslint-disable-line no-unused-vars, no-var
 		function addStyle(url) {
 			return new Promise((resolve, reject) => {
 				if (typeof url !== 'string') {
-					throw new Error('importStyles url parameter must be a string');
+					throw new TypeError('url parameter must be a string');
 				}
 
-				/*
-					WARNING: The ordering of the code within this function is important,
-					as some browsers don't play well with different arrangements, so
-					be careful when mucking around with it.
-
-					The best supported ordering seems be: events → DOM append → attributes.
-				*/
 				jQuery(document.createElement('link'))
 					.one('load abort error', ev => {
 						jQuery(ev.target).off();
@@ -449,7 +424,7 @@ var Scripting = (() => { // eslint-disable-line no-unused-vars, no-var
 							resolve(ev.target);
 						}
 						else {
-							reject(new Error(`importStyles failed to load the stylesheet "${url}"`));
+							reject(new Error(`failed to load stylesheet "${url}"`));
 						}
 					})
 					.appendTo(document.head)
