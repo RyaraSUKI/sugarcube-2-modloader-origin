@@ -37,49 +37,47 @@ A new `Array` formed from concatenating all array members in order.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $fruits1 to ['Apples', 'Oranges']>>
-	<<set $fruits2 to ['Pears', 'Plums']>>
-*/
+/* Given the following: */
+<<set $fruits1 to ['Apples', 'Oranges']>>
+<<set $fruits2 to ['Pears', 'Plums']>>
 
-/* Returns ['Apples', 'Oranges', 'Pears', 'Plums'] */
 <<set $result to $fruits1.concat($fruits2)>>
+/* Returns ['Apples', 'Oranges', 'Pears', 'Plums'] */
 
-/* Returns ['Apples', 'Oranges', 'Pears', 'Plums', 'Pears', 'Plums'] */
 <<set $result to $fruits1.concat($fruits2, $fruits2)>>
+/* Returns ['Apples', 'Oranges', 'Pears', 'Plums', 'Pears', 'Plums'] */
 
-/* Returns ['Apples', 'Oranges', 'Pears'] */
 <<set $result to $fruits1.concat('Pears')>>
+/* Returns ['Apples', 'Oranges', 'Pears'] */
 
-/* Returns ['Apples', 'Oranges', 'Pears', 'Pears'] */
 <<set $result to $fruits1.concat('Pears', 'Pears')>>
+/* Returns ['Apples', 'Oranges', 'Pears', 'Pears'] */
 
-/* Returns ['Apples', 'Oranges', 'Pears', 'Plums', 'Pears'] */
 <<set $result to $fruits1.concat($fruits2, 'Pears')>>
+/* Returns ['Apples', 'Oranges', 'Pears', 'Plums', 'Pears'] */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let fruits1 = ['Apples', 'Oranges'];
-	let fruits2 = ['Pears', 'Plums'];
-*/
+// Given the following:
+let fruits1 = ['Apples', 'Oranges'];
+let fruits2 = ['Pears', 'Plums'];
 
-// Returns ['Apples', 'Oranges', 'Pears', 'Plums']
 let result = fruits1.concat(fruits2);
+// Returns ['Apples', 'Oranges', 'Pears', 'Plums']
 
-// Returns ['Apples', 'Oranges', 'Pears', 'Plums', 'Pears', 'Plums']
 let result = fruits1.concat(fruits2, fruits2);
+// Returns ['Apples', 'Oranges', 'Pears', 'Plums', 'Pears', 'Plums']
 
-// Returns ['Apples', 'Oranges', 'Pears']
 let result = fruits1.concat('Pears');
+// Returns ['Apples', 'Oranges', 'Pears']
 
-// Returns ['Apples', 'Oranges', 'Pears', 'Pears']
 let result = fruits1.concat('Pears', 'Pears');
+// Returns ['Apples', 'Oranges', 'Pears', 'Pears']
 
-// Returns ['Apples', 'Oranges', 'Pears', 'Plums', 'Pears']
 let result = fruits1.concat(fruits2, 'Pears');
+// Returns ['Apples', 'Oranges', 'Pears', 'Plums', 'Pears']
 ```
 
 <!-- *********************************************************************** -->
@@ -105,49 +103,47 @@ A new `Array` formed from concatenating all unique array members in order.
 ##### Basic usage (in macros):
 
 ```
-/* Given:
-	<<set $fruits1 to ['Apples', 'Oranges']>>
-	<<set $fruits2 to ['Pears', 'Plums']>>
-*/
+/* Given the following: */
+<<set $fruits1 to ['Apples', 'Oranges']>>
+<<set $fruits2 to ['Pears', 'Plums']>>
 
-/* Returns ['Apples', 'Oranges', 'Pears', 'Plums'] */
 <<set $result to $fruits1.concatUnique($fruits2)>>
-
 /* Returns ['Apples', 'Oranges', 'Pears', 'Plums'] */
+
 <<set $result to $fruits1.concatUnique($fruits2, $fruits2)>>
-
-/* Returns ['Apples', 'Oranges', 'Pears'] */
-<<set $result to $fruits1.concatUnique('Pears')>>
-
-/* Returns ['Apples', 'Oranges', 'Pears'] */
-<<set $result to $fruits1.concatUnique('Pears', 'Pears')>>
-
 /* Returns ['Apples', 'Oranges', 'Pears', 'Plums'] */
+
+<<set $result to $fruits1.concatUnique('Pears')>>
+/* Returns ['Apples', 'Oranges', 'Pears'] */
+
+<<set $result to $fruits1.concatUnique('Pears', 'Pears')>>
+/* Returns ['Apples', 'Oranges', 'Pears'] */
+
 <<set $result to $fruits1.concatUnique($fruits2, 'Pears')>>
+/* Returns ['Apples', 'Oranges', 'Pears', 'Plums'] */
 ```
 
 ##### Basic usage (in JavaScript):
 
 ```javascript
-/* Given:
-	let fruits1 = ['Apples', 'Oranges'];
-	let fruits2 = ['Pears', 'Plums'];
-*/
+// Given the following:
+let fruits1 = ['Apples', 'Oranges'];
+let fruits2 = ['Pears', 'Plums'];
 
-// Returns ['Apples', 'Oranges', 'Pears', 'Plums']
 let result = fruits1.concatUnique(fruits2);
-
 // Returns ['Apples', 'Oranges', 'Pears', 'Plums']
+
 let result = fruits1.concatUnique(fruits2, fruits2);
-
-// Returns ['Apples', 'Oranges', 'Pears']
-let result = fruits1.concatUnique('Pears');
-
-// Returns ['Apples', 'Oranges', 'Pears']
-let result = fruits1.concatUnique('Pears', 'Pears');
-
 // Returns ['Apples', 'Oranges', 'Pears', 'Plums']
+
+let result = fruits1.concatUnique('Pears');
+// Returns ['Apples', 'Oranges', 'Pears']
+
+let result = fruits1.concatUnique('Pears', 'Pears');
+// Returns ['Apples', 'Oranges', 'Pears']
+
 let result = fruits1.concatUnique(fruits2, 'Pears');
+// Returns ['Apples', 'Oranges', 'Pears', 'Plums']
 ```
 
 <!-- *********************************************************************** -->
@@ -174,29 +170,27 @@ An *integer* `number` whose value is the number of times the given member was fo
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $fruits to ['Apples', 'Oranges', 'Plums', 'Oranges']>>
-*/
+/* Given the following: */
+<<set $fruits to ['Apples', 'Oranges', 'Plums', 'Oranges']>>
 
-/* Returns 2 */
 <<set $result to $fruits.count('Oranges')>>
+/* Returns 2 */
 
-/* Returns 1 */
 <<set $result to $fruits.count('Oranges', 2)>>
+/* Returns 1 */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let fruits = ['Apples', 'Oranges', 'Plums', 'Oranges'];
-*/
+// Given the following:
+let fruits = ['Apples', 'Oranges', 'Plums', 'Oranges'];
 
-// Returns 2
 let result = fruits.count('Oranges');
+// Returns 2
 
-// Returns 1
 let result = fruits.count('Oranges', 2);
+// Returns 1
 ```
 
 <!-- *********************************************************************** -->
@@ -226,69 +220,63 @@ An *integer* `number` whose value is the number of times members passed the test
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $fruits to ['Apples', 'Oranges', 'Plums', 'Oranges']>>
-*/
+/* Given the following: */
+<<set $fruits to ['Apples', 'Oranges', 'Plums', 'Oranges']>>
 
-/* Returns 2 */
 <<set $result to $fruits.countWith((fruit) => fruit === 'Oranges')>>
+/* Returns 2 */
 ```
 
 ```
-/* Given:
-	<<set $numbers to [1, 2.3, 4, 76, 3.1]>>
-*/
+/* Given the following: */
+<<set $numbers to [1, 2.3, 4, 76, 3.1]>>
 
-/* Returns 3 */
 <<set $result to $numbers.countWith(Number.isInteger)>>
+/* Returns 3 */
 ```
 
 ```
-/* Given:
-	<<set $items to [
-		{ name : 'Arming sword',   kind : 'weapon' },
-		{ name : 'Crested helm',   kind : 'armor' },
-		{ name : 'Dead rat',       kind : 'junk' },
-		{ name : 'Healing potion', kind : 'potion' }
-	]>>
-*/
+/* Given the following: */
+<<set $items to [
+	{ name : 'Arming sword',   kind : 'weapon' },
+	{ name : 'Crested helm',   kind : 'armor' },
+	{ name : 'Dead rat',       kind : 'junk' },
+	{ name : 'Healing potion', kind : 'potion' }
+]>>
 
-/* Returns 1 */
 <<set $result to $items.countWith((item) => item.kind === 'junk')>>
+/* Returns 1 */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let fruits = ['Apples', 'Oranges', 'Plums', 'Oranges'];
-*/
+// Given the following:
+let fruits = ['Apples', 'Oranges', 'Plums', 'Oranges'];
 
-// Returns 2
 let result = fruits.countWith((fruit) => fruit === 'Oranges');
+// Returns 2
 ```
 
 ```javascript
-/* Given:
-	let numbers = [1, 2.3, 4, 76, 3.1];
-*/
+// Given the following:
+let numbers = [1, 2.3, 4, 76, 3.1];
 
-// Returns 3
 let result = numbers.countWith(Number.isInteger);
+// Returns 3
 ```
 
 ```javascript
-/* Given:
-	let items = [
-		{ name : 'Arming sword',   kind : 'weapon' },
-		{ name : 'Crested helm',   kind : 'armor' },
-		{ name : 'Dead rat',       kind : 'junk' },
-		{ name : 'Healing potion', kind : 'potion' }
-	];
-*/
+// Given the following:
+let items = [
+	{ name : 'Arming sword',   kind : 'weapon' },
+	{ name : 'Crested helm',   kind : 'armor' },
+	{ name : 'Dead rat',       kind : 'junk' },
+	{ name : 'Healing potion', kind : 'potion' }
+];
 
-// Returns 1
 let result = items.countWith((item) => item.kind === 'junk');
+// Returns 1
 ```
 
 <!-- *********************************************************************** -->
@@ -314,33 +302,31 @@ A new `Array` containing the removed members.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $fruits to ['Apples', 'Oranges', 'Plums', 'Oranges']>>
-*/
+/* Given the following: */
+<<set $fruits to ['Apples', 'Oranges', 'Plums', 'Oranges']>>
 
-// $fruits ['Apples', 'Plums'] */
-// Returns ['Oranges', 'Oranges'] */
 <<set $result to $fruits.deleteAll('Oranges')>>
+/* Returns ['Oranges', 'Oranges'] */
+/* $fruits ['Apples', 'Plums'] */
 
-// $fruits ['Oranges', 'Oranges'] */
-// Returns ['Apples', 'Plums'] */
 <<set $result to $fruits.deleteAll('Apples', 'Plums')>>
+/* Returns ['Apples', 'Plums'] */
+/* $fruits ['Oranges', 'Oranges'] */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let fruits = ['Apples', 'Oranges', 'Plums', 'Oranges'];
-*/
+// Given the following:
+let fruits = ['Apples', 'Oranges', 'Plums', 'Oranges'];
 
-// $fruits ['Apples', 'Plums']
-// Returns ['Oranges', 'Oranges']
 let result = fruits.deleteAll('Oranges');
+// Returns ['Oranges', 'Oranges']
+// $fruits ['Apples', 'Plums']
 
-// $fruits ['Oranges', 'Oranges']
-// Returns ['Apples', 'Plums']
 let result = fruits.deleteAll('Apples', 'Plums');
+// Returns ['Apples', 'Plums']
+// $fruits ['Oranges', 'Oranges']
 ```
 
 <!-- *********************************************************************** -->
@@ -366,41 +352,39 @@ A new `Array` containing the removed members.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $fruits to ['Apples', 'Oranges', 'Plums', 'Oranges']>>
-*/
+/* Given the following: */
+<<set $fruits to ['Apples', 'Oranges', 'Plums', 'Oranges']>>
 
-/* $fruits ['Apples', 'Oranges', 'Oranges'] */
-/* Returns ['Plums'] */
 <<set $result to $fruits.deleteAt(2)>>
+/* Returns ['Plums'] */
+/* $fruits ['Apples', 'Oranges', 'Oranges'] */
 
-/* $fruits ['Apples', 'Plums'] */
-/* Returns ['Oranges', 'Oranges'] */
 <<set $result to $fruits.deleteAt(1, 3)>>
+/* Returns ['Oranges', 'Oranges'] */
+/* $fruits ['Apples', 'Plums'] */
 
-/* $fruits ['Oranges', 'Oranges'] */
-/* Returns ['Apples', 'Plums'] */
 <<set $result to $fruits.deleteAt(0, 2)>>
+/* Returns ['Apples', 'Plums'] */
+/* $fruits ['Oranges', 'Oranges'] */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let fruits = ['Apples', 'Oranges', 'Plums', 'Oranges'];
-*/
+// Given the following:
+let fruits = ['Apples', 'Oranges', 'Plums', 'Oranges'];
 
-// fruits ['Apples', 'Oranges', 'Oranges']
-// Returns ['Plums']
 let result = fruits.deleteAt(2);
+// Returns ['Plums']
+// fruits ['Apples', 'Oranges', 'Oranges']
 
-// fruits ['Apples', 'Plums']
-// Returns ['Oranges', 'Oranges']
 let result = fruits.deleteAt(1, 3);
+// Returns ['Oranges', 'Oranges']
+// fruits ['Apples', 'Plums']
 
-// fruits ['Oranges', 'Oranges']
-// Returns ['Apples', 'Plums']
 let result = fruits.deleteAt(0, 2);
+// Returns ['Apples', 'Plums']
+// fruits ['Oranges', 'Oranges']
 ```
 
 <!-- *********************************************************************** -->
@@ -426,33 +410,31 @@ A new `Array` containing the removed members.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $fruits to ['Apples', 'Oranges', 'Plums', 'Oranges']>>
-*/
+/* Given the following: */
+<<set $fruits to ['Apples', 'Oranges', 'Plums', 'Oranges']>>
 
-/* $fruits ['Apples', 'Plums', 'Oranges'] */
-/* Returns ['Oranges'] */
 <<set $result to $fruits.deleteFirst('Oranges')>>
+/* Returns ['Oranges'] */
+/* $fruits ['Apples', 'Plums', 'Oranges'] */
 
-/* $fruits ['Oranges', 'Oranges'] */
-/* Returns ['Apples', 'Plums'] */
 <<set $result to $fruits.deleteFirst('Apples', 'Plums')>>
+/* Returns ['Apples', 'Plums'] */
+/* $fruits ['Oranges', 'Oranges'] */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let fruits = ['Apples', 'Oranges', 'Plums', 'Oranges'];
-*/
+// Given the following:
+let fruits = ['Apples', 'Oranges', 'Plums', 'Oranges'];
 
-// fruits ['Apples', 'Plums', 'Oranges']
-// Returns ['Oranges']
 let result = fruits.deleteFirst('Oranges');
+// Returns ['Oranges']
+// fruits ['Apples', 'Plums', 'Oranges']
 
-// fruits ['Oranges', 'Oranges']
-// Returns ['Apples', 'Plums']
 let result = fruits.deleteFirst('Apples', 'Plums');
+// Returns ['Apples', 'Plums']
+// fruits ['Oranges', 'Oranges']
 ```
 
 <!-- *********************************************************************** -->
@@ -478,33 +460,31 @@ A new `Array` containing the removed members.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $fruits to ['Apples', 'Oranges', 'Plums', 'Oranges']>>
-*/
+/* Given the following: */
+<<set $fruits to ['Apples', 'Oranges', 'Plums', 'Oranges']>>
 
-/* $fruits ['Apples', 'Oranges', 'Plums'] */
-/* Returns ['Oranges'] */
 <<set $result to $fruits.deleteLast('Oranges')>>
+/* Returns ['Oranges'] */
+/* $fruits ['Apples', 'Oranges', 'Plums'] */
 
-/* $fruits ['Oranges', 'Oranges'] */
-/* Returns ['Apples', 'Plums'] */
 <<set $result to $fruits.deleteLast('Apples', 'Plums')>>
+/* Returns ['Apples', 'Plums'] */
+/* $fruits ['Oranges', 'Oranges'] */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let fruits = ['Apples', 'Oranges', 'Plums', 'Oranges'];
-*/
+// Given the following:
+let fruits = ['Apples', 'Oranges', 'Plums', 'Oranges'];
 
-// fruits ['Apples', 'Oranges', 'Plums']
-// Returns ['Oranges']
 let result = fruits.deleteLast('Oranges');
+// Returns ['Oranges']
+// fruits ['Apples', 'Oranges', 'Plums']
 
-// fruits ['Oranges', 'Oranges']
-// Returns ['Apples', 'Plums']
 let result = fruits.deleteLast('Apples', 'Plums');
+// Returns ['Apples', 'Plums']
+// fruits ['Oranges', 'Oranges']
 ```
 
 <!-- *********************************************************************** -->
@@ -536,33 +516,31 @@ A new `Array` containing the removed members.
 Usage with primitive values.
 
 ```
-/* Given:
-	<<set $fruits to ['Apples', 'Apricots', 'Oranges']>>
-*/
+/* Given the following: */
+<<set $fruits to ['Apples', 'Apricots', 'Oranges']>>
 
-/* $fruits ['Apples', 'Oranges'] */
-/* Returns ['Apricots'] */
 $fruits.deleteWith((val) => val === 'Apricots')
+/* Returns ['Apricots'] */
+/* $fruits ['Apples', 'Oranges'] */
 
-/* $fruits ['Oranges'] */
-/* Returns ['Apples', 'Apricots'] */
 $fruits.deleteWith((val) => val.startsWith('Ap'))
+/* Returns ['Apples', 'Apricots'] */
+/* $fruits ['Oranges'] */
 ```
 
 Usage with object values.
 
 ```
-/* Given:
-	<<set $fruits to [{ name : 'Apples' }, { name : 'Apricots' }, { name : 'Oranges' }]>>
-*/
+/* Given the following: */
+<<set $fruits to [{ name : 'Apples' }, { name : 'Apricots' }, { name : 'Oranges' }]>>
 
-/* $fruits [{ name : 'Apples' }, { name : 'Oranges' }] */
-/* Returns [{ name : 'Apricots' }] */
 $fruits.deleteWith((val) => val.name === 'Apricots')
+/* Returns [{ name : 'Apricots' }] */
+/* $fruits [{ name : 'Apples' }, { name : 'Oranges' }] */
 
-/* $fruits [{ name : 'Oranges' }] */
-/* Returns [{ name : 'Apples' }, { name : 'Apricots' }] */
 $fruits.deleteWith((val) => val.name.startsWith('Ap'))
+/* Returns [{ name : 'Apples' }, { name : 'Apricots' }] */
+/* $fruits [{ name : 'Oranges' }] */
 ```
 
 ##### Basic usage (in JavaScript)
@@ -570,33 +548,31 @@ $fruits.deleteWith((val) => val.name.startsWith('Ap'))
 Usage with primitive values.
 
 ```javascript
-/* Given:
-	let fruits = ['Apples', 'Apricots', 'Oranges'];
-*/
+// Given the following:
+let fruits = ['Apples', 'Apricots', 'Oranges'];
 
-// fruits ['Apples', 'Oranges']
-// Returns ['Apricots']
 let result = fruits.deleteWith((val) => val === 'Apricots');
+// Returns ['Apricots']
+// fruits ['Apples', 'Oranges']
 
-// fruits ['Oranges']
-// Returns ['Apples', 'Apricots']
 let result = fruits.deleteWith((val) => val.startsWith('Ap'));
+// Returns ['Apples', 'Apricots']
+// fruits ['Oranges']
 ```
 
 Usage with object values.
 
 ```javascript
-/* Given:
-	let fruits = [{ name : 'Apples' }, { name : 'Apricots' }, { name : 'Oranges' }];
-*/
+// Given the following:
+let fruits = [{ name : 'Apples' }, { name : 'Apricots' }, { name : 'Oranges' }];
 
-// fruits [{ name : 'Apples' }, { name : 'Oranges' }]
-// Returns [{ name : 'Apricots' }]
 let result = fruits.deleteWith((val) => val.name === 'Apricots');
+// Returns [{ name : 'Apricots' }]
+// fruits [{ name : 'Apples' }, { name : 'Oranges' }]
 
-// fruits [{ name : 'Oranges' }]
-// Returns [{ name : 'Apples' }, { name : 'Apricots' }]
 let result = fruits.deleteWith((val) => val.name.startsWith('Ap'));
+// Returns [{ name : 'Apples' }, { name : 'Apricots' }]
+// fruits [{ name : 'Oranges' }]
 ```
 
 <!-- *********************************************************************** -->
@@ -618,23 +594,21 @@ The first member's value (`any`).
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
-*/
+/* Given the following: */
+<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
 
-/* Returns 'Blueberry' */
 <<set $result to $pies.first()>>
+/* Returns 'Blueberry' */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
-*/
+// Given the following:
+let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
 
-// Returns 'Blueberry'
 let result = pies.first();
+// Returns 'Blueberry'
 ```
 
 <!-- *********************************************************************** -->
@@ -658,41 +632,39 @@ A new `Array` consisting of all members flattened up to the given depth.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $npa to [['Alfa', 'Bravo'], [[['Charlie'], 'Delta'], ['Echo']], 'Foxtrot']>>
-*/
+/* Given the following: */
+<<set $npa to [['Alfa', 'Bravo'], [[['Charlie'], 'Delta'], ['Echo']], 'Foxtrot']>>
 
-/* Returns ['Alfa', 'Bravo', [['Charlie'], 'Delta'], ['Echo'], 'Foxtrot'] */
 <<set $result to $npa.flat()>>
-
 /* Returns ['Alfa', 'Bravo', [['Charlie'], 'Delta'], ['Echo'], 'Foxtrot'] */
+
 <<set $result to $npa.flat(1)>>
+/* Returns ['Alfa', 'Bravo', [['Charlie'], 'Delta'], ['Echo'], 'Foxtrot'] */
 
-/* Returns ['Alfa', 'Bravo', ['Charlie'], 'Delta', 'Echo', 'Foxtrot'] */
 <<set $result to $npa.flat(2)>>
+/* Returns ['Alfa', 'Bravo', ['Charlie'], 'Delta', 'Echo', 'Foxtrot'] */
 
-/* Returns ['Alfa', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot'] */
 <<set $result to $npa.flat(Infinity)>>
+/* Returns ['Alfa', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot'] */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let npa = [['Alfa', 'Bravo'], [[['Charlie'], 'Delta'], ['Echo']], 'Foxtrot'];
-*/
+// Given the following:
+let npa = [['Alfa', 'Bravo'], [[['Charlie'], 'Delta'], ['Echo']], 'Foxtrot'];
 
-// Returns ['Alfa', 'Bravo', [['Charlie'], 'Delta'], ['Echo'], 'Foxtrot']
 let result = npa.flat();
-
 // Returns ['Alfa', 'Bravo', [['Charlie'], 'Delta'], ['Echo'], 'Foxtrot']
+
 let result = npa.flat(1);
+// Returns ['Alfa', 'Bravo', [['Charlie'], 'Delta'], ['Echo'], 'Foxtrot']
 
-// Returns ['Alfa', 'Bravo', ['Charlie'], 'Delta', 'Echo', 'Foxtrot']
 let result = npa.flat(2);
+// Returns ['Alfa', 'Bravo', ['Charlie'], 'Delta', 'Echo', 'Foxtrot']
 
-// Returns ['Alfa', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot']
 let result = npa.flat(Infinity);
+// Returns ['Alfa', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot']
 ```
 
 <!-- *********************************************************************** -->
@@ -724,23 +696,21 @@ A new `Array` consisting of all members flattened up to the given depth.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $npa to ['Alfa', 'Bravo Charlie', 'Delta Echo Foxtrot']>>
-*/
+/* Given the following: */
+<<set $npa to ['Alfa', 'Bravo Charlie', 'Delta Echo Foxtrot']>>
 
-/* Returns ['Alfa', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot'] */
 <<set $result to $npa.flatMap((val) => val.split(' '))>>
+/* Returns ['Alfa', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot'] */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let npa = ['Alfa', 'Bravo Charlie', 'Delta Echo Foxtrot'];
-*/
+// Given the following:
+let npa = ['Alfa', 'Bravo Charlie', 'Delta Echo Foxtrot'];
 
-// Returns ['Alfa', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot']
 let result = npa.flatMap((val) => val.split(' '));
+// Returns ['Alfa', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot']
 ```
 
 <!-- *********************************************************************** -->
@@ -765,29 +735,27 @@ A `boolean` denoting whether the given member was found within the array.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
-*/
+/* Given the following: */
+<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
 
-/* Returns true */
 <<set $result to $pies.includes('Cherry')>>
-
 /* Returns true */
+
 <<set $result to $pies.includes('Pecan', 3)>>
+/* Returns true */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
-*/
+// Given the following:
+let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
 
-// Returns true
 let result = pies.includes('Cherry');
-
 // Returns true
+
 let result = pies.includes('Pecan', 3);
+// Returns true
 ```
 
 <!-- *********************************************************************** -->
@@ -813,29 +781,27 @@ A `boolean` denoting whether all of the given members were found within the arra
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
-*/
+/* Given the following: */
+<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
 
-/* Returns false */
 <<set $result to $pies.includesAll('Cherry', 'Raspberry')>>
+/* Returns false */
 
-/* Returns true */
 <<set $result to $pies.includesAll('Blueberry', 'Cream')>>
+/* Returns true */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
-*/
+// Given the following:
+let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
 
-// Returns false
 let result = pies.includesAll('Cherry', 'Raspberry');
+// Returns false
 
-// Returns true
 let result = pies.includesAll('Blueberry', 'Cream');
+// Returns true
 ```
 
 <!-- *********************************************************************** -->
@@ -861,29 +827,27 @@ A `boolean` denoting whether any of the given members were found within the arra
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
-*/
+/* Given the following: */
+<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
 
-/* Returns true */
 <<set $result to $pies.includesAny('Cherry', 'Coconut')>>
+/* Returns true */
 
-/* Returns false */
 <<set $result to $pies.includesAny('Coconut')>>
+/* Returns false */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
-*/
+// Given the following:
+let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
 
-// Returns true
 let result = pies.includesAny('Cherry', 'Coconut');
+// Returns true
 
-// Returns false
 let result = pies.includesAny('Coconut');
+// Returns false
 ```
 
 <!-- *********************************************************************** -->
@@ -907,23 +871,21 @@ The last member's value (`any`).
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
-*/
+/* Given the following: */
+<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
 
-/* Returns 'Pumpkin' */
 <<set $result to $pies.last()>>
+/* Returns 'Pumpkin' */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
-*/
+// Given the following:
+let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
 
-// Returns 'Pumpkin'
 let result = $pies.last();
+// Returns 'Pumpkin'
 ```
 
 <!-- *********************************************************************** -->
@@ -947,20 +909,18 @@ The removed member's value (`any`).
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
-*/
+/* Given the following: */
+<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
 
-/* Removes and returns a random pie from the array */
 <<set $result to $pies.pluck()>>
+/* Removes and returns a random pie from the array */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
-*/
+// Given the following:
+let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
 
 // Removes and returns a random pie from the array
 let result = $pies.pluck();
@@ -989,9 +949,8 @@ A new `Array` containing the randomly removed members.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']
-*/
+/* Given the following: */
+<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']
 
 /* Removes three random pies from the array and returns them as a new array */
 <<set $result to $pies.pluckMany(3)>>
@@ -1000,9 +959,8 @@ A new `Array` containing the randomly removed members.
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
-*/
+// Given the following:
+let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
 
 // Removes three random pies from the array and returns them as a new array
 let result = pies.pluckMany(3);
@@ -1027,25 +985,23 @@ The last member's value (`any`).
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $fruits to ['Apples', 'Oranges', 'Pears']>>
-*/
+/* Given the following: */
+<<set $fruits to ['Apples', 'Oranges', 'Pears']>>
 
-/* $fruits ['Apples', 'Oranges'] */
-/* Returns 'Pears' */
 <<set $result to $fruits.pop()>>
+/* Returns 'Pears' */
+/* $fruits ['Apples', 'Oranges'] */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let fruits = ['Apples', 'Oranges', 'Pears'];
-*/
+// Given the following:
+let fruits = ['Apples', 'Oranges', 'Pears'];
 
-// fruits ['Apples', 'Oranges']
-// Returns 'Pears'
 let result = fruits.pop();
+// Returns 'Pears'
+// fruits ['Apples', 'Oranges']
 ```
 
 <!-- *********************************************************************** -->
@@ -1069,33 +1025,31 @@ An *integer* `number` whose value is the new length of the array.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $fruits to ['Apples', 'Oranges']>>
-*/
+/* Given the following: */
+<<set $fruits to ['Apples', 'Oranges']>>
 
-/* $fruits ['Apples', 'Oranges', 'Apples'] */
-/* Returns 3 */
 <<set $result to $fruits.push('Apples')>>
+/* Returns 3 */
+/* $fruits ['Apples', 'Oranges', 'Apples'] */
 
-/* $fruits ['Apples', 'Oranges', 'Plums', 'Plums'] */
-/* Returns 4 */
 <<set $result to $fruits.push('Plums', 'Plums')>>
+/* Returns 4 */
+/* $fruits ['Apples', 'Oranges', 'Plums', 'Plums'] */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let fruits = ['Apples', 'Oranges'];
-*/
+// Given the following:
+let fruits = ['Apples', 'Oranges'];
 
-// fruits ['Apples', 'Oranges', 'Apples']
-// Returns 3
 let result = fruits.push('Apples');
+// Returns 3
+// fruits ['Apples', 'Oranges', 'Apples']
 
-// fruits ['Apples', 'Oranges', 'Plums', 'Plums']
-// Returns 4
 let result = fruits.push('Plums', 'Plums');
+// Returns 4
+// fruits ['Apples', 'Oranges', 'Plums', 'Plums']
 ```
 
 <!-- *********************************************************************** -->
@@ -1121,33 +1075,31 @@ An *integer* `number` whose value is the new length of the array.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $fruits to ['Apples', 'Oranges']>>
-*/
+/* Given the following: */
+<<set $fruits to ['Apples', 'Oranges']>>
 
-/* $fruits ['Apples', 'Oranges'] */
-/* Returns 2 */
 <<set $result to $fruits.pushUnique('Apples')>>
+/* Returns 2 */
+/* $fruits ['Apples', 'Oranges'] */
 
-/* $fruits ['Apples', 'Oranges', 'Plums'] */
-/* Returns 3 */
 <<set $result to $fruits.pushUnique('Plums', 'Plums')>>
+/* Returns 3 */
+/* $fruits ['Apples', 'Oranges', 'Plums'] */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let fruits = ['Apples', 'Oranges'];
-*/
+// Given the following:
+let fruits = ['Apples', 'Oranges'];
 
-// fruits ['Apples', 'Oranges']
-// Returns 2
 let result = fruits.pushUnique('Apples');
+// Returns 2
+// fruits ['Apples', 'Oranges']
 
-// fruits ['Apples', 'Oranges', 'Plums']
-// Returns 3
 let result = fruits.pushUnique('Plums', 'Plums');
+// Returns 3
+// fruits ['Apples', 'Oranges', 'Plums']
 ```
 
 <!-- *********************************************************************** -->
@@ -1171,9 +1123,8 @@ The selected member's value (`any`).
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
-*/
+/* Given the following: */
+<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
 
 /* Returns a random pie from the array */
 <<set $result to $pies.random()>>
@@ -1182,9 +1133,8 @@ The selected member's value (`any`).
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
-*/
+// Given the following:
+let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
 
 // Returns a random pie from the array
 let result = pies.random();
@@ -1213,9 +1163,8 @@ A new `Array` containing the randomly selected members.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
-*/
+/* Given the following: */
+<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
 
 /* Returns a new array containing three unique random pies from the array */
 <<set $result to $pies.randomMany(3)>>
@@ -1224,9 +1173,8 @@ A new `Array` containing the randomly selected members.
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
-*/
+// Given the following:
+let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
 
 // Returns a new array containing three unique random pies from the array
 let result = pies.randomMany(3);
@@ -1251,25 +1199,23 @@ The first member's value (`any`) or `undefined`, if the array is empty.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $fruits to ['Apples', 'Oranges', 'Pears']>>
-*/
+/* Given the following: */
+<<set $fruits to ['Apples', 'Oranges', 'Pears']>>
 
-/* $fruits ['Oranges', 'Pears'] */
-/* Returns 'Apples' */
 <<set $result to $fruits.shift()>>
+/* Returns 'Apples' */
+/* $fruits ['Oranges', 'Pears'] */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let fruits = ['Apples', 'Oranges', 'Pears'];
-*/
+// Given the following:
+let fruits = ['Apples', 'Oranges', 'Pears'];
 
-// fruits ['Oranges', 'Pears']
-// Returns 'Apples'
 let result = fruits.shift();
+// Returns 'Apples'
+// fruits ['Oranges', 'Pears']
 ```
 
 <!-- *********************************************************************** -->
@@ -1293,22 +1239,20 @@ The original `Array` randomly shuffled.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
-*/
+/* Given the following: */
+<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
 
-/* Randomizes the order of the pies in the array */
+/* Randomizes the order of the array */
 <<run $pies.shuffle()>>
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
-*/
+// Given the following:
+let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
 
-// Randomizes the order of the pies in the array
+// Randomizes the order of the array
 pies.shuffle();
 ```
 
@@ -1333,22 +1277,20 @@ A new `Array` consisting of the original array randomly shuffled.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
-*/
+/* Given the following: */
+<<set $pies to ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin']>>
 
-/* Randomizes the order of the pies in the array w/o modifying the original */
+/* Randomizes the order of the array without modifying the original */
 <<set $result to $pies.toShuffled()>>
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
-*/
+// Given the following:
+let pies = ['Blueberry', 'Cherry', 'Cream', 'Pecan', 'Pumpkin'];
 
-// Randomizes the order of the pies in the array w/o modifying the original
+// Randomizes the order of the array without modifying the original
 let result = pies.toShuffled();
 ```
 
@@ -1373,23 +1315,21 @@ A new `Array` consisting of the original array with all duplicates removed.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $fruits to ['Apples', 'Oranges', 'Plums', 'Plums', 'Apples']>>
-*/
+/* Given the following: */
+<<set $fruits to ['Apples', 'Oranges', 'Plums', 'Plums', 'Apples']>>
 
-/* Returns ['Apples', 'Oranges', 'Plums'] */
 <<set $result to $fruits.toUnique()>>
+/* Returns ['Apples', 'Oranges', 'Plums'] */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let fruits = ['Apples', 'Oranges', 'Plums', 'Plums', 'Apples'];
-*/
+// Given the following:
+let fruits = ['Apples', 'Oranges', 'Plums', 'Plums', 'Apples'];
 
-// Returns ['Apples', 'Oranges', 'Plums']
 let result = fruits.toUnique();
+// Returns ['Apples', 'Oranges', 'Plums']
 ```
 
 <!-- *********************************************************************** -->
@@ -1413,33 +1353,31 @@ An *integer* `number` whose value is the new length of the array.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $fruits to ['Oranges', 'Plums']>>
-*/
+/* Given the following: */
+<<set $fruits to ['Oranges', 'Plums']>>
 
-/* $fruits ['Oranges', 'Oranges', 'Plums'] */
-/* Returns 3 */
 <<set $result to $fruits.unshift('Oranges')>>
+/* Returns 3 */
+/* $fruits ['Oranges', 'Oranges', 'Plums'] */
 
-/* $fruits ['Apples', 'Apples', 'Oranges', 'Plums'] */
-/* Returns 4 */
 <<set $result to $fruits.unshift('Apples', 'Apples')>>
+/* Returns 4 */
+/* $fruits ['Apples', 'Apples', 'Oranges', 'Plums'] */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let fruits = ['Oranges', 'Plums'];
-*/
+// Given the following:
+let fruits = ['Oranges', 'Plums'];
 
-// fruits ['Oranges', 'Oranges', 'Plums']
-// Returns 3
 let result = fruits.unshift('Oranges');
+// Returns 3
+// fruits ['Oranges', 'Oranges', 'Plums']
 
-// fruits ['Apples', 'Apples', 'Oranges', 'Plums']
-// Returns 4
 let result = fruits.unshift('Apples', 'Apples');
+// Returns 4
+// fruits ['Apples', 'Apples', 'Oranges', 'Plums']
 ```
 
 <!-- *********************************************************************** -->
@@ -1465,33 +1403,31 @@ An *integer* `number` whose value is the new length of the array.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $fruits to ['Oranges', 'Plums']>>
-*/
+/* Given the following: */
+<<set $fruits to ['Oranges', 'Plums']>>
 
-/* $fruits ['Oranges', 'Plums'] */
-/* Returns 2 */
 <<set $result to $fruits.unshiftUnique('Oranges')>>
+/* Returns 2 */
+/* $fruits ['Oranges', 'Plums'] */
 
-/* $fruits ['Apples', 'Oranges', 'Plums'] */
-/* Returns 3 */
 <<set $result to $fruits.unshiftUnique('Apples', 'Apples')>>
+/* Returns 3 */
+/* $fruits ['Apples', 'Oranges', 'Plums'] */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let fruits = ['Oranges', 'Plums'];
-*/
+// Given the following:
+let fruits = ['Oranges', 'Plums'];
 
-// fruits ['Oranges', 'Plums']
-// Returns 2
 let result = fruits.unshiftUnique('Oranges');
+// Returns 2
+// fruits ['Oranges', 'Plums']
 
-// fruits ['Apples', 'Oranges', 'Plums']
-// Returns 3
 let result = fruits.unshiftUnique('Apples', 'Apples');
+// Returns 3
+// fruits ['Apples', 'Oranges', 'Plums']
 ```
 
 <!-- *********************************************************************** -->
@@ -1661,11 +1597,11 @@ A `boolean` denoting whether any of the elements are disabled.
 ```javascript
 /* Given an existing WAI-ARIA-compatible clickable element with the ID "so-clicky" */
 
-/* If "#so-clicky" is disabled, returns true */
 <<set $result to $('#so-clicky').ariaIsDisabled()>>
+/* Returns true, if "#so-clicky" is disabled */
 
-/* If "#so-clicky" is enabled, returns false */
 <<set $result to $('#so-clicky').ariaIsDisabled()>>
+/* Returns false, if "#so-clicky" is enabled */
 ```
 
 ##### Basic usage (in JavaScript)
@@ -1673,11 +1609,11 @@ A `boolean` denoting whether any of the elements are disabled.
 ```javascript
 /* Given an existing WAI-ARIA-compatible clickable element with the ID "so-clicky" */
 
-// If "#so-clicky" is disabled, returns true
 let result = $('#so-clicky').ariaIsDisabled();
+// Returns true, if "#so-clicky" is disabled
 
-// If "#so-clicky" is enabled, returns false
 let result = $('#so-clicky').ariaIsDisabled();
+// Returns false, if "#so-clicky" is enabled
 ```
 
 <!-- *********************************************************************** -->
@@ -1871,20 +1807,20 @@ A new `number`.
 ##### Basic usage (in macros)
 
 ```
-/* Clamps $stat to the bounds 0–200 and returns the new value */
+/* Returns a copy of the original clamped to the bounds 0–200 */
 <<set $result to Math.clamp($stat, 0, 200)>>
 
-/* Clamps $stat to the bounds 1–6.6 and returns the new value */
+/* Returns a copy of the original clamped to the bounds 1–6.6 */
 <<set $result to Math.clamp($stat, 1, 6.6)>>
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-// Clamps stat to the bounds 0–200 and returns the new value
+// Returns a copy of the original clamped to the bounds 0–200
 let result = Math.clamp(stat, 0, 200);
 
-// Clamps stat to the bounds 1–6.6 and returns the new value
+// Returns a copy of the original clamped to the bounds 1–6.6
 let result = Math.clamp(stat, 1, 6.6);
 ```
 
@@ -1909,21 +1845,21 @@ A new *integer* `number`.
 ##### Basic usage (in macros)
 
 ```
-/* Returns 12 */
 <<set $result to Math.trunc(12.7)>>
+/* Returns 12 */
 
-/* Returns -12 */
 <<set $result to Math.trunc(-12.7)>>
+/* Returns -12 */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-// Returns 12
 let result = Math.trunc(12.7);
+// Returns 12
 
-// Returns -12
 let result = Math.trunc(-12.7);
+// Returns -12
 ```
 
 
@@ -1972,15 +1908,15 @@ A new `string` that can be safely used as a literal pattern.
 ##### Basic usage (in macros)
 
 ```
-/* Returns '\x54hat\x20will\x20be\x20\$15\x2c\x20cash\x20only\.' */
 <<set $result to RegExp.escape('That will be $15, cash only.')>>
+/* Returns '\x54hat\x20will\x20be\x20\$15\x2c\x20cash\x20only\.' */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-// Returns '\x54hat\x20will\x20be\x20\$15\x2c\x20cash\x20only\.'
 let result = RegExp.escape('That will be $15, cash only.');
+// Returns '\x54hat\x20will\x20be\x20\$15\x2c\x20cash\x20only\.'
 ```
 
 
@@ -2022,8 +1958,8 @@ The macro examples would be exactly the same as the JavaScript examples, just wr
 
 ##### Basic usage (in JavaScript)
 ```javascript
-Serial.createReviver(/* valid JavaScript code string */);            // w/o data chunk
-Serial.createReviver(/* valid JavaScript code string */, myOwnData); // w/ data chunk
+Serial.createReviver(/* JavaScript code string */);            // without data chunk
+Serial.createReviver(/* JavaScript code string */, myOwnData); // with data chunk
 
 // Assume that you're attempting to revive an instance of a custom class named
 // `Character`, which is assigned to a story variable named `$pc`.  The call
@@ -2072,29 +2008,27 @@ An *integer* `number` denoting the number of times that the given substring was 
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $text to 'How now, brown cow.'>>
-*/
+/* Given the following: */
+<<set $text to 'How now, brown cow.'>>
 
-/* Returns 4 */
 <<set $result to $text.count('ow')>>
+/* Returns 4 */
 
-/* Returns 2 */
 <<set $result to $text.count('ow', 8)>>
+/* Returns 2 */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let text = 'How now, brown cow.';
-*/
+// Given the following:
+let text = 'How now, brown cow.';
 
-// Returns 4
 let result = text.count('ow');
+// Returns 4
 
-// Returns 2
 let result = text.count('ow', 8);
+// Returns 2
 ```
 
 <!-- *********************************************************************** -->
@@ -2122,41 +2056,37 @@ A new `string` containing the first Unicode code point.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $text to 'abc'>>
-*/
+/* Given the following: */
+<<set $text to 'abc'>>
 
+<<set $result to $text.first()>>
 /* Returns 'a' */
+```
+
+```
+/* Given the following: */
+<<set $text to '🙈🙉🙊'>>
+
 <<set $result to $text.first()>>
-```
-
-```
-/* Given:
-	<<set $text to '🙈🙉🙊'>>
-*/
-
 /* Returns '🙈' */
-<<set $result to $text.first()>>
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let text = 'abc';
-*/
+// Given the following:
+let text = 'abc';
 
-// Returns 'a'
 let result = text.first();
+// Returns 'a'
 ```
 
 ```javascript
-/* Given:
-	let text = '🙈🙉🙊';
-*/
+// Given the following:
+let text = '🙈🙉🙊';
 
-// Returns '🙈'
 let result = text.first();
+// Returns '🙈'
 ```
 
 <!-- *********************************************************************** -->
@@ -2192,25 +2122,25 @@ A new `string` based on the format and arguments.
 Using a list of arguments.
 
 ```
-/* Returns 'Hello, World!' */
 <<set $result to String.format('{0}, {1}!', 'Hello', 'World')>>
+/* Returns 'Hello, World!' */
 ```
 
 Using an array argument.
 
 ```
-/* Returns 'Hello, World!' */
 <<set $result to String.format('{0}, {1}!', ['Hello', 'World'])>>
+/* Returns 'Hello, World!' */
 ```
 
 Using alignments.
 
 ```
-/* Returns '   foo' */
 <<set $result to String.format('{0,6}', 'foo')>>
+/* Returns '   foo' */
 
-/* Returns 'foo   ' */
 <<set $result to String.format('{0,-6}', 'foo')>>
+/* Returns 'foo   ' */
 ```
 
 ##### Basic usage (in JavaScript)
@@ -2218,25 +2148,25 @@ Using alignments.
 Using a list of arguments.
 
 ```javascript
-// Returns 'Hello, World!'
 let result = String.format('{0}, {1}!', 'Hello', 'World');
+// Returns 'Hello, World!'
 ```
 
 Using an array argument.
 
 ```javascript
-// Returns 'Hello, World!'
 let result = String.format('{0}, {1}!', ['Hello', 'World']);
+// Returns 'Hello, World!'
 ```
 
 Using alignments.
 
 ```javascript
-// Returns '   foo'
 let result = String.format('{0,6}', 'foo');
+// Returns '   foo'
 
-// Returns 'foo   '
 let result = String.format('{0,-6}', 'foo');
+// Returns 'foo   '
 ```
 
 <!-- *********************************************************************** -->
@@ -2265,41 +2195,39 @@ A `boolean` denoting whether the given substring was found within the string.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $text to 'How now, brown cow.'>>
-*/
+/* Given the following: */
+<<set $text to 'How now, brown cow.'>>
 
-/* Returns true */
 <<set $result to $text.includes('row')>>
-
-/* Returns false */
-<<set $result to $text.includes('row', 14)>>
-
 /* Returns true */
-<<set $result to $text.includes('cow', 14)>>
 
+<<set $result to $text.includes('row', 14)>>
 /* Returns false */
+
+<<set $result to $text.includes('cow', 14)>>
+/* Returns true */
+
 <<set $result to $text.includes('pow')>>
+/* Returns false */
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let text = 'How now, brown cow.';
-*/
+// Given the following:
+let text = 'How now, brown cow.';
 
-// Returns true
 let result = text.includes('row');
-
-// Returns false
-let result = text.includes('row', 14);
-
 // Returns true
-let result = text.includes('cow', 14);
 
+let result = text.includes('row', 14);
 // Returns false
+
+let result = text.includes('cow', 14);
+// Returns true
+
 let result = text.includes('pow');
+// Returns false
 ```
 
 <!-- *********************************************************************** -->
@@ -2327,41 +2255,37 @@ A new `string` containing the last Unicode code point.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $text to 'abc'>>
-*/
+/* Given the following: */
+<<set $text to 'abc'>>
 
+<<set $result to $text.last()>>
 /* Returns 'c' */
+```
+
+```
+/* Given the following: */
+<<set $text to '🙈🙉🙊'>>
+
 <<set $result to $text.last()>>
-```
-
-```
-/* Given:
-	<<set $text to '🙈🙉🙊'>>
-*/
-
 /* Returns '🙊' */
-<<set $result to $text.last()>>
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let text = 'abc';
-*/
+// Given the following:
+let text = 'abc';
 
-// Returns 'c'
 let result = text.last();
+// Returns 'c'
 ```
 
 ```javascript
-/* Given:
-	let text = '🙈🙉🙊';
-*/
+// Given the following:
+let text = '🙈🙉🙊';
 
-// Returns '🙊'
 let result = text.last();
+// Returns '🙊'
 ```
 
 <!-- *********************************************************************** -->
@@ -2391,21 +2315,19 @@ A new `string` with its first Unicode code point uppercased according to locale-
 Using the Turkish (Türkçe) locale.
 
 ```
-/* Given:
-	<<set $text to 'ışık'>>
-*/
+/* Given the following: */
+<<set $text to 'ışık'>>
 
+<<set $result to $text.toLocaleUpperFirst()>>
 /* Returns 'Işık' */
+```
+
+```
+/* Given the following: */
+<<set $text to 'iki'>>
+
 <<set $result to $text.toLocaleUpperFirst()>>
-```
-
-```
-/* Given:
-	<<set $text to 'iki'>>
-*/
-
 /* Returns 'İki' */
-<<set $result to $text.toLocaleUpperFirst()>>
 ```
 
 ##### Basic usage (in JavaScript)
@@ -2413,21 +2335,19 @@ Using the Turkish (Türkçe) locale.
 Using the Turkish (Türkçe) locale.
 
 ```javascript
-/* Given:
-	let text = 'ışık';
-*/
+// Given the following:
+let text = 'ışık';
 
-// Returns 'Işık'
 let result = text.toLocaleUpperFirst();
+// Returns 'Işık'
 ```
 
 ```javascript
-/* Given:
-	let text = 'iki';
-*/
+// Given the following:
+let text = 'iki';
 
-// Returns 'İki'
 let result = text.toLocaleUpperFirst();
+// Returns 'İki'
 ```
 
 <!-- *********************************************************************** -->
@@ -2455,39 +2375,35 @@ A new `string` with its first Unicode code point uppercased.
 ##### Basic usage (in macros)
 
 ```
-/* Given:
-	<<set $text to 'hello.'>>
-*/
+/* Given the following: */
+<<set $text to 'hello.'>>
 
+<<set $result to $text.toUpperFirst()>>
 /* Returns 'Hello.'*/
+```
+
+```
+/* Given the following: */
+<<set $text to 'χαίρετε.'>>
+
 <<set $result to $text.toUpperFirst()>>
-```
-
-```
-/* Given:
-	<<set $text to 'χαίρετε.'>>
-*/
-
 /* Returns 'Χαίρετε.'*/
-<<set $result to $text.toUpperFirst()>>
 ```
 
 ##### Basic usage (in JavaScript)
 
 ```javascript
-/* Given:
-	let text = 'hello.';
-*/
+// Given the following:
+let text = 'hello.';
 
-// Returns 'Hello.'
 let result = text.toUpperFirst();
+// Returns 'Hello.'
 ```
 
 ```javascript
-/* Given:
-	let text = 'χαίρετε.';
-*/
+// Given the following:
+let text = 'χαίρετε.';
 
-// Returns 'Χαίρετε.'
 let result = text.toUpperFirst();
+// Returns 'Χαίρετε.'
 ```

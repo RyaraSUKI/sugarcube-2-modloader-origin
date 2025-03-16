@@ -35,28 +35,11 @@ A deep copy (`any`) of the original value.
 
 #### Examples:
 
-##### Basic usage (in JavaScript)
-
-```javascript
-/* Given the generic object: foo = { id : 1 } */
-
-// Without clone()
-let bar = foo;
-bar.id = 5;
-foo.id; // Yields 5
-bar.id; // Yields 5
-
-// With clone()
-let bar = clone(foo);
-bar.id = 5;
-foo.id; // Yields 1
-bar.id; // Yields 5
-```
-
 ##### Basic usage (in macros)
 
 ```
-/* Given the generic object: $foo = { id : 1 } */
+/* Given the following: */
+<<set $foo to { id : 1 }>>
 
 /* Without clone() */
 <<set $bar to $foo>>
@@ -69,6 +52,25 @@ bar.id; // Yields 5
 <<set $bar.id to 5>>
 <<= $foo.id>> // Prints 1
 <<= $bar.id>> // Prints 5
+```
+
+##### Basic usage (in JavaScript)
+
+```javascript
+// Given the following:
+let foo = { id : 1 };
+
+// Without clone()
+let bar = foo;
+bar.id = 5;
+foo.id; // Yields 5
+bar.id; // Yields 5
+
+// With clone()
+let bar = clone(foo);
+bar.id = 5;
+foo.id; // Yields 1
+bar.id; // Yields 5
 ```
 
 <!-- *********************************************************************** -->
@@ -93,50 +95,72 @@ A random value (`any`) from its given arguments.
 
 #### Examples:
 
-##### Basic usage (in JavaScript)
-
-```javascript
-// Using singular values
-// Returns a random pie from the whole list
-let pie = either('Blueberry', 'Cherry', 'Pecan');
-
-// Using arrays
-// Given: pies = ['Blueberry', 'Cherry', 'Pecan']
-// Returns a random pie from the whole array
-let pie = either(pies);
-
-// Using singular values and arrays
-// Given: letters = ['A', 'B']
-// Returns a random value from the whole list—i.e., 'A', 'B', 'C', 'D'
-let letter = either(letters, 'C', 'D');
-
-// Using multiple arrays
-// Given: letters = ['A', 'B'] & numerals = ['1', '2']
-// Returns a random value from the whole list—i.e., 'A', 'B', '1', '2'
-let alphaNum = either(letters, numerals);
-```
-
 ##### Basic usage (in macros)
 
-```javascript
-// Using singular values
-// Returns a random pie from the whole list
+Using singular values.
+
+```
+/* Returns a random pie from the whole list */
 <<set $pie to either('Blueberry', 'Cherry', 'Pecan')>>
+```
 
-// Using arrays
-// Given: $pies = ['Blueberry', 'Cherry', 'Pecan']
-// Returns a random pie from the whole array
+Using arrays.
+
+```
+/* Returns a random pie from the whole array */
+<<set $pies to ['Blueberry', 'Cherry', 'Pecan']>>
 <<set $pie to either($pies)>>
+```
 
-// Using singular values and arrays
-// Given: $letters = ['A', 'B']
-// Returns a random value from the whole list—i.e., 'A', 'B', 'C', 'D'
+Using singular values and arrays.
+
+```
+/* Returns a random value from the whole list—i.e., 'A', 'B', 'C', 'D' */
+<<set $letters to ['A', 'B']>>
 <<set $letter to either($letters, 'C', 'D')>>
+```
 
-// Using multiple arrays
-// Given: $letters = ['A', 'B'] & $numerals = ['1', '2']
-// Returns a random value from the whole list—i.e., 'A', 'B', '1', '2'
+Using multiple arrays.
+
+```
+/* Returns a random value from the whole list—i.e., 'A', 'B', '1', '2' */
+<<set $letters to ['A', 'B']>>
+<<set $numerals to ['1', '2']>>
 <<set $alphaNum to either($letters, $numerals)>>
+```
+
+##### Basic usage (in JavaScript)
+
+Using singular values.
+
+```javascript
+// Returns a random pie from the whole list
+let pie = either('Blueberry', 'Cherry', 'Pecan');
+```
+
+Using arrays.
+
+```javascript
+// Returns a random pie from the whole array
+let pies = ['Blueberry', 'Cherry', 'Pecan'];
+let pie  = either(pies);
+```
+
+Using singular values and arrays.
+
+```javascript
+// Returns a random value from the whole list—i.e., 'A', 'B', 'C', 'D'
+let letters = ['A', 'B'];
+let letter  = either(letters, 'C', 'D');
+```
+
+Using multiple arrays.
+
+```javascript
+// Returns a random value from the whole list—i.e., 'A', 'B', '1', '2'
+let letters  = ['A', 'B'];
+let numerals = ['1', '2']
+let alphaNum = either(letters, numerals);
 ```
 
 <!-- *********************************************************************** -->
@@ -165,18 +189,18 @@ An `Error` or `TypeError` instance.
 
 #### Examples:
 
-##### Basic usage (in JavaScript)
-
-```javascript
-// Clears 'achievements' from the metadata store.
-forget('achievements');
-```
-
 ##### Basic usage (in macros)
 
 ```
 /* Clears 'achievements' from the metadata store. */
 <<run forget('achievements')>>
+```
+
+##### Basic usage (in JavaScript)
+
+```javascript
+// Clears 'achievements' from the metadata store.
+forget('achievements');
 ```
 
 <!-- *********************************************************************** -->
@@ -203,26 +227,6 @@ An `Error` instance.
 
 #### Examples:
 
-##### Basic usage (in JavaScript)
-
-```javascript
-if (hasVisited('Bar')) {
-	// Has been to the Bar.
-}
-
-if (!hasVisited('Bar')) {
-	// Has never been to the Bar.
-}
-
-if (hasVisited('Bar', 'Café')) {
-	// Has been to both the Bar and Café.
-}
-
-if (!hasVisited('Bar', 'Café')) {
-	// Has never been to either the Bar, Café, or both.
-}
-```
-
 ##### Basic usage (in macros)
 
 ```
@@ -241,6 +245,26 @@ if (!hasVisited('Bar', 'Café')) {
 <<if not hasVisited('Bar', 'Café')>>
 	…has never been to either the Bar, Café, or both…
 <</if>>
+```
+
+##### Basic usage (in JavaScript)
+
+```javascript
+if (hasVisited('Bar')) {
+	// Has been to the Bar.
+}
+
+if (!hasVisited('Bar')) {
+	// Has never been to the Bar.
+}
+
+if (hasVisited('Bar', 'Café')) {
+	// Has been to both the Bar and Café.
+}
+
+if (!hasVisited('Bar', 'Café')) {
+	// Has never been to either the Bar, Café, or both.
+}
 ```
 
 <!-- *********************************************************************** -->
@@ -267,30 +291,6 @@ An `Error` instance.
 
 #### Examples:
 
-##### Basic usage (in JavaScript)
-
-```javascript
-if (lastVisited('Bar') === -1) {
-	// Has never been to the Bar.
-}
-
-if (lastVisited('Bar') === 0) {
-	// Is currently in the Bar.
-}
-
-if (lastVisited('Bar') === 1) {
-	// Was in the Bar one turn ago.
-}
-
-if (lastVisited('Bar', 'Café') === -1) {
-	// Has never been to the Bar, Café, or both.
-}
-
-if (lastVisited('Bar', 'Café') === 2) {
-	// Has been to both the Bar and Café, most recently two turns ago.
-}
-```
-
 ##### Basic usage (in macros)
 
 ```
@@ -313,6 +313,30 @@ if (lastVisited('Bar', 'Café') === 2) {
 <<if lastVisited('Bar', 'Café') is 2>>
 	…has been to both the Bar and Café, most recently two turns ago…
 <</if>>
+```
+
+##### Basic usage (in JavaScript)
+
+```javascript
+if (lastVisited('Bar') === -1) {
+	// Has never been to the Bar.
+}
+
+if (lastVisited('Bar') === 0) {
+	// Is currently in the Bar.
+}
+
+if (lastVisited('Bar') === 1) {
+	// Was in the Bar one turn ago.
+}
+
+if (lastVisited('Bar', 'Café') === -1) {
+	// Has never been to the Bar, Café, or both.
+}
+
+if (lastVisited('Bar', 'Café') === 2) {
+	// Has been to both the Bar and Café, most recently two turns ago.
+}
 ```
 
 <!-- *********************************************************************** -->
@@ -532,16 +556,6 @@ An `TypeError` instance.
 
 #### Examples:
 
-##### Basic usage (in JavaScript)
-
-```javascript
-// Sets 'achievements', with the given value, in the metadata store.
-memorize('achievements', { ateYellowSnow : true });
-
-// Sets 'ngplus', with the given value, in the metadata store.
-memorize('ngplus', true);
-```
-
 ##### Basic usage (in macros)
 
 ```
@@ -550,6 +564,16 @@ memorize('ngplus', true);
 
 /* Sets 'ngplus', with the given value, in the metadata store. */
 <<run memorize('ngplus', true)>>
+```
+
+##### Basic usage (in JavaScript)
+
+```javascript
+// Sets 'achievements', with the given value, in the metadata store.
+memorize('achievements', { ateYellowSnow : true });
+
+// Sets 'ngplus', with the given value, in the metadata store.
+memorize('ngplus', true);
 ```
 
 <!-- *********************************************************************** -->
@@ -572,20 +596,40 @@ The name (`string`) of the passage.
 
 #### Examples:
 
-##### Basic usage (in JavaScript)
+##### Basic usage as part of a link
 
-```javascript
-if (passage() === 'Café') {
-	// The active passage is the Café passage.
-}
+```
+/* Link markup.*/
+[[Reload passage|passage()]]
+
+/* Link macro.*/
+<<link "Reload passage" `passage()`>><</link>>
 ```
 
 ##### Basic usage (in macros)
 
 ```
+/* Get the name of the active passage. */
+<<set $passageName to passage()>>
+```
+
+```
 <<if passage() is 'Café'>>
 	…the active passage is the Café passage…
 <</if>>
+```
+
+##### Basic usage (in JavaScript)
+
+```javascript
+// Get the name of the active passage.
+let passageName = passage();
+```
+
+```javascript
+if (passage() === 'Café') {
+	// The active passage is the Café passage.
+}
 ```
 
 <!-- *********************************************************************** -->
@@ -608,15 +652,26 @@ The name (`string`) of the passage, elsewise an empty string (`''`).
 
 #### Examples:
 
-##### Basic usage (in JavaScript)
+##### Basic usage as part of a link
 
-```javascript
-if (previous() === 'Café') {
-	// The most recent non-active passage is the Café passage.
-}
+<p role="note" class="warning"><b>Warning:</b>
+If you need to go back multiple passages—e.g., if you have a menu and you want the player to return from any depth—then <code>previous()</code> may be insufficient for your needs.  In that case, you'll want to look at the <a href="#guide-tips-arbitrarily-long-return">arbitrarily long return</a>.
+</p>
+
+```
+/* Link markup.*/
+[[Return|previous()]]
+
+/* Link macro.*/
+<<link "Return" `previous()`>><</link>>
 ```
 
 ##### Basic usage (in macros)
+
+```
+/* Get the name of the most recent non-active passage. */
+<<set $previousName to previous()>>
+```
 
 ```
 <<if previous() is 'Café'>>
@@ -624,10 +679,17 @@ if (previous() === 'Café') {
 <</if>>
 ```
 
-##### Usage as part of a link
+##### Basic usage (in JavaScript)
 
+```javascript
+// Get the name of the most recent non-active passage.
+let previousName = previous();
 ```
-[[Return|previous()]]
+
+```javascript
+if (previous() === 'Café') {
+	// The most recent non-active passage is the Café passage.
+}
 ```
 
 <!-- *********************************************************************** -->
@@ -659,16 +721,6 @@ An `Error` or `TypeError` instance.
 
 #### Examples:
 
-##### Basic usage (in JavaScript)
-
-```javascript
-// Returns a number in the range 0–5
-let randInt = random(5);
-
-// Returns a number in the range 1–6
-let randInt = random(1, 6);
-```
-
 ##### Basic usage (in macros)
 
 ```
@@ -677,6 +729,16 @@ let randInt = random(1, 6);
 
 /* Returns a number in the range 1–6 */
 <<set _randInt to random(1, 6)>>
+```
+
+##### Basic usage (in JavaScript)
+
+```javascript
+// Returns a number in the range 0–5
+let randInt = random(5);
+
+// Returns a number in the range 1–6
+let randInt = random(1, 6);
 ```
 
 <!-- *********************************************************************** -->
@@ -708,16 +770,6 @@ An `Error` or `TypeError` instance.
 
 #### Examples:
 
-##### Basic usage (in JavaScript)
-
-```javascript
-// Returns a number in the range 0.0–4.9999999…
-let randNum = randomFloat(5.0);
-
-// Returns a number in the range 1.0–5.9999999…
-let randNum = randomFloat(1.0, 6.0);
-```
-
 ##### Basic usage (in macros)
 
 ```
@@ -726,6 +778,16 @@ let randNum = randomFloat(1.0, 6.0);
 
 /* Returns a number in the range 1.0–5.9999999… */
 <<set _randNum to randomFloat(1.0, 6.0)>>
+```
+
+##### Basic usage (in JavaScript)
+
+```javascript
+// Returns a number in the range 0.0–4.9999999…
+let randNum = randomFloat(5.0);
+
+// Returns a number in the range 1.0–5.9999999…
+let randNum = randomFloat(1.0, 6.0);
 ```
 
 <!-- *********************************************************************** -->
@@ -757,17 +819,6 @@ A `TypeError` instance.
 
 #### Examples:
 
-##### Basic usage (in JavaScript)
-
-```javascript
-// Set setup.achievements to the 'achievements' metadata, defaulting
-// to an empty generic object if no metadata exists.
-setup.achievements = recall('achievements', {});
-
-// Set setup.ngplus to the 'ngplus' metadata, with no default.
-setup.ngplus = recall('ngplus');
-```
-
 ##### Basic usage (in macros)
 
 ```
@@ -779,6 +830,17 @@ setup.ngplus = recall('ngplus');
 
 /* Set setup.ngplus to the 'ngplus' metadata, with no default. */
 <<set setup.ngplus to recall('ngplus')>>
+```
+
+##### Basic usage (in JavaScript)
+
+```javascript
+// Set setup.achievements to the 'achievements' metadata, defaulting
+// to an empty generic object if no metadata exists.
+setup.achievements = recall('achievements', {});
+
+// Set setup.ngplus to the 'ngplus' metadata, with no default.
+setup.ngplus = recall('ngplus');
 ```
 
 <!-- *********************************************************************** -->
@@ -809,16 +871,6 @@ An `HTMLElement` instance, elsewise `null`.
 As it is highly unlikely that either an array of passage names or default text will be needed in the vast majority of cases, only a few basic examples will be given.
 </p>
 
-##### Basic usage (in JavaScript)
-
-```javascript
-// Using an ID; given an existing element on the page: <div id="my-display"></div>
-setPageElement('my-display', 'MyPassage');
-
-// Using an element; given a reference to an existing element: myElement
-setPageElement(myElement, 'MyPassage');
-```
-
 ##### Basic usage (in macros)
 
 ```
@@ -827,6 +879,16 @@ setPageElement(myElement, 'MyPassage');
 
 /* Using an element; given a reference to an existing element: myElement */
 <<run setPageElement(myElement, 'MyPassage')>>
+```
+
+##### Basic usage (in JavaScript)
+
+```javascript
+// Using an ID; given an existing element on the page: <div id="my-display"></div>
+setPageElement('my-display', 'MyPassage');
+
+// Using an element; given a reference to an existing element: myElement
+setPageElement(myElement, 'MyPassage');
 ```
 
 <!-- *********************************************************************** -->
@@ -851,19 +913,15 @@ An `Array<string>` containing the tags.
 
 #### Examples:
 
-##### Basic usage (in JavaScript)
-
-```javascript
-if (tags().includes('forest')) {
-	// The active passage is part of the forest.
-}
-
-if (tags('Lonely Glade').includes('forest')) {
-	// The Lonely Glade passage is part of the forest.
-}
-```
-
 ##### Basic usage (in macros)
+
+```
+/* Get the tags of the active passage. */
+<<set $activeTags to tags()>>
+
+/* Get the tags of the given passage. */
+<<set $lonelyGladeTags to tags('Lonely Glade')>>
+```
 
 ```
 <<if tags().includes('forest')>>
@@ -873,6 +931,26 @@ if (tags('Lonely Glade').includes('forest')) {
 <<if tags('Lonely Glade').includes('forest')>>
 	…the Lonely Glade passage is part of the forest…
 <</if>>
+```
+
+##### Basic usage (in JavaScript)
+
+```javascript
+// Get the tags of the active passage.
+let activeTags = tags();
+
+// Get the tags of the given passage.
+let lonelyGladeTags = tags('Lonely Glade');
+```
+
+```javascript
+if (tags().includes('forest')) {
+	// The active passage is part of the forest.
+}
+
+if (tags('Lonely Glade').includes('forest')) {
+	// The Lonely Glade passage is part of the forest.
+}
 ```
 
 <!-- *********************************************************************** -->
@@ -896,7 +974,7 @@ A reference to the temporary variable store (`Object`).
 #### Examples:
 
 ```javascript
-// Given: _selection is 'Zagnut Bar'
+// Given the following: _selection is 'Zagnut Bar'
 if (temporary().selection === 'Zagnut Bar') {
 	// Do something…
 }
@@ -923,14 +1001,14 @@ The milliseconds (*integer* `number`) since the passage was rendered.
 #### Examples:
 
 ```
-/* Links that vary based on the time */
+/* Links that vary based on the time. */
 In the darkness, something wicked this way comes.  Quickly!  Do you \
 <<link "try to run back into the light">>
-	<<if time() lt 5000>>
-		/* The player clicked the link in under 5s, so they escape */
+	<<if time() lt 10000>>
+		/* The player clicked the link in under 10s, so they escape. */
 		<<goto "Well lit passageway">>
 	<<else>>
-		/* Else, they're eaten by a grue */
+		/* Elsewise, they're eaten by a grue. */
 		<<goto "Eaten by a grue">>
 	<</if>>
 <</link>> \
@@ -976,19 +1054,27 @@ An event options object should have some of the following properties:
 
 #### Examples:
 
-##### Dispatch a custom `fnord` event on `document`
+##### Basic usage (in macros)
+
+<p role="note"><b>Note:</b>
+The macro examples would be exactly the same as the JavaScript examples, just wrapped in a <code>&lt;&lt;script&gt;&gt;</code> macro.
+</p>
+
+##### Basic usage (in JavaScript)
+
+Dispatch a custom `fnord` event on `document`.
 
 ```javascript
 triggerEvent('fnord');
 ```
 
-##### Dispatch a `click` event on the element bearing the ID `some-menu`
+Dispatch a `click` event on the element bearing the ID `some-menu`.
 
 ```javascript
 triggerEvent('click', document.getElementById('some-menu'));
 ```
 
-##### Dispatch a custom `update-meter` event on `document` while specifying some options
+Dispatch a custom `update-meter` event on `document` while specifying some options.
 
 ```javascript
 triggerEvent('update-meter', document, {
@@ -998,7 +1084,7 @@ triggerEvent('update-meter', document, {
 });
 ```
 
-##### Various ways to dispatch a `mouseover` event on all elements bearing the class `flippable`
+Various ways to dispatch a `mouseover` event on all elements bearing the class `flippable`.
 
 ```javascript
 triggerEvent('mouseover', document.getElementsByClassName('flippable'));
@@ -1028,17 +1114,22 @@ The turn count (*integer* `number`).
 
 #### Examples:
 
+##### Basic usage (in macros)
+
+```
+/* Record the turn count. */
+<<set $turnCount to turns()>>
+```
+
+```
+<<= 'This is turn #' + turns()>>
+```
+
 ##### Basic usage (in JavaScript)
 
 ```javascript
 // Record the turn count.
 let turnCount = turns();
-```
-
-##### Basic usage (in macros)
-
-```
-<<print 'This is turn #' + turns()>>
 ```
 
 <!-- *********************************************************************** -->
@@ -1090,26 +1181,6 @@ The passage count (*integer* `number`).
 
 #### Examples:
 
-##### Basic usage (in JavaScript)
-
-```javascript
-if (visited() === 3) {
-	// Has been to the current passage exactly three times.
-}
-
-if (visited('Bar')) {
-	// Has been to the Bar at least once.
-}
-
-if (visited('Café') === 2) {
-	// Has been to the Café exactly twice.
-}
-
-if (visited('Bar', 'Café') === 4) {
-	// Has been to both the Bar and Café four or more times.
-}
-```
-
 ##### Basic usage (in macros)
 
 ```
@@ -1128,6 +1199,26 @@ if (visited('Bar', 'Café') === 4) {
 <<if visited('Bar', 'Café') is 4>>
 	…has been to both the Bar and Café four or more times…
 <</if>>
+```
+
+##### Basic usage (in JavaScript)
+
+```javascript
+if (visited() === 3) {
+	// Has been to the current passage exactly three times.
+}
+
+if (visited('Bar')) {
+	// Has been to the Bar at least once.
+}
+
+if (visited('Café') === 2) {
+	// Has been to the Café exactly twice.
+}
+
+if (visited('Bar', 'Café') === 4) {
+	// Has been to both the Bar and Café four or more times.
+}
 ```
 
 <!-- *********************************************************************** -->
@@ -1154,22 +1245,6 @@ An `Error` instance.
 
 #### Examples:
 
-##### Basic usage (in JavaScript)
-
-```javascript
-if (visitedTags('forest')) {
-	// Has been to some part of the forest at least once.
-}
-
-if (visitedTags('forest', 'haunted') === 2) {
-	// Has been to the haunted part of the forest exactly twice.
-}
-
-if (visitedTags('forest', 'burned') >= 3) {
-	// Has been to the burned part of the forest three or more times.
-}
-```
-
 ##### Basic usage (in macros)
 
 ```
@@ -1184,4 +1259,20 @@ if (visitedTags('forest', 'burned') >= 3) {
 <<if visitedTags('forest', 'burned') gte 3>>
 	…has been to the burned part of the forest three or more times…
 <</if>>
+```
+
+##### Basic usage (in JavaScript)
+
+```javascript
+if (visitedTags('forest')) {
+	// Has been to some part of the forest at least once.
+}
+
+if (visitedTags('forest', 'haunted') === 2) {
+	// Has been to the haunted part of the forest exactly twice.
+}
+
+if (visitedTags('forest', 'burned') >= 3) {
+	// Has been to the burned part of the forest three or more times.
+}
 ```
