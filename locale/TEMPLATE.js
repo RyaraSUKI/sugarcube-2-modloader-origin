@@ -1,6 +1,6 @@
 /***********************************************************************************************************************
 
-	locale/l10n-template.js – Localization Template
+	locale/TEMPLATE.js – Localization Template
 
 	Copyright © 2019–2021 Thomas Michael Edwards <thomasmedwards@gmail.com>. All rights reserved.
 	Use of this source code is governed by a BSD 2-clause "Simplified" License, which may be found in the LICENSE file.
@@ -38,15 +38,15 @@
 
 	ALSO NOTE: There are two versions of this file within the repository.
 
-		* The current release version, which is on the `master` branch.
-			https://raw.githubusercontent.com/tmedwards/sugarcube-2/master/locale/l10n-template.js
-
 		* The development version, which is on the `develop` branch.
-			https://raw.githubusercontent.com/tmedwards/sugarcube-2/develop/locale/l10n-template.js
+			https://raw.githubusercontent.com/tmedwards/sugarcube-2/develop/locale/TEMPLATE.js
+
+		* The current release version, which is on the `master` branch.
+			https://raw.githubusercontent.com/tmedwards/sugarcube-2/master/locale/TEMPLATE.js
 
 	You will likely want to use the development version.
 */
-(function () {
+(() => {
 	/*******************************************************************************
 		General.
 	*******************************************************************************/

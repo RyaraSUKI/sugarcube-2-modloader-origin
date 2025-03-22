@@ -6,7 +6,7 @@
 This is a reference for localizing SugarCube's default UI text, in general, and its `l10nStrings` object specifically.
 
 <p role="note"><b>Note:</b>
-If you're simply looking to download ready-to-use localizations, see <a href="http://www.motoslave.net/sugarcube/2/#downloads">SugarCube's website</a> (under <em>Downloads &gt; Localizations</em>).
+If you're simply looking to download ready-to-use localizations, see the <a href="https://github.com/tmedwards/sugarcube-2/tree/develop/locale/"><code>locale</code> directory</a> for files in the format <code>xx-YY.js</code>—where <code>xx</code> is the primary code that identifies the language (e.g., <code>en</code>) and <code>YY</code> is the secondary code, in capital letters, that specifies the national variety (e.g., <code>GB</code> or <code>US</code>).
 </p>
 
 #### History:
@@ -42,18 +42,18 @@ In use, replacement patterns are replaced recursively, so replacement strings ma
 
 Properties on the strings localization object (`l10nStrings`) should be set within your project's JavaScript section (Twine&nbsp;2: the Story JavaScript; Twine&nbsp;1/Twee: a <code>script</code>-tagged passage) to override the defaults.
 
-For the template that should be used as the basis of localizations, see the [`locale/l10n-template.js` file @github.com](https://github.com/tmedwards/sugarcube-2/tree/develop/locale/).
+For the template that should be used as the basis of localizations, see the [`locale/TEMPLATE.js` file @github.com](https://github.com/tmedwards/sugarcube-2/tree/develop/locale/).
 
 ### Examples
 
-```
-// Changing the project's reported identity to "story"
-l10nStrings.textIdentity = "story";
+```javascript
+// Changing the project's reported identity to 'story' (default: 'game')
+l10nStrings.textIdentity = 'story';
 
-// Changing the text of all dialog OK buttons to "Eeyup"
-l10nStrings.ok = "Eeyup";
+// Changing the text of all dialog OK buttons to 'Eeyup' (default: 'OK')
+l10nStrings.ok = 'Eeyup';
 
-// Localizing the title of the Restart dialog (n.b. machine translations, for example only)
-l10nStrings.restartTitle = "Neustart";  // German (de)
-l10nStrings.restartTitle = "Reiniciar"; // Spanish (es)
+// Localizing the title of the Restart dialog (n.b., machine translations)
+l10nStrings.restartTitle = 'Neustart';  // German (de)
+l10nStrings.restartTitle = 'Reiniciar'; // Spanish (es)
 ```
