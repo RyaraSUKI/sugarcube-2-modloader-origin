@@ -50,7 +50,7 @@ The marshaled story state object, from the **`state`** property, has the followi
 
 Each moment object, from the **`history`** property's array, has the following properties:
 
-* **`pull`:** (optional, *integer* `number`) The current pull count of the seedable PRNG.  This property exists only only if the seedable PRNG is enabled.
+* **`pull`:** (optional, *integer* `number`) The current pull count of the seedable PRNG.  This property exists only if the seedable PRNG is enabled.
 * **`title`:** (`string`) The name of the associated passage.
 * **`variables`:** (`Object`) The current variable store object, which contains sigil-less name &#x21D2; value pairs—e.g., `$foo` exists as the property `foo`.
 
