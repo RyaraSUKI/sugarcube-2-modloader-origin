@@ -32,25 +32,25 @@ A save data object has the following properties:
 * **`date`:** (*integer* `number`) The save's creation date (in milliseconds elapsed since epoch).
 * **`desc`:** (`string`) The save's description.
 * **`id`:** (`string`) The save ID.  See the [`Config.saves.id`](#config-api-property-saves-id) for details.
-* **`metadata`:** (optional, `any`) The save's metadata, which *must* be JSON-serializable.  Exists only if specified.  See the appropriate save API or [`Config.saves.metadata`](#config-api-property-saves-metadata) for details.
+* **`metadata`:** (optional, `any`) The save's metadata, which *must* be JSON-serializable.  This property exists only if specified.  See the appropriate save API or [`Config.saves.metadata`](#config-api-property-saves-metadata) for details.
 * **`state`:** (`Object`) The marshaled story state.  See below for details.
 * **`type`:** (`Save.Type`) The save's type.  See [`Save.Type`](#save-api-constants-type) for details.
-* **`version`:** (optional, `any`) The save's version.  Exists only if specified.  See [`Config.saves.version`](#config-api-property-saves-version) for details.
+* **`version`:** (optional, `any`) The save's version.  This property exists only if specified.  See [`Config.saves.version`](#config-api-property-saves-version) for details.
 
 #### Save State Object
 
 The marshaled story state object, from the **`state`** property, has the following properties:
 
-* **`expired`:** (optional, `Array<string>`) The array of expired moment passage titles.  Exists only if any moments have expired.
+* **`expired`:** (optional, `Array<string>`) The array of expired moment passage names.  This property exists only if moments have expired.
 * **`history`:** (`Array<Object>`) The array of moment objects.  See below for details.
 * **`index`:** (*integer* `number`) The index of the active moment.
-* **`seed`:** (optional, `string`) The seed of the seedable PRNG.  Exists only if enabled.
+* **`seed`:** (optional, `string`) The seed of the seedable PRNG.  This property exists only if the seedable PRNG is enabled.
 
 #### Save History Moment Objects
 
 Each moment object, from the **`history`** property's array, has the following properties:
 
-* **`pull`:** (optional, *integer* `number`) The current pull count of the seedable PRNG.  Exists only if enabled.
+* **`pull`:** (optional, *integer* `number`) The current pull count of the seedable PRNG.  This property exists only only if the seedable PRNG is enabled.
 * **`title`:** (`string`) The name of the associated passage.
 * **`variables`:** (`Object`) The current variable store object, which contains sigil-less name &#x21D2; value pairs—e.g., `$foo` exists as the property `foo`.
 
