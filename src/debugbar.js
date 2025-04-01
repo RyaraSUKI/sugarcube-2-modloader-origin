@@ -18,9 +18,9 @@ var DebugBar = (() => { // eslint-disable-line no-unused-vars, no-var
 	const WATCH_LIST_DELAY = 200; // in milliseconds
 	const VAR_LIST_DELAY   = 500; // in milliseconds
 
-	const variableRE   = new RegExp(`^${Patterns.variable}$`);
-	const numericKeyRE = /^\d+$/;
-	const watchList    = [];
+	// Internal variables.
+	const variableRE = new RegExp(`^${Patterns.variable}$`);
+	const watchList  = [];
 	let varList          = [];
 	let watchTimerId     = null;
 	let listTimerId      = null;
@@ -202,7 +202,6 @@ var DebugBar = (() => { // eslint-disable-line no-unused-vars, no-var
 		disableWatchUpdates();
 		disableVarListUpdates();
 		stowDebugBar();
-		stowed = true;
 		updateSession();
 	}
 
@@ -213,7 +212,6 @@ var DebugBar = (() => { // eslint-disable-line no-unused-vars, no-var
 
 		enableVarListUpdates();
 		unstowDebugBar();
-		stowed = false;
 		updateSession();
 	}
 
@@ -301,10 +299,12 @@ var DebugBar = (() => { // eslint-disable-line no-unused-vars, no-var
 
 	function stowDebugBar() {
 		$debugBar.css('right', `-${$debugBar.outerWidth()}px`);
+		stowed = true;
 	}
 
 	function unstowDebugBar() {
 		$debugBar.css('right', 0);
+		stowed = false;
 	}
 
 	function disableWatch() {
@@ -537,22 +537,22 @@ var DebugBar = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function updateTurnSelect() {
-		const histLen = State.size;
-		const expLen  = State.expired.length;
+		const hLength = State.size;
+		const eLength = State.expired.length;
 		const options = document.createDocumentFragment();
 
 		// Generate the <option>s.
-		for (let i = 0; i < histLen; ++i) {
+		for (let i = 0; i < hLength; ++i) {
 			jQuery(document.createElement('option'))
 				.val(i)
-				.text(`${expLen + i + 1}. ${State.history[i].title}`)
+				.text(`${eLength + i + 1}. ${State.history[i].title}`)
 				.appendTo(options);
 		}
 
 		// Update the <select>.
 		$turnSelect
 			.empty()
-			.ariaDisabled(histLen < 2)
+			.ariaDisabled(hLength < 2)
 			.append(options)
 			.val(State.activeIndex);
 	}
@@ -572,6 +572,18 @@ var DebugBar = (() => { // eslint-disable-line no-unused-vars, no-var
 		$passageDataList
 			.empty()
 			.append(options);
+	}
+
+	const isKeyPositiveIntegerRE = /^\+?\d+$/;
+	const MAX_ARRAY_INDEX        = 4294967294; // 2³² - 2
+
+	function isStringKeyValidArrayIndex(key) {
+		if (!isKeyPositiveIntegerRE.test(key)) {
+			return false;
+		}
+
+		const index = Number(key);
+		return index >= 0 && MAX_ARRAY_INDEX >= index;
 	}
 
 	function toWatchString(O) {
@@ -628,15 +640,17 @@ var DebugBar = (() => { // eslint-disable-line no-unused-vars, no-var
 		if (O instanceof Array || O instanceof Set) {
 			const list = O instanceof Array ? O : Array.from(O);
 
-			// own numeric properties
-			// NOTE: Do not use `<Array>.forEach()` here as it skips undefined members.
-			for (let i = 0, len = list.length; i < len; ++i) {
+			// Own numeric properties.
+			//
+			// NOTE: Do not use `<Array>.forEach()` here as it skips empty slots
+			// and undefined members.
+			for (let i = 0; i < list.length; ++i) {
 				result.push(Object.hasOwn(list, i) ? toWatchString(list[i]) : '<empty>');
 			}
 
-			// own enumerable non-numeric expando properties
+			// Own enumerable non-numeric expando properties.
 			Object.keys(list)
-				.filter(key => !numericKeyRE.test(key))
+				.filter(key => !isStringKeyValidArrayIndex(key))
 				.forEach(key => result.push(`${toWatchString(key)}: ${toWatchString(list[key])}`));
 
 			return `${objType}(${list.length})\u202F[${result.join(', ')}]`;
@@ -649,8 +663,7 @@ var DebugBar = (() => { // eslint-disable-line no-unused-vars, no-var
 			return `${objType}(${O.size})\u202F{${result.join(', ')}}`;
 		}
 
-		// General object handling.
-		// own enumerable properties
+		// General object handling (own enumerable properties).
 		Object.keys(O)
 			.forEach(key => result.push(`${toWatchString(key)}: ${toWatchString(O[key])}`));
 
