@@ -618,8 +618,8 @@ var UI = (() => { // eslint-disable-line no-unused-vars, no-var
 						.on('change input', function () {
 							Setting.setValue(name, Number(this.value));
 						})
-						.on('keypress', ev => {
-							if (ev.which === 13) {
+						.on('keydown', ev => {
+							if (ev.key === 'Enter') {
 								ev.preventDefault();
 								triggerEvent('change', $control);
 							}

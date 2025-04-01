@@ -82,9 +82,9 @@ Macro.add(['numberbox', 'textbox'], {
 			.on('change.macros', this.shadowHandler(function () {
 				State.setVar(varName, asNumber ? Number(this.value) : this.value);
 			}))
-			.on('keypress.macros', this.shadowHandler(function (ev) {
+			.on('keydown.macros', this.shadowHandler(function (ev) {
 				// If Enter/Return is pressed, set the variable and, optionally, forward to another passage.
-				if (ev.which === 13) { // 13 is Enter/Return
+				if (ev.key === 'Enter') {
 					ev.preventDefault();
 					State.setVar(varName, asNumber ? Number(this.value) : this.value);
 

@@ -118,8 +118,8 @@ var DebugBar = (() => { // eslint-disable-line no-unused-vars, no-var
 				debugBarWatchAdd(this.value.trim());
 				this.value = '';
 			})
-			.on('keypress', ev => {
-				if (ev.which === 13) { // 13 is Enter/Return
+			.on('keydown', ev => {
+				if (ev.key === 'Enter') {
 					ev.preventDefault();
 					triggerEvent('sc:debug-watch-add', $watchInput);
 				}
@@ -136,11 +136,16 @@ var DebugBar = (() => { // eslint-disable-line no-unused-vars, no-var
 			});
 		$passageInput
 			.on('sc:debug-passage-play', function () {
-				Engine.play(this.value.trim());
+				const passageName = this.value.trim();
+
+				if (passageName) {
+					Engine.play(passageName);
+				}
+
 				this.value = '';
 			})
-			.on('keypress', ev => {
-				if (ev.which === 13) { // 13 is Enter/Return
+			.on('keydown', ev => {
+				if (ev.key === 'Enter') {
 					ev.preventDefault();
 					triggerEvent('sc:debug-passage-play', $passageInput);
 				}

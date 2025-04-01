@@ -421,12 +421,6 @@ var Dialog = (() => { // eslint-disable-line no-unused-vars, no-var
 				// to `Dialog` not having a prototype.
 				close(ev);
 				/* implicit `return undefined;` */
-			})
-			.one('keypress.dialog-close', '.ui-close', function (ev) {
-				// 13 is Enter/Return, 32 is Space.
-				if (ev.which === 13 || ev.which === 32) {
-					triggerEvent('click', this);
-				}
 			});
 
 		// Trigger a `:dialogopened` event on the dialog body.

@@ -27,8 +27,7 @@
 		NOTE: Do not replace the anonymous functions herein with arrow functions.
 	*/
 	function onKeypressFn(ev) {
-		// 13 is Enter/Return, 32 is Space.
-		if (ev.which === 13 || ev.which === 32) {
+		if (ev.key === 'Enter' || ev.key === ' ' /* space */) {
 			ev.preventDefault();
 
 			// To allow delegation, attempt to trigger the event on `document.activeElement`,
@@ -62,7 +61,7 @@
 
 	function oneClickFnWrapper(fn) {
 		return onClickFnWrapper(function () {
-			// Remove both event handlers (keypress & click) and the other components.
+			// Remove both event handlers (keydown & click) and the other components.
 			jQuery(this)
 				.off('.aria-clickable')
 				.removeAttr('role tabindex aria-controls aria-pressed')
@@ -191,10 +190,10 @@
 				});
 			}
 
-			// Set the keypress handlers, for non-<button> elements.
+			// Set the keydown handlers, for non-<button> elements.
 			// NOTE: For the single-use case, the click handler will also remove this handler.
 			this.not('button').on(
-				`keypress.aria-clickable${opts.namespace}`,
+				`keydown.aria-clickable${opts.namespace}`,
 				opts.selector,
 				onKeypressFn
 			);
