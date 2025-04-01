@@ -103,7 +103,7 @@ The variable <code>$name</code> is set to: Mr. Freeman
 
 SugarCube's link markup consists of a required `Link` component and optional `Text` and `Setter` components.
 
-The `Link` component may be either plain text or any valid TwineScript expression, which will be evaluated early—i.e., when the link is initially processed.  Its value should be the title of a passage or any valid URL to a resource (local or remote).
+The `Link` component may be either plain text or any valid TwineScript expression, which will be evaluated early—i.e., when the link is initially processed.  Its value should be the name of a passage or any valid URL to a resource (local or remote).
 
 The optional `Text` component may be either plain text or any valid TwineScript expression, which will be evaluated early—i.e., when the link is initially processed.
 
@@ -161,17 +161,17 @@ Due to how the Twine&nbsp;2 automatic passage creation feature currently works, 
 **************************************************************************** -->
 ## Image {#markup-image}
 
-SugarCube's image markup consists of a required `Image` component and optional `Title`, `Link`, and `Setter` components.
+SugarCube's image markup consists of a required `Image` component and optional `Text`, `Link`, and `Setter` components.
 
-The `Image` component may be either plain text or any valid TwineScript expression, which will be evaluated early—i.e., when the link is initially processed.  Its value may be any valid URL to an image resource (local or remote) or the title of an [media (image) passage](#guide-media-passages).
+The `Image` component may be either plain text or any valid TwineScript expression, which will be evaluated early—i.e., when the link is initially processed.  Its value may be any valid URL to an image resource (local or remote) or the name of a [media (image) passage](#guide-media-passages).
 
-The optional `Title` component may be either plain text or any valid TwineScript expression, which will be evaluated early—i.e., when the link is initially processed.  Its value will be used as the alt text of the image.
+The optional `Text` component may be either plain text or any valid TwineScript expression, which will be evaluated early—i.e., when the link is initially processed.  Its value will be used as the alternate (alt) text of the image.
 
-The optional `Link` component may be either plain text or any valid TwineScript expression, which will be evaluated early—i.e., when the link is initially processed.  Its value may be the title of a passage or any valid URL to a resource (local or remote).
+The optional `Link` component may be either plain text or any valid TwineScript expression, which will be evaluated early—i.e., when the link is initially processed.  Its value may be the name of a passage or any valid URL to a resource (local or remote).
 
 The optional `Setter` component, which only works with passage links, must be a valid [TwineScript expression](#twinescript-expressions), of the [`<<set>>` macro](#macros-macro-set) variety, which will be evaluated late—i.e., when the link is clicked on.  If you need to specify multiple expressions, then they should be separated by semi-colons (`;`)—e.g., `$a to 5; $b to true`.
 
-In addition to the standard pipe separator (`|`) used to separate the `Image` and `Title` components (as seen below), SugarCube also supports the arrow separators (`->` &amp; `<-`).  Particular to the arrow separators, the arrows' direction determines the order of the components, with the arrow always pointing at the `Image` component—i.e., the right arrow works like the pipe separator, `Title->Image`, while the left arrow is reversed, `Image<-Title`.
+In addition to the standard pipe separator (`|`) used to separate the `Image` and `Text` components (as seen below), SugarCube also supports the arrow separators (`->` &amp; `<-`).  Particular to the arrow separators, the arrows' direction determines the order of the components, with the arrow always pointing at the `Image` component—i.e., the right arrow works like the pipe separator, `Text->Image`, while the left arrow is reversed, `Image<-Text`.
 
 <p role="note" class="warning"><b>Warning (Twine&nbsp;2):</b>
 Due to how the Twine&nbsp;2 automatic passage creation feature currently works, using any TwineScript expression for the <code>Link</code> component will cause a passage named after the expression to be created that will need to be deleted.  To avoid this problem, it's suggested that you use the separate argument form of the <a href="#macros-macro-link"><code>&lt;&lt;link&gt;&gt;</code> macro</a> in Twine&nbsp;2 when you need to use an expression.
@@ -194,10 +194,24 @@ Due to how the Twine&nbsp;2 automatic passage creation feature currently works, 
 		</td>
 	</tr>
 	<tr>
+		<td><pre><code>[img[Text|Image]]</code></pre></td>
+		<td class="multiline">
+			<pre><code>[img[Go home|home.png]]</code></pre>
+			<pre><code>[img[$show|$src]]</code></pre>
+		</td>
+	</tr>
+	<tr>
 		<td><pre><code>[img[Image][Link]]</code></pre></td>
 		<td class="multiline">
 			<pre><code>[img[home.png][Home]]</code></pre>
 			<pre><code>[img[$src][$go]]</code></pre>
+		</td>
+	</tr>
+	<tr>
+		<td><pre><code>[img[Text|Image][Link]]</code></pre></td>
+		<td class="multiline">
+			<pre><code>[img[Go home|home.png][Home]]</code></pre>
+			<pre><code>[img[$show|$src][$go]]</code></pre>
 		</td>
 	</tr>
 	<tr>
@@ -208,21 +222,7 @@ Due to how the Twine&nbsp;2 automatic passage creation feature currently works, 
 		</td>
 	</tr>
 	<tr>
-		<td><pre><code>[img[Title|Image]]</code></pre></td>
-		<td class="multiline">
-			<pre><code>[img[Go home|home.png]]</code></pre>
-			<pre><code>[img[$show|$src]]</code></pre>
-		</td>
-	</tr>
-	<tr>
-		<td><pre><code>[img[Title|Image][Link]]</code></pre></td>
-		<td class="multiline">
-			<pre><code>[img[Go home|home.png][Home]]</code></pre>
-			<pre><code>[img[$show|$src][$go]]</code></pre>
-		</td>
-	</tr>
-	<tr>
-		<td><pre><code>[img[Title|Image][Link][Setter]]</code></pre></td>
+		<td><pre><code>[img[Text|Image][Link][Setter]]</code></pre></td>
 		<td class="multiline">
 			<pre><code>[img[Go home|home.png][Home][$done to true]]</code></pre>
 			<pre><code>[img[$show|$src][$go][$done to true]]</code></pre>
