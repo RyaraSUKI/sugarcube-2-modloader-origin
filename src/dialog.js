@@ -314,7 +314,7 @@ var Dialog = (() => { // eslint-disable-line no-unused-vars, no-var
 
 	/*
 		Returns whether the dialog is open.
-		The test may be narrowed by specifing class names.
+		The test may be narrowed by specifying class names.
 	*/
 	function isOpen(classNames) {
 		return $dialog.hasClass('open')
