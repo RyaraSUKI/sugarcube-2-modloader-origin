@@ -49,24 +49,24 @@ Macro.add(['numberbox', 'textbox'], {
 		const varId = createSlug(varName);
 		const el    = document.createElement('input');
 		let autofocus = false;
-		let passage;
+		let passageName;
 
 		if (this.args.length > 3) {
-			passage   = this.args[2];
-			autofocus = this.args[3] === 'autofocus';
+			passageName = this.args[2];
+			autofocus   = this.args[3] === 'autofocus';
 		}
 		else if (this.args.length > 2) {
 			if (this.args[2] === 'autofocus') {
 				autofocus = true;
 			}
 			else {
-				passage = this.args[2];
+				passageName = this.args[2];
 			}
 		}
 
-		if (typeof passage === 'object') {
+		if (typeof passageName === 'object') {
 			// Argument was in wiki link syntax.
-			passage = passage.link;
+			passageName = passageName.link;
 		}
 
 		// Set up and append the input element to the output buffer.
@@ -88,8 +88,8 @@ Macro.add(['numberbox', 'textbox'], {
 					ev.preventDefault();
 					State.setVar(varName, asNumber ? Number(this.value) : this.value);
 
-					if (passage != null) { // nullish test
-						Engine.play(passage);
+					if (passageName != null) { // nullish test
+						Engine.play(passageName);
 					}
 				}
 			}))
