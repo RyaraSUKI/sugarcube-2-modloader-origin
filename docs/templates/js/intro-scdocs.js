@@ -1,15 +1,15 @@
 /*
 	`SCDocs` SETUP
 */
-(function () {
+(() => {
 	'use strict';
 
-	var hasWebStorage = function (storeId) {
+	const hasWebStorage = function (storeId) {
 		try {
-			var store = window[storeId];
-			var tid   = '_scd_' + String(Date.now());
+			const store = window[storeId];
+			const tid   = `_scd_${String(Date.now())}`;
 			store.setItem(tid, tid);
-			var result = store.getItem(tid) === tid;
+			const result = store.getItem(tid) === tid;
 			store.removeItem(tid);
 			return result;
 		}
@@ -29,15 +29,15 @@
 		return;
 	}
 
-	var storageKey = 'sugarcube-v2-docs-cfg';
-	var SCDocs = Object.freeze(Object.defineProperties(Object.create(null), {
+	const storageKey = 'sugarcube-v2-docs-cfg';
+	const SCDocs = Object.freeze(Object.create(null, {
 		getConfig : {
-			value : function (key) {
-				var json = localStorage.getItem(storageKey);
+			value(key) {
+				const json = localStorage.getItem(storageKey);
 
 				if (json) {
 					try {
-						var config = JSON.parse(json);
+						const config = JSON.parse(json);
 
 						if (config !== null && typeof config === 'object' && config.hasOwnProperty(key)) {
 							return config[key];
@@ -50,8 +50,8 @@
 			}
 		},
 		setConfig : {
-			value : function (key, value) {
-				var config;
+			value(key, value) {
+				let config;
 
 				try {
 					config = JSON.parse(localStorage.getItem(storageKey));
@@ -74,12 +74,12 @@
 			}
 		},
 		removeConfig : {
-			value : function (key) {
-				var json = localStorage.getItem(storageKey);
+			value(key) {
+				const json = localStorage.getItem(storageKey);
 
 				if (json) {
 					try {
-						var config = JSON.parse(json);
+						const config = JSON.parse(json);
 
 						if (config !== null && typeof config === 'object' && config.hasOwnProperty(key)) {
 							delete config[key];
@@ -101,13 +101,13 @@
 			}
 		},
 		clearConfig : {
-			value : function () {
+			value() {
 				localStorage.removeItem(storageKey);
 				return true;
 			}
 		},
 		arrayFrom : {
-			value : function (arrayLike) {
+			value(arrayLike) {
 				return Array.prototype.slice.call(arrayLike);
 			}
 		}

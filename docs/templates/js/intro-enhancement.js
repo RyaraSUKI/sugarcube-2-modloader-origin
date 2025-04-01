@@ -2,7 +2,7 @@
 	PAGE ENHANCEMENT
 */
 /* globals SCDocs */
-(function () {
+(() => {
 	'use strict';
 
 	if (!('SCDocs' in window)) {
@@ -10,21 +10,22 @@
 	}
 
 	// Restore user settings.
-	var codeColor = SCDocs.getConfig('codeColor');
+	const codeColor = SCDocs.getConfig('codeColor');
+
 	if (codeColor === 'inherit') {
 		document.documentElement.classList.add('disable-code-color');
 	}
 
 	// Outline patching.
-	var outlineStyle = (function () {
-		var style = document.createElement('style');
+	const outlineStyle = (() => {
+		const style = document.createElement('style');
 		style.setAttribute('id', 'style-aria-outlines');
 		style.setAttribute('type', 'text/css');
 		document.head.appendChild(style);
 		return style;
 	})();
-	var lastOutlineEvent;
-	var outlineToggleFn = function (ev) {
+	let lastOutlineEvent;
+	const outlineToggleFn = ev => {
 		if (ev.type !== lastOutlineEvent) {
 			lastOutlineEvent = ev.type;
 			// Clear styles for IE ≤10.
@@ -38,7 +39,7 @@
 				}
 			}
 			if (ev.type === 'mousedown') {
-				var rule = '*:focus{outline:none;}';
+				const rule = '*:focus{outline:none;}';
 				// For IE ≤ 10.
 				if (outlineStyle.styleSheet) {
 					outlineStyle.styleSheet.cssText += rule;
