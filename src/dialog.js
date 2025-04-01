@@ -28,7 +28,7 @@ var Dialog = (() => { // eslint-disable-line no-unused-vars, no-var
 	let onCloseFn = null;
 
 	// Width of the browser's scrollbars.
-	let scrollbarWidth = 0;
+	let scrollbarWidth = 0; // in pixels w/o unit
 
 
 	/*******************************************************************************
@@ -80,7 +80,7 @@ var Dialog = (() => { // eslint-disable-line no-unused-vars, no-var
 			}
 			catch (ex) { /* no-op */ }
 
-			return calcWidth || 17; // 17px is a reasonable failover
+			return calcWidth ?? 17; // 17px is a reasonable failover
 		})();
 
 		// Generate the dialog elements.
@@ -179,7 +179,7 @@ var Dialog = (() => { // eslint-disable-line no-unused-vars, no-var
 	*/
 	function onResize(top) {
 		if ($dialog.css('display') === 'block') {
-			$dialog.css(calcInset(top != null ? top : DEFAULT_TOP)); // nullish test
+			$dialog.css(calcInset(top ?? DEFAULT_TOP));
 		}
 	}
 
@@ -334,7 +334,7 @@ var Dialog = (() => { // eslint-disable-line no-unused-vars, no-var
 			const closeType = getTypeOf(onClose);
 
 			if (closeType !== 'function') {
-				throw new TypeError(`Dialog.open onClose parameter must be a function (received: ${closeType})`);
+				throw new TypeError(`onClose parameter must be a callback function (received: ${closeType})`);
 			}
 
 			onCloseFn = onClose;
