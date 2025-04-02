@@ -351,9 +351,9 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function browserContinue() {
-		const newest = browserNewest();
+		const newest = findNewest();
 
-		if (!newest) {
+		if (newest.index === -1) {
 			return Promise.reject(new Error(L10n.get('saveErrorNonexistent')));
 		}
 
