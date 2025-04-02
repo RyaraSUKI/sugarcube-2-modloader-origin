@@ -13,6 +13,12 @@
 */
 
 var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
+	// Minimum delay for DOM actions (in milliseconds).
+	const DOM_DELAY = 40;
+
+	// jQuery event namespace.
+	const EVENT_NS = '.engine';
+
 	// Engine state types object.
 	const States = enumFrom({
 		Init      : 'init',
@@ -21,20 +27,14 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		Rendering : 'rendering'
 	});
 
-	// Minimum delay for DOM actions (in milliseconds).
-	const DOM_DELAY = 40;
-
-	// Cache of the debug view(s) for initialization special passage(s).
-	const _initDebugViews = [];
-
 	// Current state of the engine.
-	let _state = States.Init;
+	let currentEngineState = States.Init;
 
 	// Last time `enginePlay()` was called (in milliseconds).
-	let _lastPlay = null;
+	let lastEnginePlay = null;
 
-	// jQuery event namespace.
-	const EVENT_NS = '.engine';
+	// Cache of the debug view(s) for initialization special passage(s).
+	const initDebugViews = [];
 
 
 	/*******************************************************************************
@@ -47,7 +47,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 	function engineInit() {
 		if (BUILD_DEBUG) { console.log('[Engine/engineInit()]'); }
 
-		if (_state !== States.Init) {
+		if (currentEngineState !== States.Init) {
 			return;
 		}
 
@@ -161,7 +161,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 	function engineRunUserScripts() {
 		if (BUILD_DEBUG) { console.log('[Engine/engineRunUserScripts()]'); }
 
-		if (_state !== States.Init) {
+		if (currentEngineState !== States.Init) {
 			return;
 		}
 
@@ -209,7 +209,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 	function engineRunUserInit() {
 		if (BUILD_DEBUG) { console.log('[Engine/engineRunUserInit()]'); }
 
-		if (_state !== States.Init) {
+		if (currentEngineState !== States.Init) {
 			return;
 		}
 
@@ -229,7 +229,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 					);
 					debugView.modes({ hidden : true });
 					debugView.append(debugBuffer);
-					_initDebugViews.push(debugView.output);
+					initDebugViews.push(debugView.output);
 				}
 			}
 			catch (ex) {
@@ -254,7 +254,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 					);
 					debugView.modes({ hidden : true });
 					debugView.append(debugBuffer);
-					_initDebugViews.push(debugView.output);
+					initDebugViews.push(debugView.output);
 				}
 			}
 			catch (ex) {
@@ -270,7 +270,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 	function engineStart() {
 		if (BUILD_DEBUG) { console.log('[Engine/engineStart()]'); }
 
-		if (_state !== States.Init) {
+		if (currentEngineState !== States.Init) {
 			return;
 		}
 
@@ -283,45 +283,47 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		// Update the engine state.
-		_state = States.Idle;
+		currentEngineState = States.Idle;
 
 		// Focus the document element initially.
 		document.documentElement.focus();
 
-		// Attempt to restore an active session.  Failing that, attempt to
-		// autoload the auto save, if requested.  Failing that, display the
-		// starting passage.
+		// Attempt to restore the active session, if any.  Failing that, attempt
+		// to autoload the most recent browser save, if any and requested (legacy).
+		// Failing that, show the starting passage.
+		if (BUILD_DEBUG) { console.log('\tattempting to restore active session'); }
+
 		if (State.restore()) {
 			engineShow();
 		}
 		else {
-			const autoloadType = typeof Config.saves._internal_autoload_;
+			/* legacy */
+			const autoloadValue = Config.saves._internal_autoload_;
+			const autoloadType  = typeof autoloadValue;
 
-			if (autoloadType === 'string') {
-				if (Config.saves._internal_autoload_ === 'prompt') {
-					UI.buildAutoload();
-					Dialog.open();
-				}
+			if (autoloadType === 'string' && autoloadValue === 'prompt') {
+				UI.buildAutoload();
+				Dialog.open();
 			}
 			else {
 				new Promise((resolve, reject) => {
+					if (Save.browser.size === 0) {
+						return reject(new Error('no saves available'));
+					}
+
 					if (
-						Save.browser.size > 0
-						&& (
-							autoloadType === 'boolean' && Config.saves._internal_autoload_
-							|| autoloadType === 'function' && Config.saves._internal_autoload_()
-						)
+						autoloadType === 'boolean' && autoloadValue
+						|| autoloadType === 'function' && autoloadValue()
 					) {
 						return resolve();
 					}
 
-					reject(); // eslint-disable-line prefer-promise-reject-errors
+					reject(new Error('autoload invalid'));
 				})
 					.then(() => {
-						if (BUILD_DEBUG) { console.log('\tattempting autoload of browser continue'); }
+						if (BUILD_DEBUG) { console.log('\tattempting autoload of most recent browser save'); }
 
-						Save.browser.continue();
-						engineShow();
+						return Save.browser.continue().then(engineShow);
 					})
 					.catch(() => {
 						if (BUILD_DEBUG) { console.log(`\tstarting passage: "${Config.passages.start}"`); }
@@ -329,6 +331,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 						enginePlay(Config.passages.start);
 					});
 			}
+			/* /legacy */
 		}
 	}
 
@@ -365,35 +368,35 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		Returns the current state of the engine.
 	*/
 	function engineState() {
-		return _state;
+		return currentEngineState;
 	}
 
 	/*
 		Returns whether the engine is idle.
 	*/
 	function engineIsIdle() {
-		return _state === States.Idle;
+		return currentEngineState === States.Idle;
 	}
 
 	/*
 		Returns whether the engine is playing.
 	*/
 	function engineIsPlaying() {
-		return _state !== States.Idle;
+		return currentEngineState !== States.Idle;
 	}
 
 	/*
 		Returns whether the engine is rendering.
 	*/
 	function engineIsRendering() {
-		return _state === States.Rendering;
+		return currentEngineState === States.Rendering;
 	}
 
 	/*
 		Returns a timestamp representing the last time `Engine.play()` was called.
 	*/
 	function engineLastPlay() {
-		return _lastPlay;
+		return lastEnginePlay;
 	}
 
 	/*
@@ -446,20 +449,20 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	/*
-		Renders and displays the passage referenced by the given title, optionally without
+		Renders and displays the passage referenced by the given name, optionally without
 		adding a new moment to the history.
 	*/
-	function enginePlay(title, noHistory) {
-		if (_state === States.Init) {
+	function enginePlay(name, noHistory) {
+		if (currentEngineState === States.Init) {
 			return false;
 		}
 
-		if (BUILD_DEBUG) { console.log(`[Engine/enginePlay(title: "${title}", noHistory: ${noHistory})]`); }
+		if (BUILD_DEBUG) { console.log(`[Engine/enginePlay(name: "${name}", noHistory: ${noHistory})]`); }
 
-		let passageTitle = title;
+		let passageName = name;
 
 		// Update the engine state.
-		_state = States.Playing;
+		currentEngineState = States.Playing;
 
 		// Reset the temporary state and variables objects.
 		TempState = {}; // eslint-disable-line no-undef
@@ -472,24 +475,26 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		// Execute the navigation override callback.
 		if (typeof Config.navigation.override === 'function') {
 			try {
-				const overrideTitle = Config.navigation.override(passageTitle);
+				const override = Config.navigation.override(passageName);
 
-				if (overrideTitle) {
-					passageTitle = overrideTitle;
+				if (override) {
+					passageName = override;
 				}
 			}
 			catch (ex) { /* no-op */ }
 		}
 
-		// Retrieve the passage by the given title.
+		// Retrieve the passage by the given name.
 		//
-		// NOTE: The values of the `title` parameter and `passageTitle` variable
+		// NOTE: The values of the `name` parameter and `passageTitle` variable
 		// may be empty, strings, or numbers (though using a number as reference
-		// to a numeric title should be discouraged), so after loading the passage,
+		// to a numeric name should be discouraged), so after loading the passage,
 		// always refer to `passage.name` and never to the others.
-		const passage = Story.get(passageTitle);
+		const passage = Story.get(passageName);
 
 		// Execute the pre-history events and tasks.
+		//
+		// TODO: Replace this with `triggerEvent()` once the legacy code is removed.
 		jQuery.event.trigger({
 			/* legacy */
 			passage,
@@ -500,11 +505,13 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 				passage
 			}
 		});
+		/* legacy */
 		Object.keys(prehistory).forEach(task => {
 			if (typeof prehistory[task] === 'function') {
 				prehistory[task].call(passage, task);
 			}
 		});
+		/* /legacy */
 
 		// Create a new entry in the history.
 		if (!noHistory) {
@@ -521,14 +528,16 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		// NOTE: This is mostly for event, task, and special passage code,
 		// though the likelihood of it being needed this early is low.  This
 		// will be updated again later at the end.
-		_lastPlay = now();
+		lastEnginePlay = now();
 
 		// Execute pre-display tasks and the `PassageReady` special passage.
+		/* legacy */
 		Object.keys(predisplay).forEach(task => {
 			if (typeof predisplay[task] === 'function') {
 				predisplay[task].call(passage, task);
 			}
 		});
+		/* /legacy */
 
 		if (Story.has('PassageReady')) {
 			try {
@@ -541,7 +550,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		// Update the engine state.
-		_state = States.Rendering;
+		currentEngineState = States.Rendering;
 
 		// Get the passage's tags as a string, or `null` if there aren't any.
 		const dataTags = passage.tags.length > 0 ? passage.tags.join(' ') : null;
@@ -566,6 +575,8 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 			.attr('data-tags', dataTags);
 
 		// Execute pre-render events and tasks.
+		//
+		// TODO: Replace this with `triggerEvent()` once the legacy code is removed.
 		jQuery.event.trigger({
 			/* legacy */
 			content : passageEl,
@@ -578,11 +589,13 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 				passage
 			}
 		});
+		/* legacy */
 		Object.keys(prerender).forEach(task => {
 			if (typeof prerender[task] === 'function') {
 				prerender[task].call(passage, passageEl, task);
 			}
 		});
+		/* /legacy */
 
 		// Render the `PassageHeader` passage, if it exists, into the passage element.
 		if (Story.has('PassageHeader')) {
@@ -598,6 +611,8 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		// Execute post-render events and tasks.
+		//
+		// TODO: Replace this with `triggerEvent()` once the legacy code is removed.
 		jQuery.event.trigger({
 			/* legacy */
 			content : passageEl,
@@ -610,11 +625,13 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 				passage
 			}
 		});
+		/* legacy */
 		Object.keys(postrender).forEach(task => {
 			if (typeof postrender[task] === 'function') {
 				postrender[task].call(passage, passageEl, task);
 			}
 		});
+		/* /legacy */
 
 		// Cache the passage container.
 		const containerEl = document.getElementById('passages');
@@ -676,7 +693,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		window.scroll(0, 0);
 
 		// Update the engine state.
-		_state = States.Playing;
+		currentEngineState = States.Playing;
 
 		// Execute post-display events, tasks, and the `PassageDone` special passage.
 		if (Story.has('PassageDone')) {
@@ -689,6 +706,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 			}
 		}
 
+		// TODO: Replace this with `triggerEvent()` once the legacy code is removed.
 		jQuery.event.trigger({
 			/* legacy */
 			content : passageEl,
@@ -701,11 +719,13 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 				passage
 			}
 		});
+		/* legacy */
 		Object.keys(postdisplay).forEach(task => {
 			if (typeof postdisplay[task] === 'function') {
 				postdisplay[task].call(passage, task);
 			}
 		});
+		/* /legacy */
 
 		// Execute UI update events.
 		UI.update();
@@ -742,8 +762,8 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 			}
 
 			// Prepend the cached initialization debug views, if we're showing the first moment/turn.
-			if (State.turns === 1 && _initDebugViews.length > 0) {
-				jQuery(passageEl).prepend(_initDebugViews);
+			if (State.turns === 1 && initDebugViews.length > 0) {
+				jQuery(passageEl).prepend(initDebugViews);
 			}
 		}
 
@@ -760,6 +780,8 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		// Execute post-play events.
+		//
+		// TODO: Replace this with `triggerEvent()` once the legacy code is removed.
 		jQuery.event.trigger({
 			/* legacy */
 			content : passageEl,
@@ -774,10 +796,10 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		});
 
 		// Reset the engine state.
-		_state = States.Idle;
+		currentEngineState = States.Idle;
 
 		// Update the last play time.
-		_lastPlay = now();
+		lastEnginePlay = now();
 
 		return passageEl;
 	}
@@ -790,7 +812,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 	/*
 		[DEPRECATED] Play the given passage, optionally without altering the history.
 	*/
-	function engineDisplay(title, link, option) {
+	function engineDisplay(name, link, option) {
 		if (BUILD_DEBUG) { console.log('[Engine/engineDisplay()]'); }
 
 		console.warn('[DEPRECATED] Engine.display() is deprecated.');
@@ -812,7 +834,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 				throw new Error(`Engine.display option parameter called with obsolete value "${option}"; please notify the developer`);
 		}
 
-		enginePlay(title, noHistory);
+		enginePlay(name, noHistory);
 	}
 
 
