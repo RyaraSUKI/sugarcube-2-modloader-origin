@@ -13,123 +13,67 @@
 	NOTE: Intended to replace SugarCube's use of jQuery's event triggering methods
 	as they treat synthetic events suboptimally when compared to standard events.
 
-	Options object properties:
+	Event options:
 		// Whether the event bubbles (default: true).
 		bubbles?: boolean
 		// Whether the event is cancelable (default: true).
 		cancelable?: boolean
 		// Whether the event triggers listeners outside of a shadow root (default: false).
 		composed?: boolean
+
+	CustomEvent options:
 		// Custom data sent with the event (default: none).
 		detail?: any
+
+	KeyboardEvent options:
+		???
+
+	MouseEvent options:
+		???
 */
 var triggerEvent = (() => { // eslint-disable-line no-unused-vars, no-var
-	const createEvent = (() => {
-		try {
-			// Test if the `CustomEvent` API is supported.
-			new CustomEvent('click', { bubbles : true });
+	/*
+		Return the correct event interface for the given event.
+	*/
+	function getEventInterface(name) {
+		// SEE:
+		//   * https://dom.spec.whatwg.org/#events
+		//   * https://dom.spec.whatwg.org/#interface-customevent
+		//   * https://w3c.github.io/uievents/
+		switch (name.toLowerCase()) {
+			case 'event':
+				return Event;
 
-			// If the `CustomEvent` API is supported, then return a version of
-			// the `createEvent()` function that uses it.
-			return function createEvent(name, options) {
-				const {
-					bubbles,
-					cancelable,
-					composed,
-					detail,
-					...custom
-				} = Object.assign({ bubbles : true, cancelable : true, composed : false }, options);
-				const event = new CustomEvent(name, { bubbles, cancelable, composed, detail });
+			case 'keydown':
+			case 'keyup':
+				return KeyboardEvent;
 
-				// Copy all custom options properties to the event object.
-				for (let i = 0, keys = Object.keys(custom); i < keys.length; ++i) {
-					const key = keys[i];
+			case 'auxclick':
+			case 'click':
+			case 'contextmenu':
+			case 'dblclick':
+			case 'mousedown':
+			case 'mouseenter':
+			case 'mouseleave':
+			case 'mousemove':
+			case 'mouseout':
+			case 'mouseover':
+			case 'mouseup':
+				return MouseEvent;
 
-					if (typeof custom[key] !== 'undefined') {
-						event[key] = options[key];
-					}
-				}
-
-				return event;
-			};
+			default:
+				return CustomEvent;
 		}
-		catch (ex) {
-			// function getEventInterface(iname) {
-			// 	// SEE: https://dom.spec.whatwg.org/#dom-document-createevent
-			// 	switch (iname) {
-			// 		case "beforeunloadevent":
-			// 			return 'BeforeUnloadEvent';
-			// 		case "compositionevent":
-			// 			return 'CompositionEvent';
-			// 		case "customevent":
-			// 			return 'CustomEvent';
-			// 		case "devicemotionevent":
-			// 			return 'DeviceMotionEvent';
-			// 		case "deviceorientationevent":
-			// 			return 'DeviceOrientationEvent';
-			// 		case "dragevent":
-			// 			return 'DragEvent';
-			// 		case "focusevent":
-			// 			return 'FocusEvent';
-			// 		case "hashchangeevent":
-			// 			return 'HashChangeEvent';
-			// 		case "keyboardevent":
-			// 			return 'KeyboardEvent';
-			// 		case "messageevent":
-			// 			return 'MessageEvent';
-			// 		case "mouseevent":
-			// 			return 'MouseEvent';
-			// 		case "storageevent":
-			// 			return 'StorageEvent';
-			// 		case "textevent":
-			// 			return 'CompositionEvent';
-			// 		case "touchevent":
-			// 			return 'TouchEvent';
-			// 		case "uievent":
-			// 			return 'UIEvent';
-			//
-			// 		default:
-			// 			return 'Event';
-			// 	}
-			// }
-
-			// Elsewise, return a version of the `createEvent()` function that
-			// uses the older, deprecated `document.createEvent()` API.
-			//
-			// NOTE: This version does not support the newer `composed` property
-			// for use with shadow DOMs because the browsers that require this
-			// do not support shadow DOMs.
-			return function createEvent(name, options) {
-				const {
-					bubbles,
-					cancelable,
-					...custom
-				} = Object.assign({ bubbles : true, cancelable : true }, options);
-				const event = document.createEvent('Event');
-
-				// Copy all custom options properties to the event object.
-				for (let i = 0, keys = Object.keys(custom); i < keys.length; ++i) {
-					const key = keys[i];
-
-					if (typeof custom[key] !== 'undefined') {
-						event[key] = options[key];
-					}
-				}
-
-				event.initEvent(name, bubbles, cancelable);
-
-				return event;
-			};
-		}
-	})();
+	}
 
 	function triggerEvent(name, targets, options) {
-		const event = createEvent(name, options);
-		const elems = [];
+		const optsWDefs = Object.assign({ bubbles : true, cancelable : true, composed : false }, options);
+		const event     = new (getEventInterface(name))(name, optsWDefs); // eslint-disable-line new-cap
+		const elements  = [];
 
 		// No target was specified, default to `document`.
 		if (!targets) {
-			elems.push(document);
+			elements.push(document);
 		}
 
 		// An element collection of some kind.
@@ -139,18 +83,18 @@ var triggerEvent = (() => { // eslint-disable-line no-unused-vars, no-var
 			|| targets instanceof Array
 		) {
 			for (let i = 0; i < targets.length; ++i) {
-				elems.push(targets[i]);
+				elements.push(targets[i]);
 			}
 		}
 
 		// Anything else.
 		else {
-			elems.push(targets);
+			elements.push(targets);
 		}
 
 		// Dispatch the event to all of the targets, in order.
-		for (let i = 0; i < elems.length; ++i) {
-			elems[i].dispatchEvent(event);
+		for (let i = 0; i < elements.length; ++i) {
+			elements[i].dispatchEvent(event);
 		}
 	}
 
