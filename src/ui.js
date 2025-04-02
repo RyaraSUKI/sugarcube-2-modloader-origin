@@ -760,16 +760,21 @@ var UI = (() => { // eslint-disable-line no-unused-vars, no-var
 			const isAutoloadOk = ev.target.id === 'autoload-ok';
 			jQuery(document).one(':dialogclosed', () => {
 				new Promise((resolve, reject) => {
+					if (Save.browser.size === 0) {
+						return reject(new Error('no saves available'));
+					}
+
 					if (isAutoloadOk) {
 						resolve();
 					}
-
-					reject(); // eslint-disable-line prefer-promise-reject-errors
+					else {
+						reject(new Error('user cancellation'));
+					}
 				})
 					.then(() => {
-						if (BUILD_DEBUG) { console.log('\tattempting autoload of browser continue'); }
+						if (BUILD_DEBUG) { console.log('\tattempting autoload of most recent browser save'); }
 
-						return Save.browser.continue();
+						return Save.browser.continue().then(Engine.show);
 					})
 					.catch(() => {
 						if (BUILD_DEBUG) { console.log(`\tstarting passage: "${Config.passages.start}"`); }
