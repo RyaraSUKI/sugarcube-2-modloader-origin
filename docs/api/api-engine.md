@@ -175,9 +175,9 @@ Engine.isRendering()  → Returns whether the engine is rendering
 
 <!-- *********************************************************************** -->
 
-### `Engine.play(passageTitle [, noHistory])` → `HTMLElement` {#engine-api-method-play}
+### `Engine.play(passageName [, noHistory])` → `HTMLElement` {#engine-api-method-play}
 
-Renders and displays the passage referenced by the given title, optionally without adding a new moment to the history.
+Renders and displays the passage referenced by the given name, optionally without adding a new moment to the history.
 
 #### History:
 
@@ -185,7 +185,7 @@ Renders and displays the passage referenced by the given title, optionally witho
 
 #### Parameters:
 
-* **`passageTitle`:** (`string`) The title of the passage to play.
+* **`passageName`:** (`string`) The name of the passage to play.
 * **`noHistory`:** (optional, `boolean`) Disables the update of the history—i.e., no moment is added to the history.
 
 #### Examples:
