@@ -35,7 +35,7 @@ var L10n = (() => { // eslint-disable-line no-unused-vars, no-var
 			return '';
 		}
 
-		const id = (Array.isArray(ids) ? ids : [ids]).find(id => Object.hasOwn(l10nStrings, id));
+		const id = (ids instanceof Array ? ids : [ids]).find(id => Object.hasOwn(l10nStrings, id));
 
 		if (!id) {
 			return '';

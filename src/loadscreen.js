@@ -10,10 +10,10 @@
 
 var LoadScreen = (() => { // eslint-disable-line no-unused-vars, no-var
 	// Locks collection.
-	const _locks = new Set();
+	const locks = new Set();
 
 	// Auto-incrementing lock ID.
-	let _autoId = 0;
+	let lockId = 0;
 
 
 	/*******************************************************************************
@@ -23,14 +23,14 @@ var LoadScreen = (() => { // eslint-disable-line no-unused-vars, no-var
 	/*
 		Initialize management of the loading screen.
 	*/
-	function loadScreenInit() {
-		if (BUILD_DEBUG) { console.log('[LoadScreen/loadScreenInit()]'); }
+	function init() {
+		if (BUILD_DEBUG) { console.log('[LoadScreen/init()]'); }
 
 		// Add a `readystatechange` listener for hiding/showing the loading screen.
 		jQuery(document).on('readystatechange.SugarCube', () => {
-			if (BUILD_DEBUG) { console.log(`[LoadScreen/<readystatechange>] document.readyState: "${document.readyState}"; locks(${_locks.size}):`, _locks); }
+			if (BUILD_DEBUG) { console.log(`[LoadScreen/<readystatechange>] document.readyState: "${document.readyState}"; locks(${locks.size}):`, locks); }
 
-			if (_locks.size > 0) {
+			if (locks.size > 0) {
 				return;
 			}
 
@@ -40,18 +40,18 @@ var LoadScreen = (() => { // eslint-disable-line no-unused-vars, no-var
 				if (jQuery(document.documentElement).attr('data-init') === 'loading') {
 					if (Config.loadDelay > 0) {
 						setTimeout(() => {
-							if (_locks.size === 0) {
-								loadScreenHide();
+							if (locks.size === 0) {
+								hide();
 							}
 						}, Math.max(Engine.DOM_DELAY, Config.loadDelay));
 					}
 					else {
-						loadScreenHide();
+						hide();
 					}
 				}
 			}
 			else {
-				loadScreenShow();
+				show();
 			}
 		});
 	}
@@ -59,24 +59,24 @@ var LoadScreen = (() => { // eslint-disable-line no-unused-vars, no-var
 	/*
 		Clear the loading screen.
 	*/
-	function loadScreenClear() {
-		if (BUILD_DEBUG) { console.log('[LoadScreen/loadScreenClear()]'); }
+	function clear() {
+		if (BUILD_DEBUG) { console.log('[LoadScreen/clear()]'); }
 
 		// Remove the event listener.
 		jQuery(document).off('readystatechange.SugarCube');
 
 		// Clear all locks.
-		_locks.clear();
+		locks.clear();
 
 		// Hide the loading screen.
-		loadScreenHide();
+		hide();
 	}
 
 	/*
 		Hide the loading screen.
 	*/
-	function loadScreenHide() {
-		if (BUILD_DEBUG) { console.log('[LoadScreen/loadScreenHide()]'); }
+	function hide() {
+		if (BUILD_DEBUG) { console.log('[LoadScreen/hide()]'); }
 
 		jQuery(document.documentElement).removeAttr('data-init');
 	}
@@ -84,8 +84,8 @@ var LoadScreen = (() => { // eslint-disable-line no-unused-vars, no-var
 	/*
 		Show the loading screen.
 	*/
-	function loadScreenShow() {
-		if (BUILD_DEBUG) { console.log('[LoadScreen/loadScreenShow()]'); }
+	function show() {
+		if (BUILD_DEBUG) { console.log('[LoadScreen/show()]'); }
 
 		jQuery(document.documentElement).attr('data-init', 'loading');
 	}
@@ -93,36 +93,36 @@ var LoadScreen = (() => { // eslint-disable-line no-unused-vars, no-var
 	/*
 		Returns a new lock ID after locking and showing the loading screen.
 	*/
-	function loadScreenLock() {
-		if (BUILD_DEBUG) { console.log('[LoadScreen/loadScreenLock()]'); }
+	function lock() {
+		if (BUILD_DEBUG) { console.log('[LoadScreen/lock()]'); }
 
-		++_autoId;
-		_locks.add(_autoId);
+		++lockId;
+		locks.add(lockId);
 
-		if (BUILD_DEBUG) { console.log(`\tacquired loading screen lock; id: ${_autoId}`); }
+		if (BUILD_DEBUG) { console.log(`\tacquired loading screen lock; id: ${lockId}`); }
 
-		loadScreenShow();
-		return _autoId;
+		show();
+		return lockId;
 	}
 
 	/*
 		Remove the lock associated with the given lock ID and, if no locks remain,
 		trigger a `readystatechange` event.
 	*/
-	function loadScreenUnlock(id) {
-		if (BUILD_DEBUG) { console.log(`[LoadScreen/loadScreenUnlock(id: ${id})]`); }
+	function unlock(id) {
+		if (BUILD_DEBUG) { console.log(`[LoadScreen/unlock(id: ${id})]`); }
 
 		if (id == null) { // nullish test
-			throw new Error('LoadScreen.unlock called with a null or undefined ID');
+			throw new TypeError('id parameter must not be null or undefined');
 		}
 
-		if (_locks.has(id)) {
-			_locks.delete(id);
+		if (locks.has(id)) {
+			locks.delete(id);
 
 			if (BUILD_DEBUG) { console.log(`\treleased loading screen lock; id: ${id}`); }
 		}
 
-		if (_locks.size === 0) {
+		if (locks.size === 0) {
 			triggerEvent('readystatechange');
 		}
 	}
@@ -130,8 +130,8 @@ var LoadScreen = (() => { // eslint-disable-line no-unused-vars, no-var
 	/*
 		Returns the current number of locks.
 	*/
-	function loadScreenLockSize() {
-		return _locks.size;
+	function size() {
+		return locks.size;
 	}
 
 
@@ -140,12 +140,12 @@ var LoadScreen = (() => { // eslint-disable-line no-unused-vars, no-var
 	*******************************************************************************/
 
 	return Object.preventExtensions(Object.create(null, {
-		init   : { value : loadScreenInit },
-		clear  : { value : loadScreenClear },
-		hide   : { value : loadScreenHide },
-		show   : { value : loadScreenShow },
-		lock   : { value : loadScreenLock },
-		unlock : { value : loadScreenUnlock },
-		size   : { get : loadScreenLockSize }
+		init   : { value : init },
+		clear  : { value : clear },
+		hide   : { value : hide },
+		show   : { value : show },
+		lock   : { value : lock },
+		unlock : { value : unlock },
+		size   : { get : size }
 	}));
 })();

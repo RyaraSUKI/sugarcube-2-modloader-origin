@@ -420,7 +420,6 @@ var Dialog = (() => { // eslint-disable-line no-unused-vars, no-var
 				// as doing so causes Edge (ca. 18) to throw a "Number expected" exception due
 				// to `Dialog` not having a prototype.
 				close(ev);
-				/* implicit `return undefined;` */
 			});
 
 		// Trigger a `:dialogopened` event on the dialog body.

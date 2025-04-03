@@ -21,12 +21,12 @@
 	/*
 		Trims whitespace from either the start or end of the given string.
 	*/
-	const _trimString = (() => {
+	const stringTrim = (() => {
 		// Whitespace regular expressions.
 		const startWSRe = new RegExp(`^${Patterns.space}${Patterns.space}*`);
 		const endWSRe   = new RegExp(`${Patterns.space}${Patterns.space}*$`);
 
-		function trimString(str, where) {
+		function stringTrim(str, where) {
 			const val = String(str);
 
 			if (!val) {
@@ -41,17 +41,17 @@
 					return endWSRe.test(val) ? val.replace(endWSRe, '') : val;
 
 				default:
-					throw new Error(`_trimString called with incorrect where parameter value: "${where}"`);
+					throw new Error(`stringTrim called with incorrect where parameter value: "${where}"`);
 			}
 		}
 
-		return trimString;
+		return stringTrim;
 	})();
 
 	/*
 		Generates a pad string based upon the given string and length.
 	*/
-	function _createPadString(length, padding) {
+	function stringCreatePad(length, padding) {
 		const targetLength = Number.parseInt(length, 10) || 0;
 
 		if (targetLength < 1) {
@@ -110,7 +110,7 @@
 					return Array.prototype.reduce.call(
 						this,
 						(acc, cur) => {
-							if (cur instanceof Array) {
+							if (Array.isArray(cur)) {
 								push.apply(acc, flat.call(cur, depth - 1));
 							}
 							else {
@@ -408,7 +408,7 @@
 					return baseString;
 				}
 
-				return _createPadString(targetLength - baseLength, padding) + baseString;
+				return stringCreatePad(targetLength - baseLength, padding) + baseString;
 			}
 		});
 	}
@@ -437,7 +437,7 @@
 					return baseString;
 				}
 
-				return baseString + _createPadString(targetLength - baseLength, padding);
+				return baseString + stringCreatePad(targetLength - baseLength, padding);
 			}
 		});
 	}
@@ -455,7 +455,7 @@
 					throw new TypeError('String.prototype.trimStart called on null or undefined');
 				}
 
-				return _trimString(this, 'start');
+				return stringTrim(this, 'start');
 			}
 		});
 	}
@@ -470,7 +470,7 @@
 					throw new TypeError('String.prototype.trimLeft called on null or undefined');
 				}
 
-				return _trimString(this, 'start');
+				return stringTrim(this, 'start');
 			}
 		});
 	}
@@ -488,7 +488,7 @@
 					throw new TypeError('String.prototype.trimEnd called on null or undefined');
 				}
 
-				return _trimString(this, 'end');
+				return stringTrim(this, 'end');
 			}
 		});
 	}
@@ -503,7 +503,7 @@
 					throw new TypeError('String.prototype.trimRight called on null or undefined');
 				}
 
-				return _trimString(this, 'end');
+				return stringTrim(this, 'end');
 			}
 		});
 	}

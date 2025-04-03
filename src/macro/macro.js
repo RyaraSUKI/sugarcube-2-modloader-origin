@@ -24,7 +24,7 @@ var Macro = (() => { // eslint-disable-line no-unused-vars, no-var
 	*******************************************************************************/
 
 	function macrosAdd(name, def) {
-		if (Array.isArray(name)) {
+		if (name instanceof Array) {
 			name.forEach(name => macrosAdd(name, def));
 			return;
 		}
@@ -80,7 +80,7 @@ var Macro = (() => { // eslint-disable-line no-unused-vars, no-var
 			if (_macros[name].tags == null) { // nullish test
 				tagsRegister(name);
 			}
-			else if (Array.isArray(_macros[name].tags)) {
+			else if (_macros[name].tags instanceof Array) {
 				tagsRegister(name, _macros[name].tags);
 			}
 			else {
@@ -90,7 +90,7 @@ var Macro = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function macrosDelete(name) {
-		if (Array.isArray(name)) {
+		if (name instanceof Array) {
 			name.forEach(name => macrosDelete(name));
 			return;
 		}
@@ -165,7 +165,7 @@ var Macro = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		const endTags = [`/${parent}`, `end${parent}`]; // automatically create the closing tags
-		const allTags = [].concat(endTags, Array.isArray(bodyTags) ? bodyTags : []);
+		const allTags = [].concat(endTags, bodyTags instanceof Array ? bodyTags : []);
 
 		for (let i = 0; i < allTags.length; ++i) {
 			const tag = allTags[i];

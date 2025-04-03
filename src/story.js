@@ -10,28 +10,28 @@
 
 var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 	// Story IFID.
-	let _ifId = '';
+	let ifId = '';
 
-	// DOM-compatible ID.
-	let _id = '';
+	// Story ID (DOM-compatible).
+	let id = '';
 
 	// Story name.
-	let _name = '';
+	let name = '';
 
 	// Mapping of normal passages.
-	const _passages = createPassageStore();
+	const passages = createPassageStore();
 
 	// List of init passages.
-	const _inits = [];
+	const inits = [];
 
 	// List of script passages.
-	const _scripts = [];
+	const scripts = [];
 
 	// List of style passages.
-	const _styles = [];
+	const styles = [];
 
 	// List of widget passages.
-	const _widgets = [];
+	const widgets = [];
 
 	// List of code passages for sanity checks.
 	const codePassageNames = [
@@ -78,9 +78,9 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 		//
 		// If `id` is empty, attempt a failover.
 		if (id === '') {
-			// If `_ifId` is not empty, then use it.
-			if (_ifId !== '') {
-				id = _ifId;
+			// If `ifId` is not empty, then use it.
+			if (ifId !== '') {
+				id = ifId;
 			}
 
 			// Elsewise generate a string from the `name`'s code points (in hexadecimal).
@@ -96,18 +96,18 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 		return id;
 	}
 
-	function generateName(rawName) {
-		if (rawName == null) { // nullish test
-			throw new Error('story name must not be null or undefined');
+	function generateName(name) {
+		if (name == null) { // nullish test
+			throw new Error('name parameter must not be null or undefined');
 		}
 
-		const name = decodeEntities(String(rawName)).trim();
+		const decodedName = decodeEntities(String(name)).trim();
 
-		if (name === '') { // nullish test
-			throw new Error('story name must not be empty or consist solely of whitespace');
+		if (decodedName === '') { // nullish test
+			throw new Error('name parameter must not be empty or consist solely of whitespace');
 		}
 
-		return name;
+		return decodedName;
 	}
 
 
@@ -174,51 +174,51 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 					// Special case: starting passage.
 					if (passage.name === Config.passages.start) {
 						assertNoCodeTags(passage, 'starting');
-						_passages[passage.name] = passage;
+						passages[passage.name] = passage;
 					}
 
 					// Special case: code passages.
 					else if (codePassageNames.includes(passage.name)) {
 						assertNoCodeTags(passage, 'code');
-						// NOTE: Ideally, these should be going into their own store, rather than `_passages`.
-						_passages[passage.name] = passage;
+						// NOTE: Ideally, these should be going into their own store, rather than `passages`.
+						passages[passage.name] = passage;
 					}
 
 					// Special case: init passages.
 					else if (passage.tags.includes('init')) {
 						assertValidCodeTagUsage(passage);
-						_inits.push(passage);
+						inits.push(passage);
 					}
 
 					// Special case: script passages.
 					else if (passage.tags.includes('script')) {
 						assertValidCodeTagUsage(passage);
-						_scripts.push(passage);
+						scripts.push(passage);
 					}
 
 					// Special case: stylesheet passages.
 					else if (passage.tags.includes('stylesheet')) {
 						assertValidCodeTagUsage(passage);
-						_styles.push(passage);
+						styles.push(passage);
 					}
 
 					// Special case: widget passages.
 					else if (passage.tags.includes('widget')) {
 						assertValidCodeTagUsage(passage);
-						_widgets.push(passage);
+						widgets.push(passage);
 					}
 
 					// All other passages.
 					else {
-						_passages[passage.name] = passage;
+						passages[passage.name] = passage;
 					}
 				});
 
 			// Get the story's name.
-			if (Object.hasOwn(_passages, 'StoryTitle')) {
+			if (Object.hasOwn(passages, 'StoryTitle')) {
 				const buf = document.createDocumentFragment();
-				new Wikifier(buf, _passages.StoryTitle.processText().trim());
-				_name = generateName(buf.textContent);
+				new Wikifier(buf, passages.StoryTitle.processText().trim());
+				name = generateName(buf.textContent);
 			}
 			else {
 				throw new Error('cannot find the "StoryTitle" special passage');
@@ -243,14 +243,14 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 			$storydata
 				.children('style') // alternatively: '[type="text/twine-css"]'
 				.each(function (i) {
-					_styles.push(new Passage(`tw-user-style-${i}`, this));
+					styles.push(new Passage(`tw-user-style-${i}`, this));
 				});
 
 			// Process scripts.
 			$storydata
 				.children('script') // alternatively: '[type="text/twine-javascript"]'
 				.each(function (i) {
-					_scripts.push(new Passage(`tw-user-script-${i}`, this));
+					scripts.push(new Passage(`tw-user-script-${i}`, this));
 				});
 
 			// Process passages, excluding any tagged 'Twine.private' or 'annotation'.
@@ -267,52 +267,52 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 					if (pid === startNode && startNode !== '') {
 						Config.passages.start = passage.name;
 						assertNoCodeTags(passage, 'starting');
-						_passages[passage.name] = passage;
+						passages[passage.name] = passage;
 					}
 
 					// Special case: code passages.
 					else if (codePassageNames.includes(passage.name)) {
 						assertNoCodeTags(passage, 'code');
-						// NOTE: Ideally, these should be going into their own store, rather than `_passages`.
-						_passages[passage.name] = passage;
+						// NOTE: Ideally, these should be going into their own store, rather than `passages`.
+						passages[passage.name] = passage;
 					}
 
 					// Special case: init passages.
 					else if (passage.tags.includes('init')) {
 						assertValidCodeTagUsage(passage);
-						_inits.push(passage);
+						inits.push(passage);
 					}
 
 					// Special case: widget passages.
 					else if (passage.tags.includes('widget')) {
 						assertValidCodeTagUsage(passage);
-						_widgets.push(passage);
+						widgets.push(passage);
 					}
 
 					// All other passages.
 					else {
-						_passages[passage.name] = passage;
+						passages[passage.name] = passage;
 					}
 				});
 
 			// Get the story's IFID.
-			_ifId = $storydata.attr('ifid');
+			ifId = $storydata.attr('ifid');
 
 			// Get the story's name.
 			//
 			// QUESTION: Maybe `$storydata.attr('name')` should be used instead of `'{{STORY_NAME}}'`?
-			// _name = generateName($storydata.attr('name'));
-			_name = generateName('{{STORY_NAME}}');
+			// name = generateName($storydata.attr('name'));
+			name = generateName('{{STORY_NAME}}');
 		}
 
 		// Get the story's ID.
-		_id = generateId(_name);
+		id = generateId(name);
 
 		// Set the default saves ID to the story's ID.
-		Config.saves.id = _id;
+		Config.saves.id = id;
 
 		// Set the document's title to the story's name.
-		document.title = _name;
+		document.title = name;
 	}
 
 
@@ -321,15 +321,15 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 	*******************************************************************************/
 
 	function getId() {
-		return _id;
+		return id;
 	}
 
 	function getIfId() {
-		return _ifId;
+		return ifId;
 	}
 
 	function getName() {
-		return _name;
+		return name;
 	}
 
 
@@ -339,10 +339,10 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 
 	function add(descriptor) {
 		if (getTypeOf(descriptor) !== 'Object') {
-			throw new TypeError('Story.add() descriptor parameter must be a generic object');
+			throw new TypeError('descriptor parameter must be a generic object');
 		}
 
-		if (Object.hasOwn(_passages, descriptor.name)) {
+		if (Object.hasOwn(passages, descriptor.name)) {
 			return false;
 		}
 
@@ -354,14 +354,14 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 		const passage = new Passage(descriptor.name, elem);
 
 		if (codePassageNames.includes(passage.name)) {
-			throw new Error(`Story.add() passage descriptor object "${passage.name}" must not be a code passage`);
+			throw new Error(`descriptor object "${passage.name}" must not be a code passage`);
 		}
 
 		if (passage.tags.includesAny(codeTagNames)) {
-			throw new Error(`Story.add() passage descriptor object "${passage.name}" must not include code tags`);
+			throw new Error(`descriptor object "${passage.name}" must not include code tags`);
 		}
 
-		_passages[passage.name] = passage;
+		passages[passage.name] = passage;
 		return true;
 	}
 
@@ -374,19 +374,19 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 			case 'string': {
 				const key = String(name);
 
-				if (!Object.hasOwn(_passages, key)) {
+				if (!Object.hasOwn(passages, key)) {
 					return false;
 				}
 
 				if (key === Config.passages.start || codePassageNames.includes(key)) {
-					throw new Error(`Story.delete() passage "${key}" must not be a code passage`);
+					throw new Error(`cannot delete code passage "${key}"`);
 				}
 
-				if (_passages[key].tags.includesAny(codeTagNames)) {
-					throw new Error(`Story.delete() passage "${key}" must not include code tags`);
+				if (passages[key].tags.includesAny(codeTagNames)) {
+					throw new Error(`cannot delete passage "${key}" as it includes code tags`);
 				}
 
-				delete _passages[key];
+				delete passages[key];
 				return true;
 			}
 
@@ -404,18 +404,18 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 				break;
 		}
 
-		throw new TypeError(`Story.delete() name parameter cannot be ${type}`);
+		throw new TypeError(`name parameter must not be ${type}`);
 	}
 
 	function filter(predicate, thisArg) {
 		if (typeof predicate !== 'function') {
-			throw new TypeError('Story.filter() predicate parameter must be a function');
+			throw new TypeError('predicate parameter must be a function');
 		}
 
 		const results = [];
 
-		for (let i = 0, keys = Object.keys(_passages); i < keys.length; ++i) {
-			const passage = _passages[keys[i]];
+		for (let i = 0, keys = Object.keys(passages); i < keys.length; ++i) {
+			const passage = passages[keys[i]];
 
 			if (predicate.call(typeof thisArg === 'undefined' ? this : thisArg, passage)) {
 				results.push(passage);
@@ -427,11 +427,11 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 
 	function find(predicate, thisArg) {
 		if (typeof predicate !== 'function') {
-			throw new TypeError('Story.find() predicate parameter must be a function');
+			throw new TypeError('predicate parameter must be a function');
 		}
 
-		for (let i = 0, keys = Object.keys(_passages); i < keys.length; ++i) {
-			const passage = _passages[keys[i]];
+		for (let i = 0, keys = Object.keys(passages); i < keys.length; ++i) {
+			const passage = passages[keys[i]];
 
 			if (predicate.call(typeof thisArg === 'undefined' ? this : thisArg, passage)) {
 				return passage;
@@ -447,7 +447,7 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 			case 'number':
 			case 'string': {
 				const key = String(name);
-				return Object.hasOwn(_passages, key) ? _passages[key] : new Passage(key || '(unknown)');
+				return Object.hasOwn(passages, key) ? passages[key] : new Passage(key || '(unknown)');
 			}
 
 			// Invalid types.  We do the extra processing just to make a nicer error.
@@ -464,32 +464,32 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 				break;
 		}
 
-		throw new TypeError(`Story.get() name parameter cannot be ${type}`);
+		throw new TypeError(`name parameter must not be ${type}`);
 	}
 
 	function getInits() {
 		// NOTE: Return an immutable copy, rather than the internal mutable original.
-		return Object.freeze(Array.from(_inits));
+		return Object.freeze(Array.from(inits));
 	}
 
 	function getNormals() {
 		// NOTE: Return an immutable copy, rather than the internal mutable original.
-		return Object.freeze(createPassageStore(_passages));
+		return Object.freeze(createPassageStore(passages));
 	}
 
 	function getScripts() {
 		// NOTE: Return an immutable copy, rather than the internal mutable original.
-		return Object.freeze(Array.from(_scripts));
+		return Object.freeze(Array.from(scripts));
 	}
 
 	function getStyles() {
 		// NOTE: Return an immutable copy, rather than the internal mutable original.
-		return Object.freeze(Array.from(_styles));
+		return Object.freeze(Array.from(styles));
 	}
 
 	function getWidgets() {
 		// NOTE: Return an immutable copy, rather than the internal mutable original.
-		return Object.freeze(Array.from(_widgets));
+		return Object.freeze(Array.from(widgets));
 	}
 
 	function has(name) {
@@ -499,7 +499,7 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 			// Valid types.
 			case 'number':
 			case 'string':
-				return Object.hasOwn(_passages, String(name));
+				return Object.hasOwn(passages, String(name));
 
 			// Invalid types.  We do the extra processing just to make a nicer error.
 			case 'undefined':
@@ -515,7 +515,7 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 				break;
 		}
 
-		throw new TypeError(`Story.has name parameter cannot be ${type}`);
+		throw new TypeError(`name parameter must not be ${type}`);
 	}
 
 
@@ -547,7 +547,7 @@ var Story = (() => { // eslint-disable-line no-unused-vars, no-var
 		console.warn('[DEPRECATED] Story.lookupWith() is deprecated.');
 
 		if (typeof predicate !== 'function') {
-			throw new TypeError('Story.lookupWith() predicate parameter must be a function');
+			throw new TypeError('predicate parameter must be a function');
 		}
 
 		/* eslint-disable eqeqeq, no-nested-ternary, max-len */

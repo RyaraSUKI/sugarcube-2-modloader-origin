@@ -583,7 +583,7 @@ var UI = (() => { // eslint-disable-line no-unused-vars, no-var
 				case Setting.Types.List: {
 					$control = jQuery(document.createElement('select'));
 
-					for (let i = 0, iend = control.list.length; i < iend; ++i) {
+					for (let i = 0; i < control.list.length; ++i) {
 						jQuery(document.createElement('option'))
 							.val(i)
 							.text(control.list[i])
@@ -812,7 +812,7 @@ var UI = (() => { // eslint-disable-line no-unused-vars, no-var
 				jQuery(document.createElement('li'))
 					.append(
 						jQuery(document.createElement('a'))
-							.ariaClick({ one : true }, (function (index) {
+							.ariaClick({ one : true }, (index => { // eslint-disable-line arrow-body-style
 								return () => jQuery(document).one(':dialogclosed', () => Engine.goTo(index));
 							})(i))
 							.addClass('ui-close')

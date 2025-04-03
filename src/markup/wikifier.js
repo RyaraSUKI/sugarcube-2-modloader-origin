@@ -503,7 +503,7 @@ var Wikifier = (() => { // eslint-disable-line no-unused-vars, no-var
 				if (BUILD_DEBUG) { console.log('[Wikifier.Parser/profilesCompile()]'); }
 
 				const all  = _parsers;
-				const core = all.filter(parser => !Array.isArray(parser.profiles) || parser.profiles.includes('core'));
+				const core = all.filter(parser => !(parser.profiles instanceof Array) || parser.profiles.includes('core'));
 
 				_profiles = Object.freeze({
 					all : {

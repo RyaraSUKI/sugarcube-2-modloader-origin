@@ -107,7 +107,7 @@ class DebugView { // eslint-disable-line no-unused-vars
 			return this;
 		}
 
-		throw new Error('DebugView.prototype.modes options parameter must be an object or null/undefined');
+		throw new Error('DebugView.prototype.modes options parameter must be an object, null, or undefined');
 	}
 
 	remove() {

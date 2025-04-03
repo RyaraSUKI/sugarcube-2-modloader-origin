@@ -237,11 +237,8 @@ Macro.add('for', {
 				if (Number.isNaN(collection) || !Number.isFinite(collection)) {
 					throw new Error(`unsupported range expression type: ${stringFrom(collection)}`);
 				}
-				if (!Number.isInteger(collection)) {
-					throw new Error('unsupported range expression type: floating-point number');
-				}
 				if (!Number.isSafeInteger(collection)) {
-					throw new Error('unsupported range expression type: unsafe integer');
+					throw new Error('unsupported range expression type: floating-point number or unsafe integer number');
 				}
 
 				if (collection <= 0) {
@@ -317,7 +314,7 @@ Macro.add('for', {
 				}
 				else if (collection instanceof Set) {
 					/* legacy */
-					// Convert the `Set` to an `Array` to provide indicies.
+					// Convert the `Set` to an `Array` to provide indices.
 					//
 					// TODO: Check what the polyfill's `<Set>.values()` method returns.
 					collection = Array.from(collection);

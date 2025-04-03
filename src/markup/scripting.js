@@ -138,7 +138,7 @@ var Scripting = (() => { // eslint-disable-line no-unused-vars, no-var
 			const offset = Number(arguments[0]);
 
 			if (!Number.isSafeInteger(offset) || offset < 1) {
-				throw new RangeError('previous offset parameter must be a positive integer greater than zero');
+				throw new RangeError('previous offset parameter must be a positive integer number greater-than zero');
 			}
 
 			return passages.length > offset ? passages[passages.length - 1 - offset] : '';
@@ -174,10 +174,10 @@ var Scripting = (() => { // eslint-disable-line no-unused-vars, no-var
 				break;
 		}
 
-		if (!Number.isInteger(min)) {
+		if (!Number.isSafeInteger(min)) {
 			throw new TypeError('random min parameter must be an integer');
 		}
-		if (!Number.isInteger(max)) {
+		if (!Number.isSafeInteger(max)) {
 			throw new TypeError('random max parameter must be an integer');
 		}
 
@@ -447,7 +447,7 @@ var Scripting = (() => { // eslint-disable-line no-unused-vars, no-var
 		function importScripts(...urls) {
 			return Promise.all(urls.map(oneOrSeries => {
 				// Array of URLs to be imported in sequence.
-				if (Array.isArray(oneOrSeries)) {
+				if (oneOrSeries instanceof Array) {
 					return sequence(oneOrSeries.map(url => () => addScript(url)));
 				}
 
@@ -462,7 +462,7 @@ var Scripting = (() => { // eslint-disable-line no-unused-vars, no-var
 		function importStyles(...urls) {
 			return Promise.all(urls.map(oneOrSeries => {
 				// Array of URLs to be imported in sequence.
-				if (Array.isArray(oneOrSeries)) {
+				if (oneOrSeries instanceof Array) {
 					return sequence(oneOrSeries.map(url => () => addStyle(url)));
 				}
 

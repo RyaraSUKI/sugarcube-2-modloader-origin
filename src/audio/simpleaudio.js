@@ -110,7 +110,6 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		sources;   // Our source element(s).
 		originals; // Our sources.
 
-
 		// Private fields.
 		#error;   // Our current error.
 		#faderId; // Our current fader ID.
@@ -1468,7 +1467,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 			throw new Error(`invalid ${what}: track IDs must not contain colons or whitespace`);
 		}
 
-		const sources = Array.isArray(arguments[1])
+		const sources = arguments[1] instanceof Array
 			? Array.from(arguments[1])
 			: Array.from(arguments).slice(1);
 		let track;
@@ -1547,7 +1546,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 			throw new Error(`cannot clobber special ${what}`);
 		}
 
-		const trackIds = Array.isArray(arguments[1])
+		const trackIds = arguments[1] instanceof Array
 			? Array.from(arguments[1])
 			: Array.from(arguments).slice(1);
 		let group;
@@ -1630,7 +1629,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 			return this.error(`invalid ${what}: list IDs must not contain colons or whitespace`);
 		}
 
-		const descriptors = Array.isArray(arguments[1])
+		const descriptors = arguments[1] instanceof Array
 			? Array.from(arguments[1])
 			: Array.from(arguments).slice(1);
 		let list;
@@ -1676,7 +1675,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 					track = _tracks.get(desc.id);
 				}
 				else if (Object.hasOwn(desc, 'sources')) {
-					if (!Array.isArray(desc.sources) || desc.sources.length === 0) {
+					if (!(desc.sources instanceof Array) || desc.sources.length === 0) {
 						throw new Error('"sources" property must be a non-empty array');
 					}
 					if (Object.hasOwn(desc, 'own')) {

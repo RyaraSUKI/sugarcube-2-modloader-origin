@@ -100,7 +100,7 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 		classes;
 
 		constructor(name, el) {
-			// Passage data element (within the story data element; i.e. T1: '[tiddler]', T2: 'tw-passagedata').
+			// Passage data element (i.e., Twine 1: '[tiddler]', Twine 2: 'tw-passagedata').
 			this.#element = el ?? null;
 
 			const decodedName = decodeEntities(name);
@@ -119,7 +119,7 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 				// Passage tags array (unique).
 				tags : {
 					value : Object.freeze(
-						el && el.hasAttribute('tags')
+						el?.hasAttribute('tags')
 							? Array.from(new Set(el.getAttribute('tags').trim().splitOrEmpty(/\s+/)))
 							: []
 					)
@@ -143,7 +143,9 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 			});
 		}
 
-		// Getters.
+
+		// Public methods.
+
 		get className() {
 			return this.classes.join(' ');
 		}
@@ -175,13 +177,13 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 			// Handle `Config.passages.onProcess`.
 			if (Config.passages.onProcess) {
 				processed = Config.passages.onProcess.call(null, {
+					/* legacy */
+					title : this.name,
+					/* /legacy */
+
 					name : this.name,
 					tags : this.tags,
-					text : processed,
-
-					/* legacy */
-					title : this.name
-					/* /legacy */
+					text : processed
 				});
 			}
 

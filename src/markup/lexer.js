@@ -71,6 +71,9 @@ class Lexer { // eslint-disable-line no-unused-vars
 		});
 	}
 
+
+	// Public methods.
+
 	reset() {
 		this.state  = this.initial;
 		this.start  = 0;

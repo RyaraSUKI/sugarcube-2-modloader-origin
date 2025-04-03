@@ -12,7 +12,7 @@
 
 var UIBar = (() => { // eslint-disable-line no-unused-vars, no-var
 	// jQuery-wrapped UI bar element.
-	let _$uiBar = null;
+	let $uiBar = null;
 
 	// jQuery event namespace.
 	const EVENT_NS = '.ui-bar';
@@ -81,7 +81,7 @@ var UIBar = (() => { // eslint-disable-line no-unused-vars, no-var
 			of `find()`, so that we cache an uncluttered jQuery-wrapper—i.e., `context`
 			refers to the element and there is no `prevObject`.
 		*/
-		_$uiBar = jQuery($elems.find('#ui-bar').get(0));
+		$uiBar = jQuery($elems.find('#ui-bar').get(0));
 
 		// Insert the UI bar elements into the page before the main script.
 		$elems.insertBefore('body>script#script-sugarcube');
@@ -103,12 +103,12 @@ var UIBar = (() => { // eslint-disable-line no-unused-vars, no-var
 	function destroy() {
 		if (BUILD_DEBUG) { console.log('[UIBar/destroy()]'); }
 
-		if (!_$uiBar) {
+		if (!$uiBar) {
 			return;
 		}
 
 		// Hide the UI bar.
-		_$uiBar.hide();
+		$uiBar.hide();
 
 		// Remove its namespaced events.
 		jQuery(document).off(EVENT_NS);
@@ -117,31 +117,31 @@ var UIBar = (() => { // eslint-disable-line no-unused-vars, no-var
 		jQuery(document.head).find('#style-ui-bar').remove();
 
 		// Remove it from the DOM.
-		_$uiBar.remove();
+		$uiBar.remove();
 
 		// Drop the reference to the element.
-		_$uiBar = null;
+		$uiBar = null;
 	}
 
 	function hide() {
-		if (_$uiBar) {
-			_$uiBar.hide();
+		if ($uiBar) {
+			$uiBar.hide();
 		}
 
 		return UIBar;
 	}
 
 	function isHidden() {
-		return _$uiBar && _$uiBar.css('display') === 'none';
+		return $uiBar && $uiBar.css('display') === 'none';
 	}
 
 	function isStowed() {
-		return _$uiBar && _$uiBar.hasClass('stowed');
+		return $uiBar && $uiBar.hasClass('stowed');
 	}
 
 	function show() {
-		if (_$uiBar) {
-			_$uiBar.show();
+		if ($uiBar) {
+			$uiBar.show();
 		}
 
 		return UIBar;
@@ -150,7 +150,7 @@ var UIBar = (() => { // eslint-disable-line no-unused-vars, no-var
 	function start() {
 		if (BUILD_DEBUG) { console.log('[UIBar/start()]'); }
 
-		if (!_$uiBar) {
+		if (!$uiBar) {
 			return;
 		}
 
@@ -167,7 +167,7 @@ var UIBar = (() => { // eslint-disable-line no-unused-vars, no-var
 		jQuery('#ui-bar-toggle')
 			.ariaClick({
 				label : L10n.get('uiBarLabelToggle')
-			}, () => _$uiBar.toggleClass('stowed'));
+			}, () => $uiBar.toggleClass('stowed'));
 
 		if (Config.history.controls) {
 			jQuery('#history-backward')
@@ -207,7 +207,7 @@ var UIBar = (() => { // eslint-disable-line no-unused-vars, no-var
 
 			if (Story.has(passageName)) {
 				addUiUpdateHandler(() => {
-					if (!_$uiBar) {
+					if (!$uiBar) {
 						$el.off(`:uiupdate${EVENT_NS}`);
 						return;
 					}
@@ -254,7 +254,7 @@ var UIBar = (() => { // eslint-disable-line no-unused-vars, no-var
 			const $menuStory = jQuery('#menu-story');
 
 			jQuery(document).on(`:uiupdate${EVENT_NS}`, () => {
-				if (!_$uiBar) {
+				if (!$uiBar) {
 					$menuStory.off(`:uiupdate${EVENT_NS}`);
 					return;
 				}
@@ -358,23 +358,23 @@ var UIBar = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function stow(noAnimation) {
-		if (_$uiBar && !_$uiBar.hasClass('stowed')) {
+		if ($uiBar && !$uiBar.hasClass('stowed')) {
 			let $story;
 
 			if (noAnimation) {
 				$story = jQuery('#story');
 				$story.addClass('no-transition');
-				_$uiBar.addClass('no-transition');
+				$uiBar.addClass('no-transition');
 			}
 
-			_$uiBar.addClass('stowed');
+			$uiBar.addClass('stowed');
 
 			if (noAnimation) {
 				setTimeout(() => {
 					$story.removeClass('no-transition');
 
-					if (_$uiBar) {
-						_$uiBar.removeClass('no-transition');
+					if ($uiBar) {
+						$uiBar.removeClass('no-transition');
 					}
 				}, Engine.DOM_DELAY);
 			}
@@ -384,23 +384,23 @@ var UIBar = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function unstow(noAnimation) {
-		if (_$uiBar && _$uiBar.hasClass('stowed')) {
+		if ($uiBar && $uiBar.hasClass('stowed')) {
 			let $story;
 
 			if (noAnimation) {
 				$story = jQuery('#story');
 				$story.addClass('no-transition');
-				_$uiBar.addClass('no-transition');
+				$uiBar.addClass('no-transition');
 			}
 
-			_$uiBar.removeClass('stowed');
+			$uiBar.removeClass('stowed');
 
 			if (noAnimation) {
 				setTimeout(() => {
 					$story.removeClass('no-transition');
 
-					if (_$uiBar) {
-						_$uiBar.removeClass('no-transition');
+					if ($uiBar) {
+						$uiBar.removeClass('no-transition');
 					}
 				}, Engine.DOM_DELAY);
 			}
@@ -420,7 +420,7 @@ var UIBar = (() => { // eslint-disable-line no-unused-vars, no-var
 
 		console.warn('[DEPRECATED] UIBar.update() is deprecated.');
 
-		if (!_$uiBar) {
+		if (!$uiBar) {
 			return;
 		}
 

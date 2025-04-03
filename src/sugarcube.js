@@ -21,6 +21,10 @@ var version = (() => { // eslint-disable-line no-unused-vars, no-var
 	const semVerRE = /^[Vv]?(\d+)(?:\.(\d+)(?:\.(\d+)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?)?)?$/;
 
 	return Object.preventExtensions(Object.create(null, {
+		/* legacy */
+		title : { value : name },
+		/* /legacy */
+
 		name       : { value : name },
 		major      : { value : '{{BUILD_VERSION_MAJOR}}' },
 		minor      : { value : '{{BUILD_VERSION_MINOR}}' },
@@ -80,42 +84,41 @@ var version = (() => { // eslint-disable-line no-unused-vars, no-var
 				const prerelease = this.prerelease ? `-${this.prerelease}` : '';
 				return `${this.major}.${this.minor}.${this.patch}${prerelease}+${this.build}`;
 			}
-		},
-
-		// Legacy.
-		title : { value : name }
+		}
 	}));
 })();
 
-/* eslint-disable no-unused-vars */
 /*
 	Internal variables.
 */
 // Temporary state object.
-var TempState = {};
+var TempState = {}; // eslint-disable-line no-unused-vars
 
 // Session storage manager object.
-var session = null;
+var session = null; // eslint-disable-line no-unused-vars
 
 // Settings object.
-var settings = Setting.create();
+var settings = Setting.create(); // eslint-disable-line no-unused-vars
 
 // Setup object.
-var setup = {};
+var setup = {}; // eslint-disable-line no-unused-vars
 
 // Persistent storage manager object.
-var storage = null;
+var storage = null; // eslint-disable-line no-unused-vars
 
 /*
 	Legacy variables.
 */
-var macros      = {}; // Legacy macros object.
-var postdisplay = {}; // Post-display task callbacks object.
-var postrender  = {}; // Post-render task callbacks object.
-var predisplay  = {}; // Pre-display task callbacks object.
-var prehistory  = {}; // Pre-history task callbacks object.
-var prerender   = {}; // Pre-render task callbacks object.
+/* legacy */
+/* eslint-disable no-unused-vars */
+var macros      = {};
+var postdisplay = {};
+var postrender  = {};
+var predisplay  = {};
+var prehistory  = {};
+var prerender   = {};
 /* eslint-enable no-unused-vars */
+/* /legacy */
 
 /*
 	Global `SugarCube` object.  Allows scripts to detect if they're running in SugarCube by

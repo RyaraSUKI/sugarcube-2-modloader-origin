@@ -30,7 +30,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 		/* /legacy */
 	});
 
-	// Save index maximum value constant (`0`-based).
+	// Browser index maximum value constant (`0`-based).
 	const MAX_INDEX = 15;
 
 	// Browser save key constants.
@@ -150,20 +150,14 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 
 	function createDatestamp(date) {
 		if (!(date instanceof Date)) {
-			throw new TypeError('createDatestamp date parameter must be a Date object');
+			throw new TypeError('date parameter must be a Date object');
 		}
 
-		let MM = date.getMonth() + 1;
-		let DD = date.getDate();
-		let hh = date.getHours();
-		let mm = date.getMinutes();
-		let ss = date.getSeconds();
-
-		if (MM < 10) { MM = `0${MM}`; }
-		if (DD < 10) { DD = `0${DD}`; }
-		if (hh < 10) { hh = `0${hh}`; }
-		if (mm < 10) { mm = `0${mm}`; }
-		if (ss < 10) { ss = `0${ss}`; }
+		const MM = String(date.getMonth() + 1).padStart(2, '0');
+		const DD = String(date.getDate()).padStart(2, '0');
+		const hh = String(date.getHours()).padStart(2, '0');
+		const mm = String(date.getMinutes()).padStart(2, '0');
+		const ss = String(date.getSeconds()).padStart(2, '0');
 
 		return `${date.getFullYear()}${MM}${DD}-${hh}${mm}${ss}`;
 	}
@@ -172,14 +166,14 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 		const metadataType = typeof metadata;
 
 		if (metadataType !== 'object' && metadataType !== 'undefined') {
-			throw new TypeError('metadata parameter must be an object or null/undefined');
+			throw new TypeError('metadata parameter must be an object, null, or undefined');
 		}
 
 		const cfgMetadata     = Config.saves.metadata ? Config.saves.metadata(saveType) : undefined;
 		const cfgMetadataType = typeof cfgMetadata;
 
 		if (cfgMetadataType !== 'object' && cfgMetadataType !== 'undefined') {
-			throw new TypeError('Config.saves.metadata function must return an object or null/undefined');
+			throw new TypeError('Config.saves.metadata function must return an object, null, or undefined');
 		}
 
 		const details = { type : saveType };
@@ -295,7 +289,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 
 	function saveBlobToDiskAs(data, filename, extension) {
 		if (typeof filename !== 'string') {
-			throw new Error('filename parameter must be a string');
+			throw new TypeError('filename parameter must be a string');
 		}
 
 		const baseName = createFilename(filename);
@@ -393,12 +387,12 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function autoDelete(index) {
-		if (!Number.isInteger(index)) {
-			throw new TypeError('auto save index must be an integer');
+		if (!Number.isSafeInteger(index)) {
+			throw new TypeError('index parameter must be an integer number');
 		}
 
 		if (index < 0 || index > MAX_INDEX) {
-			throw new RangeError(`auto save index out of bounds (range: 0–${MAX_INDEX}; received: ${index})`);
+			throw new RangeError(`index parameter out of bounds (range: 0–${MAX_INDEX}; received: ${index})`);
 		}
 
 		storage.delete(getAutoInfoKeyFromIndex(index));
@@ -417,24 +411,24 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function autoGet(index) {
-		if (!Number.isInteger(index)) {
-			throw new TypeError('auto save index must be an integer');
+		if (!Number.isSafeInteger(index)) {
+			throw new TypeError('index parameter must be an integer number');
 		}
 
 		if (index < 0 || index > MAX_INDEX) {
-			throw new RangeError(`auto save index out of bounds (range: 0–${MAX_INDEX}; received: ${index})`);
+			throw new RangeError(`index parameter out of bounds (range: 0–${MAX_INDEX}; received: ${index})`);
 		}
 
 		return storage.get(getAutoInfoKeyFromIndex(index));
 	}
 
 	function autoHas(index) {
-		if (!Number.isInteger(index)) {
-			throw new TypeError('auto save index must be an integer');
+		if (!Number.isSafeInteger(index)) {
+			throw new TypeError('index parameter must be an integer number');
 		}
 
 		if (index < 0 || index > MAX_INDEX) {
-			throw new RangeError(`auto save index out of bounds (range: 0–${MAX_INDEX}; received: ${index})`);
+			throw new RangeError(`index parameter out of bounds (range: 0–${MAX_INDEX}; received: ${index})`);
 		}
 
 		return storage.has(getAutoInfoKeyFromIndex(index));
@@ -446,12 +440,12 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 
 	function autoLoad(index) {
 		return new Promise(resolve => {
-			if (!Number.isInteger(index)) {
-				throw new TypeError('auto save index must be an integer');
+			if (!Number.isSafeInteger(index)) {
+				throw new TypeError('index parameter must be an integer number');
 			}
 
 			if (index < 0 || index > MAX_INDEX) {
-				throw new RangeError(`auto save index out of bounds (range: 0–${MAX_INDEX}; received: ${index})`);
+				throw new RangeError(`index parameter out of bounds (range: 0–${MAX_INDEX}; received: ${index})`);
 			}
 
 			if (Engine.state === Engine.States.Init) {
@@ -507,12 +501,12 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function slotDelete(index) {
-		if (!Number.isInteger(index)) {
-			throw new TypeError('slot save index must be an integer');
+		if (!Number.isSafeInteger(index)) {
+			throw new TypeError('index parameter must be an integer number');
 		}
 
 		if (index < 0 || index > MAX_INDEX) {
-			throw new RangeError(`slot save index out of bounds (range: 0–${MAX_INDEX}; received: ${index})`);
+			throw new RangeError(`index parameter out of bounds (range: 0–${MAX_INDEX}; received: ${index})`);
 		}
 
 		storage.delete(getSlotInfoKeyFromIndex(index));
@@ -531,24 +525,24 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function slotGet(index) {
-		if (!Number.isInteger(index)) {
-			throw new TypeError('slot save index must be an integer');
+		if (!Number.isSafeInteger(index)) {
+			throw new TypeError('index parameter must be an integer number');
 		}
 
 		if (index < 0 || index > MAX_INDEX) {
-			throw new RangeError(`slot save index out of bounds (range: 0–${MAX_INDEX}; received: ${index})`);
+			throw new RangeError(`index parameter out of bounds (range: 0–${MAX_INDEX}; received: ${index})`);
 		}
 
 		return storage.get(getSlotInfoKeyFromIndex(index));
 	}
 
 	function slotHas(index) {
-		if (!Number.isInteger(index)) {
-			throw new TypeError('slot save index must be an integer');
+		if (!Number.isSafeInteger(index)) {
+			throw new TypeError('index parameter must be an integer number');
 		}
 
 		if (index < 0 || index > MAX_INDEX) {
-			throw new RangeError(`slot save index out of bounds (range: 0–${MAX_INDEX}; received: ${index})`);
+			throw new RangeError(`index parameter out of bounds (range: 0–${MAX_INDEX}; received: ${index})`);
 		}
 
 		return storage.has(getSlotInfoKeyFromIndex(index));
@@ -560,12 +554,12 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 
 	function slotLoad(index) {
 		return new Promise(resolve => {
-			if (!Number.isInteger(index)) {
-				throw new TypeError('slot save index must be an integer');
+			if (!Number.isSafeInteger(index)) {
+				throw new TypeError('index parameter must be an integer number');
 			}
 
 			if (index < 0 || index > MAX_INDEX) {
-				throw new RangeError(`slot save index out of bounds (range: 0–${MAX_INDEX}; received: ${index})`);
+				throw new RangeError(`index parameter out of bounds (range: 0–${MAX_INDEX}; received: ${index})`);
 			}
 
 			if (Engine.state === Engine.States.Init) {
@@ -587,12 +581,12 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function slotSave(index, desc, metadata) {
-		if (!Number.isInteger(index)) {
-			throw new TypeError('slot save index must be an integer');
+		if (!Number.isSafeInteger(index)) {
+			throw new TypeError('index parameter must be an integer number');
 		}
 
 		if (index < 0 || index >= Config.saves.maxSlotSaves) {
-			throw new RangeError(`slot save index out of bounds (range: 0–${Config.saves.maxSlotSaves - 1}; received: ${index})`);
+			throw new RangeError(`index parameter out of bounds (range: 0–${Config.saves.maxSlotSaves - 1}; received: ${index})`);
 		}
 
 		if (
@@ -624,7 +618,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 
 	function diskExport(filename) {
 		if (filename == null) { // nullish test
-			throw new Error('Save.browser.export filename parameter is required');
+			throw new Error('filename parameter is required');
 		}
 
 		const auto = getKeys(isAutoInfoKey).map(infoKey => {
@@ -765,7 +759,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 
 	function diskSave(filename, metadata) {
 		if (filename == null) { // nullish test
-			throw new Error('Save.disk.save filename parameter is required');
+			throw new Error('filename parameter is required');
 		}
 
 		if (
@@ -914,7 +908,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 			case Type.Base64: return { type : 'serialize' };
 		}
 
-		throw new Error(`save.type must be an integer (received: ${typeof save.type})`);
+		throw new Error(`save.type must be an integer number (received: ${getTypeOf(save.type)})`);
 	}
 	/* /legacy */
 
@@ -976,7 +970,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 		/* eslint-enable no-param-reassign */
 
 		/* legacy */
-		// TODO: Delete this in January 2025.
+		// TODO: Delete this in July 2025.
 		//
 		// Replace a string `save.type` with an integer.
 		if (typeof save.type === 'string') {
@@ -1030,7 +1024,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 		const valueType = getTypeOf(handler);
 
 		if (valueType !== 'function') {
-			throw new TypeError(`Save.onLoad.add handler parameter must be a function (received: ${valueType})`);
+			throw new TypeError(`handler parameter must be a function (received: ${valueType})`);
 		}
 
 		onLoadHandlers.add(handler);
@@ -1052,7 +1046,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 		const valueType = getTypeOf(handler);
 
 		if (valueType !== 'function') {
-			throw new TypeError(`Save.onSave.add handler parameter must be a function (received: ${valueType})`);
+			throw new TypeError(`handler parameter must be a function (received: ${valueType})`);
 		}
 
 		onSaveHandlers.add(handler);

@@ -19,7 +19,7 @@ var Setting = (() => { // eslint-disable-line no-unused-vars, no-var
 	});
 
 	// Setting definition array.
-	const _definitions = [];
+	const definitions = [];
 
 
 	/*******************************************************************************
@@ -33,7 +33,7 @@ var Setting = (() => { // eslint-disable-line no-unused-vars, no-var
 		load();
 
 		// Execute `onInit` callbacks.
-		_definitions.forEach(def => {
+		definitions.forEach(def => {
 			if (Object.hasOwn(def, 'onInit')) {
 				const data = createResultObject(def);
 				def.onInit.call(data, data);
@@ -93,7 +93,7 @@ var Setting = (() => { // eslint-disable-line no-unused-vars, no-var
 		const loadedSettings  = storage.get('settings') || create();
 
 		// Load the defaults.
-		_definitions
+		definitions
 			.filter(def => def.type !== Types.Header)
 			.forEach(def => defaultSettings[def.name] = def.default);
 
@@ -125,7 +125,7 @@ var Setting = (() => { // eslint-disable-line no-unused-vars, no-var
 		const savedSettings = create();
 
 		if (Object.keys(settings).length > 0) {
-			_definitions
+			definitions
 				.filter(def => def.type !== Types.Header && settings[def.name] !== def.default)
 				.forEach(def => savedSettings[def.name] = settings[def.name]);
 		}
@@ -211,8 +211,8 @@ var Setting = (() => { // eslint-disable-line no-unused-vars, no-var
 				if (!Object.hasOwn(def, 'list')) {
 					throw new Error('no list specified');
 				}
-				else if (!Array.isArray(def.list)) {
-					throw new TypeError('list must be an array');
+				else if (!(def.list instanceof Array)) {
+					throw new TypeError('list must be an Array');
 				}
 				else if (def.list.length === 0) {
 					throw new Error('list must not be empty');
@@ -267,7 +267,7 @@ var Setting = (() => { // eslint-disable-line no-unused-vars, no-var
 					|| !Number.isFinite(def.step)
 					|| def.step <= 0
 				) {
-					throw new TypeError('step must be a finite number greater than zero');
+					throw new TypeError('step must be a finite number greater-than zero');
 				}
 				else {
 					// Determine how many fractional digits we need to be concerned with based on the step value.
@@ -312,10 +312,10 @@ var Setting = (() => { // eslint-disable-line no-unused-vars, no-var
 						throw new TypeError('default must be a finite number');
 					}
 					else if (def.default < def.min) {
-						throw new RangeError(`default (${def.default}) is less than min (${def.min})`);
+						throw new RangeError(`default (${def.default}) is less-than min (${def.min})`);
 					}
 					else if (def.default > def.max) {
-						throw new RangeError(`default (${def.default}) is greater than max (${def.max})`);
+						throw new RangeError(`default (${def.default}) is greater-than max (${def.max})`);
 					}
 
 					definition.default = def.default;
@@ -345,7 +345,7 @@ var Setting = (() => { // eslint-disable-line no-unused-vars, no-var
 			definition.onChange = Object.freeze(def.onChange);
 		}
 
-		_definitions.push(Object.freeze(definition));
+		definitions.push(Object.freeze(definition));
 	}
 
 	function addHeader(name, desc) {
@@ -369,13 +369,13 @@ var Setting = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function forEach(callback, thisArg) {
-		_definitions.forEach(callback, thisArg);
+		definitions.forEach(callback, thisArg);
 	}
 
 	function delete$(name) {
-		for (let i = 0; i < _definitions.length; ++i) {
-			if (_definitions[i].name === name) {
-				_definitions.splice(i, 1);
+		for (let i = 0; i < definitions.length; ++i) {
+			if (definitions[i].name === name) {
+				definitions.splice(i, 1);
 				break;
 			}
 		}
@@ -386,15 +386,15 @@ var Setting = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function get(name) {
-		return _definitions.find(definition => definition.name === name);
+		return definitions.find(definition => definition.name === name);
 	}
 
 	function has(name) {
-		return _definitions.some(definition => definition.name === name);
+		return definitions.some(definition => definition.name === name);
 	}
 
 	function isEmpty() {
-		return _definitions.length === 0;
+		return definitions.length === 0;
 	}
 
 

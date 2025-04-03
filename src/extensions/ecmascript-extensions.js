@@ -12,8 +12,8 @@
 	ECMAScript Extensions.
 */
 (() => {
-	// Attempt to cache the native `Math.random`, in case it's replaced later.
-	const _nativeMathRandom = Math.random;
+	// Cache the native `Math.random`, in case it's replaced later.
+	const nativeMathRandom = Math.random;
 
 
 	/*******************************************************************************
@@ -23,7 +23,7 @@
 	/*
 		Returns a pseudo-random whole number (integer) within the given bounds.
 	*/
-	function _random(/* [min ,] max */) {
+	function random(/* [min ,] max */) {
 		let min;
 		let max;
 
@@ -44,14 +44,14 @@
 			[min, max] = [max, min];
 		}
 
-		return Math.floor(_nativeMathRandom() * (max - min + 1)) + min;
+		return Math.floor(nativeMathRandom() * (max - min + 1)) + min;
 	}
 
 	/*
 		Returns a randomly selected index within the given length and bounds.
 		Bounds may be negative.
 	*/
-	function _randomIndex(length, boundsArgs) {
+	function randomIndex(length, boundsArgs) {
 		let min;
 		let max;
 
@@ -98,7 +98,7 @@
 			}
 		}
 
-		return _random(min, max);
+		return random(min, max);
 	}
 
 	/*
@@ -107,16 +107,9 @@
 		are properly handled.  If `pos` is out-of-bounds, returns an object containing
 		the empty string and start/end positions of `-1`.
 
-		This function is necessary because JavaScript strings are sequences of UTF-16
-		code units, so surrogate pairs are exposed and thus must be handled.  While the
-		ES6/2015 standard does improve the situation somewhat, it does not alleviate
-		the need for this function.
-
 		NOTE: Will throw exceptions on invalid surrogate pairs.
-
-		IDEA: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charAt
 	*/
-	function _getCodePointStartAndEnd(str, pos) {
+	function getCodePointStartAndEnd(str, pos) {
 		const code = str.charCodeAt(pos);
 
 		// Given position was out-of-bounds.
@@ -663,8 +656,8 @@
 			}
 
 			const index = arguments.length === 0
-				? _random(0, length - 1)
-				: _randomIndex(length, Array.from(arguments));
+				? random(0, length - 1)
+				: randomIndex(length, Array.from(arguments));
 
 			return Array.prototype.splice.call(this, index, 1)[0];
 		}
@@ -691,7 +684,7 @@
 
 			let want = Math.trunc(wantSize);
 
-			if (!Number.isInteger(want)) {
+			if (!Number.isSafeInteger(want)) {
 				throw new Error('Array.prototype.pluckMany want parameter must be an integer');
 			}
 
@@ -708,7 +701,7 @@
 			let max = length - 1;
 
 			do {
-				result.push(splice.call(this, _random(0, max--), 1)[0]);
+				result.push(splice.call(this, random(0, max--), 1)[0]);
 			} while (result.length < want);
 
 			return result;
@@ -769,8 +762,8 @@
 			}
 
 			const index = arguments.length === 0
-				? _random(0, length - 1)
-				: _randomIndex(length, Array.from(arguments));
+				? random(0, length - 1)
+				: randomIndex(length, Array.from(arguments));
 
 			return this[index];
 		}
@@ -797,7 +790,7 @@
 
 			let want = Math.trunc(wantSize);
 
-			if (!Number.isInteger(want)) {
+			if (!Number.isSafeInteger(want)) {
 				throw new Error('Array.prototype.randomMany want parameter must be an integer');
 			}
 
@@ -816,7 +809,7 @@
 			do {
 				let i;
 				do {
-					i = _random(0, max);
+					i = random(0, max);
 				} while (picked.has(i));
 				picked.set(i, true);
 				result.push(this[i]);
@@ -845,7 +838,7 @@
 			}
 
 			for (let i = length - 1; i > 0; --i) {
-				const j = Math.floor(_nativeMathRandom() * (i + 1));
+				const j = Math.floor(nativeMathRandom() * (i + 1));
 
 				if (i === j) {
 					continue;
@@ -1117,7 +1110,7 @@
 			const str = String(this);
 
 			// Get the first code point—may be one or two code units—and its end position.
-			const { char } = _getCodePointStartAndEnd(str, 0);
+			const { char } = getCodePointStartAndEnd(str, 0);
 
 			return char;
 		}
@@ -1139,7 +1132,7 @@
 			const str = String(this);
 
 			// Get the last code point—may be one or two code units—and its end position.
-			const { char } = _getCodePointStartAndEnd(str, str.length - 1);
+			const { char } = getCodePointStartAndEnd(str, str.length - 1);
 
 			return char;
 		}
@@ -1240,7 +1233,7 @@
 			const str = String(this);
 
 			// Get the first code point—may be one or two code units—and its end position.
-			const { char, end } = _getCodePointStartAndEnd(str, 0);
+			const { char, end } = getCodePointStartAndEnd(str, 0);
 
 			return end === -1 ? '' : char.toLocaleUpperCase() + str.slice(end + 1);
 		}
@@ -1262,7 +1255,7 @@
 			const str = String(this);
 
 			// Get the first code point—may be one or two code units—and its end position.
-			const { char, end } = _getCodePointStartAndEnd(str, 0);
+			const { char, end } = getCodePointStartAndEnd(str, 0);
 
 			return end === -1 ? '' : char.toUpperCase() + str.slice(end + 1);
 		}

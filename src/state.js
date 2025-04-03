@@ -6,26 +6,26 @@
 	Use of this source code is governed by a BSD 2-clause "Simplified" License, which may be found in the LICENSE file.
 
 ***********************************************************************************************************************/
-/* global Config, Diff, Scripting, clone, session, storage, triggerEvent */
+/* global Config, Diff, Scripting, clone, getTypeOf, session, storage, triggerEvent */
 
 var State = (() => { // eslint-disable-line no-unused-vars, no-var
-	// History moment stack.
-	let _history = [];
+	// Moment history stack.
+	let momentHistory = [];
 
-	// Currently active/played moment.
-	let _active = momentCreate();
+	// Active moment.
+	let activeMoment = momentCreate();
 
-	// Currently active/played moment index.
-	let _activeIndex = -1;
+	// Index of the active moment.
+	let activeIndex = -1;
 
-	// Titles of all moments which have expired (i.e. fallen off the bottom of the stack).
-	let _expired = [];
+	// Names of all moments that have expired (i.e., fallen off the bottom of the stack).
+	let expired = [];
 
 	// (optional) Seedable PRNG object.
-	let _prng = null;
+	let prng = null;
 
 	// Temporary variables object.
-	let _temporary = Object.create(null);
+	let temporary = Object.create(null);
 
 
 	/*******************************************************************************
@@ -42,11 +42,11 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 		session.delete('state');
 
 		// Reset the properties.
-		_history     = [];
-		_active      = momentCreate();
-		_activeIndex = -1;
-		_expired     = [];
-		_prng        = _prng === null ? null : prngCreate(_prng.seed);
+		momentHistory = [];
+		activeMoment  = momentCreate();
+		activeIndex   = -1;
+		expired       = [];
+		prng          = prng === null ? null : prngCreate(prng.seed);
 
 		// Reset the temporary variables.
 		tempVariablesClear();
@@ -78,22 +78,22 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 	function stateMarshal(noDelta) {
 		// Gather the properties.
 		const state = {
-			index : _activeIndex
+			index : activeIndex
 		};
 
 		if (noDelta) {
-			state.history = clone(_history);
+			state.history = clone(momentHistory);
 		}
 		else {
-			state.delta = historyDeltaEncode(_history);
+			state.delta = historyDeltaEncode(momentHistory);
 		}
 
-		if (_expired.length > 0) {
-			state.expired = Array.from(_expired);
+		if (expired.length > 0) {
+			state.expired = Array.from(expired);
 		}
 
-		if (_prng !== null) {
-			state.seed = _prng.seed;
+		if (prng !== null) {
+			state.seed = prng.seed;
 		}
 
 		return state;
@@ -104,7 +104,7 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 	*/
 	function stateUnmarshal(state, noDelta) {
 		if (state == null) { // nullish test
-			throw new Error('state object is null or undefined');
+			throw new TypeError('state parameter must be an object');
 		}
 
 		if (
@@ -118,27 +118,29 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 			throw new Error('state object has no index');
 		}
 
-		if (_prng !== null && !Object.hasOwn(state, 'seed')) {
+		if (prng !== null && !Object.hasOwn(state, 'seed')) {
 			throw new Error('state object has no seed, but PRNG is enabled');
 		}
 
-		if (_prng === null && Object.hasOwn(state, 'seed')) {
+		if (prng === null && Object.hasOwn(state, 'seed')) {
 			throw new Error('state object has seed, but PRNG is disabled');
 		}
 
 		// Restore the properties.
-		_history     = noDelta ? clone(state.history) : historyDeltaDecode(state.delta);
-		_activeIndex = state.index;
-		_expired     = Object.hasOwn(state, 'expired') ? Array.from(state.expired) : [];
+		momentHistory = noDelta ? clone(state.history) : historyDeltaDecode(state.delta);
+		activeIndex   = state.index;
+		expired       = Object.hasOwn(state, 'expired') ? Array.from(state.expired) : [];
 
 		if (Object.hasOwn(state, 'seed')) {
 			// Only the PRNG's seed should be restored here as `momentActivate()`
 			// will handle fully restoring the PRNG to its proper state.
-			_prng.seed = state.seed;
+			prng.seed = state.seed;
 		}
 
-		// Activate the current moment (do this only after all properties have been restored).
-		momentActivate(_activeIndex);
+		// Activate the current moment.
+		//
+		// NOTE: Do this only after all properties have been restored.
+		momentActivate(activeIndex);
 	}
 
 	/*
@@ -156,38 +158,38 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	/*
-		Returns the titles of expired moments.
+		Returns the passage names of all expired moments.
 	*/
 	function stateExpired() {
-		return _expired;
+		return expired;
 	}
 
 	/*
 		Returns the total number of played moments (expired + in-play history moments).
 	*/
 	function stateTurns() {
-		return _expired.length + historyLength();
+		return expired.length + historyLength();
 	}
 
 	/*
-		Returns the passage titles of all played moments (expired + in-play history moments).
+		Returns the passage names of all played moments (expired + in-play history moments).
 	*/
-	function stateTitles() {
-		return _expired.concat(_history.slice(0, historyLength()).map(moment => moment.title));
+	function statePassages() {
+		return expired.concat(momentHistory.slice(0, historyLength()).map(moment => moment.title));
 	}
 
 	/*
-		Returns whether a passage with the given title has been played (expired + in-play history moments).
+		Returns whether a passage with the given name has been played at least once (expired + in-play history moments).
 	*/
-	function stateHasPlayed(title) {
-		if (title == null || title === '') { // nullish test
+	function stateHasPlayed(name) {
+		if (name == null || name === '') { // nullish test
 			return false;
 		}
 
-		if (_expired.includes(title)) {
+		if (expired.includes(name)) {
 			return true;
 		}
-		else if (_history.slice(0, historyLength()).some(moment => moment.title === title)) {
+		else if (momentHistory.slice(0, historyLength()).some(moment => moment.title === name)) {
 			return true;
 		}
 
@@ -200,84 +202,84 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 	*******************************************************************************/
 
 	/*
-		Returns a new moment object created from the given passage title and variables object.
+		Returns a new moment object created from the given passage name and variables object.
 	*/
-	function momentCreate(title, variables) {
+	function momentCreate(name, variables) {
 		return {
-			title     : title == null ? '' : String(title),       // nullish test
+			title     : name == null ? '' : String(name),         // nullish test
 			variables : variables == null ? {} : clone(variables) // nullish test
 		};
 	}
 
 	/*
-		Returns the active (present) moment.
+		Returns the active moment.
 	*/
 	function momentActive() {
-		return _active;
+		return activeMoment;
 	}
 
 	/*
-		Returns the index within the history of the active (present) moment.
+		Returns the index within the history of the active moment.
 	*/
 	function momentActiveIndex() {
-		return _activeIndex;
+		return activeIndex;
 	}
 
 	/*
-		Returns the title from the active (present) moment.
+		Returns the passage name from the active moment.
 	*/
-	function momentActiveTitle() {
-		return _active.title;
+	function momentActiveName() {
+		return activeMoment.title;
 	}
 
 	/*
-		Returns the variables from the active (present) moment.
+		Returns the variables object from the active moment.
 	*/
 	function momentActiveVariables() {
-		return _active.variables;
+		return activeMoment.variables;
 	}
 
 	/*
-		Returns the active (present) moment after setting it to either the given moment object
-		or the moment object at the given history index.  Additionally, updates the active session
-		and triggers a history update event.
+		Returns the active moment after setting it to either the given moment object or
+		moment history index.  Additionally, updates the active session and triggers a
+		history update event.
 	*/
 	function momentActivate(moment) {
 		if (moment == null) { // nullish test
-			throw new Error('moment activation attempted with null or undefined');
+			throw new TypeError('moment parameter must not be null or undefined');
 		}
 
 		// Set the active moment.
 		switch (typeof moment) {
 			case 'object':
-				_active = clone(moment);
+				activeMoment = clone(moment);
 				break;
 
 			case 'number': {
 				if (historyIsEmpty()) {
-					throw new Error('moment activation attempted with index on empty history');
+					throw new Error('moment activation attempted with empty history');
 				}
 
 				if (moment < 0 || moment >= historySize()) {
-					throw new RangeError(`moment activation attempted with out-of-bounds index; need [0, ${historySize() - 1}], got ${moment}`);
+					throw new RangeError(`moment activation attempted with out-of-bounds index (range: 0–${historySize() - 1}; received: ${moment})`);
 				}
 
-				_active = clone(_history[moment]);
+				activeMoment = clone(momentHistory[moment]);
 				break;
 			}
 
 			default:
-				throw new TypeError(`moment activation attempted with a "${typeof moment}"; must be an object or valid history stack index`);
+				throw new TypeError(`moment activation attempted with "${getTypeOf(moment)}"; must be a moment object or moment history index`);
 		}
 
 		// Restore the seedable PRNG.
 		//
-		// NOTE: We cannot simply set `_prng.pull` to `_active.pull` as that would
+		// NOTE: We cannot simply set `prng.pull` to `activeMoment.pull` as that would
 		// not properly mutate the PRNG's internal state.
-		if (_prng !== null) {
-			_prng = prngUnmarshal({
-				seed : _prng.seed,
-				pull : _active.pull
+		if (prng !== null) {
+			prng = prngUnmarshal({
+				seed : prng.seed,
+				pull : activeMoment.pull
 			});
 		}
 
@@ -290,7 +292,7 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 		// of, virtually, all history updates.
 		triggerEvent(':historyupdate');
 
-		return _active;
+		return activeMoment;
 	}
 
 
@@ -302,89 +304,104 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 		Returns the moment history.
 	*/
 	function historyGet() {
-		return _history;
+		return momentHistory;
 	}
 
 	/*
-		Returns the number of active history moments (past only).
+		Returns the number of history moments (past only).
 	*/
 	function historyLength() {
-		return _activeIndex + 1;
+		return activeIndex + 1;
 	}
 
 	/*
 		Returns the total number of history moments (past + future).
 	*/
 	function historySize() {
-		return _history.length;
+		return momentHistory.length;
 	}
 
 	/*
-		Returns whether the history is empty.
+		Returns whether the moment history is empty.
 	*/
 	function historyIsEmpty() {
-		return _history.length === 0;
+		return momentHistory.length === 0;
 	}
 
 	/*
-		Returns the current (pre-play version of the active) moment within the history.
+		Returns the pre-play version of the active moment within the history or `null`,
+		if the history is empty.
 	*/
 	function historyCurrent() {
-		return _history.length > 0 ? _history[_activeIndex] : null;
+		return momentHistory.length > 0 ? momentHistory[activeIndex] : null;
 	}
 
 	/*
-		Returns the topmost (most recent) moment within the history.
+		Returns the top-most (most recent) moment within the history or `null`, if the
+		history is empty.
 	*/
 	function historyTop() {
-		return _history.length > 0 ? _history[_history.length - 1] : null;
+		return momentHistory.length > 0 ? momentHistory[momentHistory.length - 1] : null;
 	}
 
 	/*
-		Returns the bottommost (least recent) moment within the history.
+		Returns the bottom-most (least recent) moment within the history or `null`, if
+		the history is empty.
 	*/
 	function historyBottom() {
-		return _history.length > 0 ? _history[0] : null;
+		return momentHistory.length > 0 ? momentHistory[0] : null;
 	}
 
 	/*
-		Returns the moment at the given index within the history.
+		Returns the moment at the given index within the history or `null`, if the
+		history is empty.
 	*/
 	function historyIndex(index) {
-		if (historyIsEmpty() || index < 0 || index > _activeIndex) {
-			return null;
+		if (!Number.isSafeInteger(index)) {
+			throw new TypeError('index parameter must be an integer number');
+		}
+		else if (index < 0 || index > activeIndex) {
+			throw new RangeError(`index parameter out-of-bounds (range: 0–${activeIndex}; received: ${index})`);
 		}
 
-		return _history[index];
-	}
-
-	/*
-		Returns the moment at the given offset from the active moment within the history.
-	*/
-	function historyPeek(offset) {
 		if (historyIsEmpty()) {
 			return null;
 		}
 
-		const lengthOffset = 1 + (offset ? Math.abs(offset) : 0);
-
-		if (lengthOffset > historyLength()) {
-			return null;
-		}
-
-		return _history[historyLength() - lengthOffset];
+		return momentHistory[index];
 	}
 
 	/*
-		Returns whether a moment with the given title exists within the history.
+		Returns the moment at the given offset from the active moment within the history
+		or `null`, if the history is empty.
 	*/
-	function historyHas(title) {
-		if (historyIsEmpty() || title == null || title === '') { // nullish test
+	function historyPeek(offset) {
+		const offsetValue = offset != null ? offset : 0; // nullish test
+
+		if (!Number.isSafeInteger(offsetValue)) {
+			throw new TypeError('offset parameter must be an integer number');
+		}
+		else if (offsetValue < 0 || offsetValue > activeIndex) {
+			throw new RangeError(`offset parameter out-of-bounds (range: 0–${activeIndex}; received: ${offsetValue})`);
+		}
+
+		if (historyIsEmpty() || 1 + offsetValue > historyLength()) {
+			return null;
+		}
+
+		return momentHistory[historyLength() - (1 + offsetValue)];
+	}
+
+	/*
+		Returns whether a moment with the given name exists within the history.
+	*/
+	function historyHas(name) {
+		if (historyIsEmpty() || name == null || name === '') { // nullish test
 			return false;
 		}
 
-		for (let i = _activeIndex; i >= 0; --i) {
-			if (_history[i].title === title) {
+		for (let i = activeIndex; i >= 0; --i) {
+			if (momentHistory[i].title === name) {
 				return true;
 			}
 		}
@@ -395,33 +412,33 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 	/*
 		Creates a new moment and pushes it onto the history, discarding future moments if necessary.
 	*/
-	function historyCreate(title) {
-		if (BUILD_DEBUG) { console.log(`[State/historyCreate(title: "${title}")]`); }
+	function historyCreate(name) {
+		if (BUILD_DEBUG) { console.log(`[State/historyCreate(name: "${name}")]`); }
 
-		// TODO: It might be good to have some assertions about the passage title here.
+		// TODO: It might be good to have some assertions about the passage name here.
 
 		// If we're not at the top of the stack, discard the future moments.
 		if (historyLength() < historySize()) {
 			if (BUILD_DEBUG) { console.log(`\tnon-top push; discarding ${historySize() - historyLength()} future moments`); }
 
-			_history.splice(historyLength(), historySize() - historyLength());
+			momentHistory.splice(historyLength(), historySize() - historyLength());
 		}
 
 		// Push the new moment onto the history stack.
-		_history.push(momentCreate(title, _active.variables));
+		momentHistory.push(momentCreate(name, activeMoment.variables));
 
-		if (_prng) {
-			historyTop().pull = _prng.pull;
+		if (prng) {
+			historyTop().pull = prng.pull;
 		}
 
 		// Truncate the history, if necessary, by discarding moments from the bottom.
 		while (historySize() > Config.history.maxStates) {
-			_expired.push(_history.shift().title);
+			expired.push(momentHistory.shift().title);
 		}
 
 		// Activate the new top moment.
-		_activeIndex = historySize() - 1;
-		momentActivate(_activeIndex);
+		activeIndex = historySize() - 1;
+		momentActivate(activeIndex);
 
 		return historyLength();
 	}
@@ -436,13 +453,13 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 			index == null /* nullish test */
 			|| index < 0
 			|| index >= historySize()
-			|| index === _activeIndex
+			|| index === activeIndex
 		) {
 			return false;
 		}
 
-		_activeIndex = index;
-		momentActivate(_activeIndex);
+		activeIndex = index;
+		momentActivate(activeIndex);
 
 		return true;
 	}
@@ -457,27 +474,27 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 			return false;
 		}
 
-		return historyGoTo(_activeIndex + offset);
+		return historyGoTo(activeIndex + offset);
 	}
 
 	/*
 		Returns the delta encoded form of the given history array.
 	*/
-	function historyDeltaEncode(historyArr) {
-		if (!Array.isArray(historyArr)) {
+	function historyDeltaEncode(history) {
+		if (!(history instanceof Array)) {
 			return null;
 		}
 
-		if (historyArr.length === 0) {
+		if (history.length === 0) {
 			return [];
 		}
 
-		// NOTE: The `clone()` call here is likely unnecessary within the current codebase.
-		// const delta = [clone(historyArr[0])];
-		const delta = [historyArr[0]];
+		// NOTE: The call to `clone()` here is likely unnecessary.
+		// const delta = [clone(history[0])];
+		const delta = [history[0]];
 
-		for (let i = 1, iend = historyArr.length; i < iend; ++i) {
-			delta.push(Diff.diff(historyArr[i - 1], historyArr[i]));
+		for (let i = 1, length = history.length; i < length; ++i) {
+			delta.push(Diff.diff(history[i - 1], history[i]));
 		}
 
 		return delta;
@@ -487,7 +504,7 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 		Returns a history array from the given delta encoded history array.
 	*/
 	function historyDeltaDecode(delta) {
-		if (!Array.isArray(delta)) {
+		if (!(delta instanceof Array)) {
 			return null;
 		}
 
@@ -495,13 +512,15 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 			return [];
 		}
 
-		const historyArr = [clone(delta[0])];
+		// NOTE: The call to `clone()` here is likely unnecessary.
+		// const history = [clone(delta[0])];
+		const history = [delta[0]];
 
-		for (let i = 1, iend = delta.length; i < iend; ++i) {
-			historyArr.push(Diff.patch(historyArr[i - 1], delta[i]));
+		for (let i = 1, length = delta.length; i < length; ++i) {
+			history.push(Diff.patch(history[i - 1], delta[i]));
 		}
 
-		return historyArr;
+		return history;
 	}
 
 
@@ -558,8 +577,8 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 			throw new Error(`State.prng.init must be called during initialization, within either ${what} or the StoryInit special passage`);
 		}
 
-		_prng = prngCreate(seedBase, Boolean(mixEntropy));
-		_active.pull = _prng.pull;
+		prng = prngCreate(seedBase, Boolean(mixEntropy));
+		activeMoment.pull = prng.pull;
 	}
 
 	/*
@@ -582,32 +601,31 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 		Returns whether the PRNG is enabled.
 	*/
 	function prngIsEnabled() {
-		return _prng !== null;
+		return prng !== null;
 	}
 
 	/*
-		Returns the current pull count of the PRNG or, if the PRNG is not enabled,
-		`NaN`.
+		Returns the current pull count of the PRNG or `NaN`, if the PRNG is not enabled.
 	*/
 	function prngPull() {
-		return _prng !== null ? _prng.pull : NaN;
+		return prng !== null ? prng.pull : NaN;
 	}
 
 	/*
-		Returns the seed of the PRNG or, if the PRNG is not enabled, `null`.
+		Returns the seed of the PRNG or `null`, if the PRNG is not enabled.
 	*/
 	function prngSeed() {
-		return _prng !== null ? _prng.seed : null;
+		return prng !== null ? prng.seed : null;
 	}
 
 	/*
-		Returns a pseudo-random floating-point number from the PRNG or, if the
-		PRNG is not enabled, `Math.random()`.
+		Returns a pseudo-random floating-point number from the PRNG or `Math.random()`,
+		if the PRNG is not enabled.
 	*/
 	function prngRandom() {
 		if (BUILD_DEBUG) { console.log('[State/prngRandom()]'); }
 
-		return _prng !== null ? _prng.random() : Math.random();
+		return prng !== null ? prng.random() : Math.random();
 	}
 
 
@@ -621,14 +639,14 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 	function tempVariablesClear() {
 		if (BUILD_DEBUG) { console.log('[State/tempVariablesClear()]'); }
 
-		_temporary = Object.create(null);
+		temporary = Object.create(null);
 	}
 
 	/*
 		Returns the current temporary variables.
 	*/
 	function tempVariables() {
-		return _temporary;
+		return temporary;
 	}
 
 
@@ -664,32 +682,32 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 		Story Metadata Functions.
 	*******************************************************************************/
 
-	const _METADATA_STORE = 'metadata';
+	const METADATA_STORE = 'metadata';
 
 	function metadataClear() {
-		storage.delete(_METADATA_STORE);
+		storage.delete(METADATA_STORE);
 	}
 
 	function metadataDelete(key) {
 		if (typeof key !== 'string') {
-			throw new TypeError(`State.metadata.delete key parameter must be a string (received: ${typeof key})`);
+			throw new TypeError(`key parameter must be a string (received: ${getTypeOf(key)})`);
 		}
 
-		const store = storage.get(_METADATA_STORE);
+		const store = storage.get(METADATA_STORE);
 
 		if (store && Object.hasOwn(store, key)) {
 			if (Object.keys(store).length === 1) {
-				storage.delete(_METADATA_STORE);
+				storage.delete(METADATA_STORE);
 			}
 			else {
 				delete store[key];
-				storage.set(_METADATA_STORE, store);
+				storage.set(METADATA_STORE, store);
 			}
 		}
 	}
 
 	function metadataEntries() {
-		const store = storage.get(_METADATA_STORE);
+		const store = storage.get(METADATA_STORE);
 		return store && Object.entries(store);
 	}
 
@@ -698,7 +716,7 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 			throw new TypeError(`State.metadata.get key parameter must be a string (received: ${typeof key})`);
 		}
 
-		const store = storage.get(_METADATA_STORE);
+		const store = storage.get(METADATA_STORE);
 		return store && Object.hasOwn(store, key) ? store[key] : undefined;
 	}
 
@@ -707,12 +725,12 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 			throw new TypeError(`State.metadata.has key parameter must be a string (received: ${typeof key})`);
 		}
 
-		const store = storage.get(_METADATA_STORE);
+		const store = storage.get(METADATA_STORE);
 		return store && Object.hasOwn(store, key);
 	}
 
 	function metadataKeys() {
-		const store = storage.get(_METADATA_STORE);
+		const store = storage.get(METADATA_STORE);
 		return store && Object.keys(store);
 	}
 
@@ -725,14 +743,14 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 			metadataDelete(key);
 		}
 		else {
-			const store = storage.get(_METADATA_STORE) || {};
+			const store = storage.get(METADATA_STORE) || {};
 			store[key] = value;
-			storage.set(_METADATA_STORE, store);
+			storage.set(METADATA_STORE, store);
 		}
 	}
 
 	function metadataSize() {
-		const store = storage.get(_METADATA_STORE);
+		const store = storage.get(METADATA_STORE);
 		return store ? Object.keys(store).length : 0;
 	}
 
@@ -749,14 +767,14 @@ var State = (() => { // eslint-disable-line no-unused-vars, no-var
 		unmarshalForSave : { value : stateUnmarshalForSave },
 		expired          : { get : stateExpired },
 		turns            : { get : stateTurns },
-		passages         : { get : stateTitles },
+		passages         : { get : statePassages },
 		hasPlayed        : { value : stateHasPlayed },
 
 		// Moment Functions.
 		active      : { get : momentActive },
 		activeIndex : { get : momentActiveIndex },
-		passage     : { get : momentActiveTitle },     // shortcut for `State.active.title`
-		variables   : { get : momentActiveVariables }, // shortcut for `State.active.variables`
+		passage     : { get : momentActiveName },
+		variables   : { get : momentActiveVariables },
 
 		// History Functions.
 		history     : { get : historyGet },

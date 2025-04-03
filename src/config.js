@@ -93,7 +93,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 		get loadDelay() { return _loadDelay; },
 		set loadDelay(value) {
 			if (!Number.isSafeInteger(value) || value < 0) {
-				throw new RangeError('Config.loadDelay must be a non-negative integer');
+				throw new RangeError('Config.loadDelay must be a non-negative integer number');
 			}
 
 			_loadDelay = value;
@@ -129,7 +129,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 			get maxStates() { return _historyMaxStates; },
 			set maxStates(value) {
 				if (!Number.isSafeInteger(value) || value < 1) {
-					throw new RangeError('Config.history.maxStates must be a positive integer');
+					throw new RangeError('Config.history.maxStates must be a positive integer number');
 				}
 
 				_historyMaxStates = value;
@@ -148,7 +148,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 			get maxLoopIterations() { return _macrosMaxLoopIterations; },
 			set maxLoopIterations(value) {
 				if (!Number.isSafeInteger(value) || value < 1) {
-					throw new RangeError('Config.macros.maxLoopIterations must be a positive integer');
+					throw new RangeError('Config.macros.maxLoopIterations must be a positive integer number');
 				}
 
 				_macrosMaxLoopIterations = value;
@@ -179,7 +179,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 			get override() { return _navigationOverride; },
 			set override(value) {
 				if (!(value == null || value instanceof Function)) { // nullish test
-					throw new TypeError(`Config.navigation.override must be a function or null/undefined (received: ${getTypeOf(value)})`);
+					throw new TypeError(`Config.navigation.override must be a function, null, or undefined (received: ${getTypeOf(value)})`);
 				}
 
 				_navigationOverride = value;
@@ -203,7 +203,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 					const valueType = getTypeOf(value);
 
 					if (valueType !== 'function') {
-						throw new TypeError(`Config.passages.onProcess must be a function or null/undefined (received: ${valueType})`);
+						throw new TypeError(`Config.passages.onProcess must be a function, null, or undefined (received: ${valueType})`);
 					}
 				}
 
@@ -217,7 +217,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 					const valueType = getTypeOf(value);
 
 					if (valueType !== 'string') {
-						throw new TypeError(`Config.passages.start must be a string or null/undefined (received: ${valueType})`);
+						throw new TypeError(`Config.passages.start must be a string, null, or undefined (received: ${valueType})`);
 					}
 				}
 
@@ -234,7 +234,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 						valueType !== 'string'
 						&& (valueType !== 'number' || !Number.isSafeInteger(value) || value < 0)
 					) {
-						throw new TypeError(`Config.passages.transitionOut must be a string, non-negative integer, or null/undefined (received: ${valueType})`);
+						throw new TypeError(`Config.passages.transitionOut must be a string, non-negative integer number, null, or undefined (received: ${valueType})`);
 					}
 				}
 
@@ -282,7 +282,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 					}
 
 					default:
-						throw new TypeError(`Config.passages.descriptions must be a boolean, object, function, or null/undefined (received: ${getTypeOf(value)})`);
+						throw new TypeError(`Config.passages.descriptions must be a boolean, object, function, null, or undefined (received: ${getTypeOf(value)})`);
 				}
 			}
 			/* /legacy */
@@ -295,7 +295,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 			get descriptions() { return _savesDescriptions; },
 			set descriptions(value) {
 				if (!(value == null || value instanceof Function)) { // nullish test
-					throw new TypeError(`Config.saves.descriptions must be a function or null/undefined (received: ${getTypeOf(value)})`);
+					throw new TypeError(`Config.saves.descriptions must be a function, null, or undefined (received: ${getTypeOf(value)})`);
 				}
 
 				_savesDescriptions = value;
@@ -313,7 +313,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 			get isAllowed() { return _savesIsAllowed; },
 			set isAllowed(value) {
 				if (!(value == null || value instanceof Function)) { // nullish test
-					throw new TypeError(`Config.saves.isAllowed must be a function or null/undefined (received: ${getTypeOf(value)})`);
+					throw new TypeError(`Config.saves.isAllowed must be a function, null, or undefined (received: ${getTypeOf(value)})`);
 				}
 
 				_savesIsAllowed = value;
@@ -321,11 +321,11 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 
 			get maxAutoSaves() { return _savesMaxAuto; },
 			set maxAutoSaves(value) {
-				if (!Number.isInteger(value)) {
-					throw new TypeError('Config.saves.maxAutoSaves must be an integer');
+				if (!Number.isSafeInteger(value)) {
+					throw new TypeError('Config.saves.maxAutoSaves must be an integer number');
 				}
 				else if (value < 0 || value > Save.MAX_INDEX + 1) {
-					throw new RangeError(`Config.saves.maxAutoSaves out of bounds (range: 0–${Save.MAX_INDEX + 1}; received: ${value})`);
+					throw new RangeError(`Config.saves.maxAutoSaves out-of-bounds (range: 0–${Save.MAX_INDEX + 1}; received: ${value})`);
 				}
 
 				_savesMaxAuto = value;
@@ -333,11 +333,11 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 
 			get maxSlotSaves() { return _savesMaxSlot; },
 			set maxSlotSaves(value) {
-				if (!Number.isInteger(value)) {
-					throw new TypeError('Config.saves.maxSlotSaves must be an integer');
+				if (!Number.isSafeInteger(value)) {
+					throw new TypeError('Config.saves.maxSlotSaves must be an integer number');
 				}
 				else if (value < 0 || value > Save.MAX_INDEX + 1) {
-					throw new RangeError(`Config.saves.maxSlotSaves out of bounds (range: 0–${Save.MAX_INDEX + 1}; received: ${value})`);
+					throw new RangeError(`Config.saves.maxSlotSaves out-of-bounds (range: 0–${Save.MAX_INDEX + 1}; received: ${value})`);
 				}
 
 				_savesMaxSlot = value;
@@ -346,7 +346,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 			get metadata() { return _savesMetadata; },
 			set metadata(value) {
 				if (!(value == null || value instanceof Function)) { // nullish test
-					throw new TypeError(`Config.saves.metadata must be a function or null/undefined (received: ${getTypeOf(value)})`);
+					throw new TypeError(`Config.saves.metadata must be a function, null, or undefined (received: ${getTypeOf(value)})`);
 				}
 
 				_savesMetadata = value;
@@ -376,7 +376,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 						&& (valueType !== 'string' || value !== 'prompt')
 						&& valueType !== 'function'
 					) {
-						throw new TypeError(`Config.saves.autoload must be a boolean, string ('prompt'), function, or null/undefined (received: ${valueType})`);
+						throw new TypeError(`Config.saves.autoload must be a boolean, string ('prompt'), function, null, or undefined (received: ${valueType})`);
 					}
 				}
 
@@ -419,7 +419,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 							|| value.some(tag => typeof tag !== 'string')
 						) {
 							const valueType = getTypeOf(value);
-							throw new TypeError(`Config.saves.autosave must be a boolean, Array<string>, function, or null/undefined (received: ${valueType}${valueType === 'Array' ? '<any>' : ''})`);
+							throw new TypeError(`Config.saves.autosave must be a boolean, Array<string>, function, null, or undefined (received: ${valueType}${valueType === 'Array' ? '<any>' : ''})`);
 						}
 
 						if (!Config.saves.isAllowed) {
@@ -493,7 +493,7 @@ var Config = (() => { // eslint-disable-line no-unused-vars, no-var
 					valueType !== 'boolean'
 					&& (valueType !== 'number' || !Number.isSafeInteger(value) || value < 0)
 				) {
-					throw new TypeError(`Config.ui.stowBarInitially must be a boolean or non-negative integer (received: ${valueType})`);
+					throw new TypeError(`Config.ui.stowBarInitially must be a boolean or non-negative integer number (received: ${valueType})`);
 				}
 
 				_uiStowBarInitially = value;
