@@ -289,22 +289,22 @@ Comparison operators compare their operands and return a boolean value based on 
 </tr>
 <tr>
 <th><code>gt</code></th>
-<td>Evaluates to <code>true</code> if the left side is greater than the right side.</td>
+<td>Evaluates to <code>true</code> if the left side is greater-than the right side.</td>
 <td><pre><code>$cash gt 5</code></pre></td>
 </tr>
 <tr>
 <th><code>gte</code></th>
-<td>Evaluates to <code>true</code> if the left side is greater than or equal to the right side.</td>
+<td>Evaluates to <code>true</code> if the left side is greater-than-or-equal-to the right side.</td>
 <td><pre><code>$foundStars gte $neededStars</code></pre></td>
 </tr>
 <tr>
 <th><code>lt</code></th>
-<td>Evaluates to <code>true</code> if the left side is less than the right side.</td>
+<td>Evaluates to <code>true</code> if the left side is less-than the right side.</td>
 <td><pre><code>$shoeCount lt ($peopleCount * 2)</code></pre></td>
 </tr>
 <tr>
 <th><code>lte</code></th>
-<td>Evaluates to <code>true</code> if the left side is less than or equal to the right side.</td>
+<td>Evaluates to <code>true</code> if the left side is less-than-or-equal-to the right side.</td>
 <td><pre><code>$level lte 30</code></pre></td>
 </tr>
 <tr>
@@ -372,22 +372,22 @@ The <code>def</code> and <code>ndef</code> operators have very low precedence, s
 </tr>
 <tr>
 <th><code>&gt;</code></th>
-<td>Evaluates to <code>true</code> if the left side is greater than the right side.</td>
+<td>Evaluates to <code>true</code> if the left side is greater-than the right side.</td>
 <td><pre><code>$cash &gt; 5</code></pre></td>
 </tr>
 <tr>
 <th><code>&gt;=</code></th>
-<td>Evaluates to <code>true</code> if the left side is greater than or equal to the right side.</td>
+<td>Evaluates to <code>true</code> if the left side is greater-than-or-equal-to the right side.</td>
 <td><pre><code>$foundStars &gt;= $neededStars</code></pre></td>
 </tr>
 <tr>
 <th><code>&lt;</code></th>
-<td>Evaluates to <code>true</code> if the left side is less than the right side.</td>
+<td>Evaluates to <code>true</code> if the left side is less-than the right side.</td>
 <td><pre><code>$shoeCount &lt; ($peopleCount * 2)</code></pre></td>
 </tr>
 <tr>
 <th><code>&lt;=</code></th>
-<td>Evaluates to <code>true</code> if the left side is less than or equal to the right side.</td>
+<td>Evaluates to <code>true</code> if the left side is less-than-or-equal-to the right side.</td>
 <td><pre><code>$level &lt;= 30</code></pre></td>
 </tr>
 <tr>

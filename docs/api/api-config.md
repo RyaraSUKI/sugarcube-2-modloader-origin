@@ -390,7 +390,7 @@ Config.navigation.override = (destinationPassage) => {
 Config.navigation.override = (destinationPassage) => {
 	var sv = State.variables;
 
-	// If $health is less-than-or-equal to 0, go to the "You Died" passage instead.
+	// If $health is less-than-or-equal-to 0, go to the "You Died" passage instead.
 	if (sv.health <= 0) {
 		return 'You Died';
 	}
