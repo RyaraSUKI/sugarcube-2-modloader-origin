@@ -72,6 +72,8 @@ body {
 	margin: 0 0 0 25.5em;
 	max-width: 69em;
 	padding: 20px;
+	position: relative;
+	z-index: 10;
 }
 
 body>*:first-child {
@@ -741,6 +743,7 @@ nav.enhanced>header>#controls>a#lists-expand::before,
 =============================================================================*/
 
 nav {
+	background-color: #fff;
 	border-right: 1px solid #ccc;
 	bottom: 0;
 	box-sizing: border-box;
@@ -751,6 +754,7 @@ nav {
 	position: fixed;
 	top: 0;
 	width: 25em;
+	z-index: 100;
 }
 
 nav>header {
@@ -963,6 +967,7 @@ html.disable-code-color .return>var {
 @media screen and (max-width: 800px) {
 	body { margin: 1em; padding: 0; }
 	nav {
+		background-color: unset;
 		border: none;
 		box-sizing: content-box;
 		overflow: auto;
