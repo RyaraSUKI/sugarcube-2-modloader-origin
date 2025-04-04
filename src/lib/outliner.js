@@ -22,7 +22,7 @@ var Outliner = (() => { // eslint-disable-line no-unused-vars, no-var
 		API Functions.
 	*******************************************************************************/
 
-	function outlinerInit() {
+	function init() {
 		if (styleEl) {
 			return;
 		}
@@ -66,10 +66,10 @@ var Outliner = (() => { // eslint-disable-line no-unused-vars, no-var
 					lastEvent = ev.type;
 
 					if (ev.type === 'keydown') {
-						outlinerShow();
+						show();
 					}
 					else {
-						outlinerHide();
+						hide();
 					}
 				}
 			}
@@ -77,10 +77,10 @@ var Outliner = (() => { // eslint-disable-line no-unused-vars, no-var
 
 		// Initially hide outlines.
 		lastEvent = 'mousedown';
-		outlinerHide();
+		hide();
 	}
 
-	function outlinerHide() {
+	function hide() {
 		document.documentElement.removeAttribute('data-outlines');
 
 		// For IE ≤ 10.
@@ -94,7 +94,7 @@ var Outliner = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 	}
 
-	function outlinerShow() {
+	function show() {
 		document.documentElement.setAttribute('data-outlines', '');
 
 		// For IE ≤ 10.
@@ -114,8 +114,8 @@ var Outliner = (() => { // eslint-disable-line no-unused-vars, no-var
 	*******************************************************************************/
 
 	return Object.preventExtensions(Object.create(null, {
-		init : { value : outlinerInit },
-		hide : { value : outlinerHide },
-		show : { value : outlinerShow }
+		init : { value : init },
+		hide : { value : hide },
+		show : { value : show }
 	}));
 })();
