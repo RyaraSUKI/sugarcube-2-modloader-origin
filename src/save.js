@@ -163,17 +163,14 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function createDetails(saveType, description, metadata) {
-		const metadataType = typeof metadata;
-
-		if (metadataType !== 'object' && metadataType !== 'undefined') {
-			throw new TypeError('metadata parameter must be an object, null, or undefined');
+		if (typeof metadata !== 'object' && typeof metadata !== 'undefined') {
+			throw new TypeError('metadata parameter must be an object or undefined');
 		}
 
-		const cfgMetadata     = Config.saves.metadata ? Config.saves.metadata(saveType) : undefined;
-		const cfgMetadataType = typeof cfgMetadata;
+		const cfgMetadata = Config.saves.metadata?.(saveType);
 
-		if (cfgMetadataType !== 'object' && cfgMetadataType !== 'undefined') {
-			throw new TypeError('Config.saves.metadata function must return an object, null, or undefined');
+		if (typeof cfgMetadata !== 'object' && typeof cfgMetadata !== 'undefined') {
+			throw new TypeError('Config.saves.metadata function must return an object or undefined');
 		}
 
 		const details = { type : saveType };
