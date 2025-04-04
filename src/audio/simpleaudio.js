@@ -117,6 +117,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		#rate;    // Our current playback rate.
 		#volume;  // Our current volume.
 
+
 		constructor(obj) {
 			// Process the given array of sources or AudioTrack object.
 			if (obj instanceof Array) {
@@ -721,14 +722,14 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 				// to `true`.
 				//
 				// Caveats by browser (ca. 2016?):
-				//  * Edge violates the specification by triggering `error` events from
-				//    source elements on their parent media element, rather than the
-				//    source element.  To enable error handling in all browsers, we set
-				//    the error handler on the audio element and have the final source
-				//    element forward its `error` event.
-				//  * IE does not trigger, at least some, `error` events from source
-				//    elements at all, not on the source element or its parent media
-				//    element.  AFAIK, nothing can be done about this lossage.
+				//   * Edge violates the specification by triggering `error` events from
+				//     source elements on their parent media element, rather than the
+				//     source element.  To enable error handling in all browsers, we set
+				//     the error handler on the audio element and have the final source
+				//     element forward its `error` event.
+				//   * IE does not trigger, at least some, `error` events from source
+				//     elements at all, not on the source element or its parent media
+				//     element.  AFAIK, nothing can be done about this lossage.
 				.on('error.AudioTrack', () => this.#error = true)
 
 				// Upon receiving an `error` event on the final source element (if any),
@@ -802,13 +803,13 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 			// Cache of supported (common) audio formats.
 			//
 			// NOTE: Caveats by browser/engine:
-			//  * Opera ≤12 (Presto) will return a false-negative if the codecs value
-			//    is quoted with single quotes, requiring the use of either double
-			//    quotes or no quotes.
-			//  * Some versions of Blink-based browsers (e.g. Chrome, Opera ≥15) will
-			//    return a false-negative for WAVE audio if the preferred MIME-type of
-			//    'audio/wave' is specified, requiring the addition of 'audio/wav' for
-			//    them.
+			//   * Opera ≤12 (Presto) will return a false-negative if the codecs value
+			//     is quoted with single quotes, requiring the use of either double
+			//     quotes or no quotes.
+			//   * Some versions of Blink-based browsers (e.g. Chrome, Opera ≥15) will
+			//     return a false-negative for WAVE audio if the preferred MIME-type of
+			//     'audio/wave' is specified, requiring the addition of 'audio/wav' for
+			//     them.
 			return Object.assign(Object.create(null), {
 				// AAC — MPEG-2 AAC audio; specific profiles vary, but commonly "AAC-LC".
 				aac : canPlay('audio/aac'),
@@ -862,6 +863,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		#mute;    // Is our volume currently muted?
 		#loop;    // Are we currently set to loop?
 		#shuffle; // Are we currently set to shuffle?
+
 
 		constructor(obj) {
 			// Process the given array of track objects or AudioList object.
@@ -1301,6 +1303,7 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 		// Public fields.
 		trackIds;
 
+
 		constructor(list) {
 			if (!(list instanceof Set || list instanceof AudioRunner)) {
 				throw new TypeError('list parameter must be a Set or AudioRunner instance');
@@ -1313,6 +1316,9 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 				}
 			});
 		}
+
+
+		// Public methods.
 
 		load() {
 			AudioRunner.#run(this.trackIds, AudioTrack.prototype.load);
@@ -1425,6 +1431,9 @@ var SimpleAudio = (() => { // eslint-disable-line no-unused-vars, no-var
 			AudioRunner.#run(this.trackIds, AudioTrack.prototype.off, ...args);
 			return this;
 		}
+
+
+		// Static methods.
 
 		static #run(ids, fn, ...args) {
 			ids.forEach(id => {

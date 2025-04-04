@@ -13,12 +13,14 @@
 *******************************************************************************/
 
 class NodeTyper { // eslint-disable-line no-unused-vars
+	// Public fields.
 	node;       // The target node.
 	childNodes; // Our list of NodeTyper instances of child nodes.
 	nodeValue;  // The text value of the currently typing node (if any).
 	appendTo;   // The node to append to.
 	classNames; // The classes to assign to the parent node.
 	finished;   // Are we finished?
+
 
 	constructor(config) {
 		if (typeof config !== 'object' || config === null) {
@@ -77,6 +79,9 @@ class NodeTyper { // eslint-disable-line no-unused-vars
 			node.removeChild(childNode);
 		}
 	}
+
+
+	// Public methods.
 
 	finish() {
 		while (this.type(true)) /* no-op */;

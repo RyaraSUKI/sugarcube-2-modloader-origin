@@ -16,6 +16,7 @@
 	TODO: Make this use jQuery throughout.
 */
 class DebugView { // eslint-disable-line no-unused-vars
+	// Public fields.
 	parent; // Our parent element.
 	view;   // Our debug view (`<span>`) wrapper element.
 	break;  // Our word break (`<wbr>`) element.

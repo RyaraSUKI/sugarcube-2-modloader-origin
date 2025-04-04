@@ -99,6 +99,7 @@ var Passage = (() => { // eslint-disable-line no-unused-vars, no-var
 		tags;
 		classes;
 
+
 		constructor(name, el) {
 			// Passage data element (i.e., Twine 1: '[tiddler]', Twine 2: 'tw-passagedata').
 			this.#element = el ?? null;
