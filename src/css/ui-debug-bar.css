@@ -52,14 +52,14 @@
 }
 
 #debug-bar-hint {
-	bottom: 0.75em;
-	font-size: 4.5em;
-	opacity: 0.33;
+	bottom: 0.2em;
+	font-size: 8em;
 	pointer-events: none;
 	position: fixed;
 	right: 0.6em;
 	user-select: none;
 	white-space: nowrap;
+	z-index: -1;
 }
 
 #debug-bar-watch {
@@ -146,7 +146,10 @@ html[data-debug-view] #debug-bar-views-toggle:hover {
 	content: "\f188";
 }
 #debug-bar-hint::after {
+	color: #ffd700;
 	content: "\f188\202f\f061";
+	-webkit-text-stroke-width: 2px;
+	-webkit-text-stroke-color: #222;
 }
 #debug-bar-watch .watch-delete::before {
 	content: "\f00d";
