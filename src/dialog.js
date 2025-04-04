@@ -412,9 +412,15 @@ var Dialog = (() => { // eslint-disable-line no-unused-vars, no-var
 				);
 		}
 
-		// Set up the delegated close handler.
+		// Set up the close handlers.
 		jQuery(document)
 			.off('.dialog-close')
+			.on('keydown.dialog-close', ev => {
+				if (ev.key === 'Escape') {
+					ev.preventDefault();
+					close(ev);
+				}
+			})
 			.one('click.dialog-close', '.ui-close', ev => {
 				// NOTE: Do not allow this event handler to return the `Dialog` static object,
 				// as doing so causes Edge (ca. 18) to throw a "Number expected" exception due
