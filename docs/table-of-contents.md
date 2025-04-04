@@ -310,6 +310,7 @@
 	* [`Config.saves.isAllowed`](#config-api-property-saves-isallowed)
 	* [`Config.saves.maxAutoSaves`](#config-api-property-saves-maxautosaves)
 	* [`Config.saves.maxSlotSaves`](#config-api-property-saves-maxslotsaves)
+	* [`Config.saves.metadata`](#config-api-property-saves-metadata)
 	* [`Config.saves.version`](#config-api-property-saves-version)
 * [UI Settings](#config-api-ui)
 	* [`Config.ui.stowBarInitially`](#config-api-property-ui-stowbarinitially)

@@ -468,7 +468,7 @@ Does not affect <code>script</code> or <code>stylesheet</code> tagged passages, 
 
 #### Value:
 
-The callback value (`Function`).
+A callback value (`Function`).
 
 #### Examples:
 
@@ -587,7 +587,7 @@ Sets browser saves descriptions.  If unset, a brief description of the current t
 
 #### Value:
 
-The callback value (`Function`).
+A callback value (`Function`).
 
 #### Examples:
 
@@ -664,7 +664,7 @@ Determines whether saving is allowed within the current context.  If unset, save
 
 #### Value:
 
-The callback value (`Function`).
+A callback value (`Function`).
 
 #### Examples:
 
@@ -684,7 +684,7 @@ Disallow saving on passages tagged with `menu`.
 Config.saves.isAllowed = (saveType) => !tags().includes('menu');
 ```
 
-##### Using the save type parameter
+##### Using the `saveType` parameter
 
 Attempt a new auto save only on passages tagged with `autosave`.  Other save types are not limited.
 
@@ -785,6 +785,66 @@ An *integer* `number` value denoting the maximum number of browser slot saves.
 
 ```javascript
 Config.saves.maxSlotSaves = 4;
+```
+
+<!-- *********************************************************************** -->
+
+### `Config.saves.metadata` ↔ `Function` (default: *none*) {#config-api-property-saves-metadata}
+
+Sets the `metadata` property of saves.  The callback is invoked each time a save is made.  It is passed the type of save being attempted.  Its return value should be an `Object` that will serve as the metadata of saves.
+
+#### History:
+
+* `v2.37.0`: Introduced.
+
+#### Value:
+
+A callback value (`Function`).  The callback is passed one parameter, the type of save being attempted.  It should return an `Object` that will serve as the metadata of saves and that *must* be JSON-serializable.
+
+#### Callback parameters:
+
+* **`saveType`:** (`Save.Type`) The [`Save.Type`](#save-api-constants-type) pseudo-enumeration.  Used to denote the type of save.
+
+#### Examples:
+
+##### Basic usage
+
+```javascript
+Config.saves.metadata = (saveType) => {
+	const sv = State.variables;
+
+	return {
+		party : sv.party, // e.g., ['Celes', 'Locke', 'Edward']
+		gold  : sv.gold   // e.g., 2345
+	};
+};
+```
+
+```javascript
+Config.saves.metadata = (saveType) => {
+	const metadata = {
+		gameVersion : 'Release 12: "Horny Toads Need Love Too" edition'
+	};
+
+	if (/* some logic */) {
+		metadata.someProp = 'a value';
+	}
+
+	return metadata;
+};
+```
+
+##### Using the `saveType` parameter
+
+```javascript
+Config.saves.isAllowed = (saveType) => {
+	const metadata = {
+		gameVersion : 'Release 2: Electric Boogaloo',
+		inBrowser   : saveType === Save.Type.Auto || saveType === Save.Type.Slot
+	};
+
+	return metadata;
+};
 ```
 
 <!-- *********************************************************************** -->
