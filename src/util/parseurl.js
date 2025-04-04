@@ -47,7 +47,7 @@ function parseURL(url) { // eslint-disable-line no-unused-vars
 	// and does not supply `username` or `password`.
 	//
 	// Safari (ca. v5.1.x) does not supply `username` or `password` and
-	// peforms URI decoding on `pathname`.
+	// performs URI decoding on `pathname`.
 
 	// Patch for IE not including the leading slash on `pathname` when required.
 	const pathname = parser.host && parser.pathname[0] !== '/' ? `/${parser.pathname}` : parser.pathname;

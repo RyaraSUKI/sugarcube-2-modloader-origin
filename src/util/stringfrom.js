@@ -32,10 +32,10 @@ function stringFrom(value) { // eslint-disable-line no-unused-vars
 				return value.map(val => stringFrom(val)).join(', ');
 			}
 			else if (value instanceof Set) {
-				return Array.from(value).map(val => stringFrom(val)).join(', ');
+				return Array.from(value, val => stringFrom(val)).join(', ');
 			}
 			else if (value instanceof Map) {
-				const result = Array.from(value).map(([key, val]) => `${stringFrom(key)} \u2192 ${stringFrom(val)}`);
+				const result = Array.from(value, ([key, val]) => `${stringFrom(key)} \u2192 ${stringFrom(val)}`);
 				return `{\u202F${result.join(', ')}\u202F}`;
 			}
 			else if (value instanceof Date) {
@@ -47,7 +47,7 @@ function stringFrom(value) { // eslint-disable-line no-unused-vars
 					|| value === document.head
 					|| value === document.body
 				) {
-					throw new Error('illegal operation; attempting to convert the <html>, <head>, or <body> tags to string is not allowed');
+					throw new Error('illegal operation; cannot convert <html>, <head>, or <body> tags to string');
 				}
 
 				return value.outerHTML;

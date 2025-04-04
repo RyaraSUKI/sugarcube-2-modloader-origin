@@ -11,8 +11,9 @@
 /*
 	Returns the number of milliseconds elapsed since a reference epoch.
 
-	NOTE: If the `Performance` API is available, then the epoch will be approximately the
-	document creation time.  Elsewise, it will be the ECMAScript epoch (1 January 1970 UTC).
+	NOTE: If the `Performance` API is available, then the epoch will be approximately
+	the document creation time.  Elsewise, it will be the ECMAScript epoch (1 January
+	1970 UTC).
 */
 var now = (() => { // eslint-disable-line no-unused-vars, no-var
 	// Use the `Performance` API, if available, failing over to `Date`.  The

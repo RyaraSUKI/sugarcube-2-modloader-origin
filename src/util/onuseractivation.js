@@ -14,18 +14,16 @@
 	NOTE: The callback must return a `Promise`.
 */
 var onUserActivation = (() => { // eslint-disable-line no-unused-vars, no-var
-	/*
-		Activation triggering input events.
-
-		SEE: HTML Living Standard § 6.4 Tracking user activation
-			* https://html.spec.whatwg.org/#tracking-user-activation
-
-		SEE ALSO:
-			* https://github.com/whatwg/html/issues/7341
-			* https://github.com/whatwg/html/issues/3849
-			* https://github.com/whatwg/html/issues/1903
-			* https://docs.google.com/spreadsheets/d/1DGXjhQ6D3yZXIePOMo0dsd2agz0t5W7rYH1NwJ-QGJo/edit#gid=0
-	*/
+	// Activation triggering input events.
+	//
+	// SEE: HTML Living Standard § 6.4 Tracking user activation
+	//   * https://html.spec.whatwg.org/#tracking-user-activation
+	//
+	// SEE ALSO:
+	//   * https://github.com/whatwg/html/issues/7341
+	//   * https://github.com/whatwg/html/issues/3849
+	//   * https://github.com/whatwg/html/issues/1903
+	//   * https://docs.google.com/spreadsheets/d/1DGXjhQ6D3yZXIePOMo0dsd2agz0t5W7rYH1NwJ-QGJo/edit#gid=0
 	const uaEvents = Object.freeze([
 		'keydown',
 		'mousedown',
