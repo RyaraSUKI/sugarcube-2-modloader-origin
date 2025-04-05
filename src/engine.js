@@ -19,16 +19,16 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 	// jQuery event namespace.
 	const EVENT_NS = '.engine';
 
-	// Engine state types object.
-	const States = enumFrom({
-		Init      : 'init',
-		Idle      : 'idle',
-		Playing   : 'playing',
-		Rendering : 'rendering'
+	// Engine state object.
+	const EngineState = enumFrom({
+		Init      : 0,
+		Idle      : 1,
+		Playing   : 2,
+		Rendering : 3
 	});
 
 	// Current state of the engine.
-	let currentEngineState = States.Init;
+	let currentEngineState = EngineState.Init;
 
 	// Last time `enginePlay()` was called (in milliseconds).
 	let lastEnginePlay = null;
@@ -47,7 +47,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 	function engineInit() {
 		if (BUILD_DEBUG) { console.log('[Engine/engineInit()]'); }
 
-		if (currentEngineState !== States.Init) {
+		if (currentEngineState !== EngineState.Init) {
 			return;
 		}
 
@@ -161,7 +161,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 	function engineRunUserScripts() {
 		if (BUILD_DEBUG) { console.log('[Engine/engineRunUserScripts()]'); }
 
-		if (currentEngineState !== States.Init) {
+		if (currentEngineState !== EngineState.Init) {
 			return;
 		}
 
@@ -209,7 +209,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 	function engineRunUserInit() {
 		if (BUILD_DEBUG) { console.log('[Engine/engineRunUserInit()]'); }
 
-		if (currentEngineState !== States.Init) {
+		if (currentEngineState !== EngineState.Init) {
 			return;
 		}
 
@@ -270,7 +270,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 	function engineStart() {
 		if (BUILD_DEBUG) { console.log('[Engine/engineStart()]'); }
 
-		if (currentEngineState !== States.Init) {
+		if (currentEngineState !== EngineState.Init) {
 			return;
 		}
 
@@ -283,7 +283,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		// Update the engine state.
-		currentEngineState = States.Idle;
+		currentEngineState = EngineState.Idle;
 
 		// Focus the document element initially.
 		document.documentElement.focus();
@@ -375,21 +375,21 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		Returns whether the engine is idle.
 	*/
 	function engineIsIdle() {
-		return currentEngineState === States.Idle;
+		return currentEngineState === EngineState.Idle;
 	}
 
 	/*
 		Returns whether the engine is playing.
 	*/
 	function engineIsPlaying() {
-		return currentEngineState !== States.Idle;
+		return currentEngineState !== EngineState.Idle;
 	}
 
 	/*
 		Returns whether the engine is rendering.
 	*/
 	function engineIsRendering() {
-		return currentEngineState === States.Rendering;
+		return currentEngineState === EngineState.Rendering;
 	}
 
 	/*
@@ -453,7 +453,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		adding a new moment to the history.
 	*/
 	function enginePlay(name, noHistory) {
-		if (currentEngineState === States.Init) {
+		if (currentEngineState === EngineState.Init) {
 			return false;
 		}
 
@@ -462,7 +462,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		let passageName = name;
 
 		// Update the engine state.
-		currentEngineState = States.Playing;
+		currentEngineState = EngineState.Playing;
 
 		// Reset the temporary state and variables objects.
 		TempState = {}; // eslint-disable-line no-undef
@@ -550,7 +550,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		}
 
 		// Update the engine state.
-		currentEngineState = States.Rendering;
+		currentEngineState = EngineState.Rendering;
 
 		// Get the passage's tags as a string, or `null` if there aren't any.
 		const dataTags = passage.tags.length > 0 ? passage.tags.join(' ') : null;
@@ -693,7 +693,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		window.scroll(0, 0);
 
 		// Update the engine state.
-		currentEngineState = States.Playing;
+		currentEngineState = EngineState.Playing;
 
 		// Execute post-display events, tasks, and the `PassageDone` special passage.
 		if (Story.has('PassageDone')) {
@@ -796,7 +796,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		});
 
 		// Reset the engine state.
-		currentEngineState = States.Idle;
+		currentEngineState = EngineState.Idle;
 
 		// Update the last play time.
 		lastEnginePlay = now();
@@ -844,7 +844,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 
 	return Object.preventExtensions(Object.create(null, {
 		// Constants.
-		States    : { value : States },
+		State     : { get : () => EngineState },
 		DOM_DELAY : { get : () => DOM_DELAY },
 
 		// Core Functions.
@@ -866,6 +866,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 		play           : { value : enginePlay },
 
 		// Deprecated Functions.
+		States            : { get : () => EngineState },
 		display           : { value : engineDisplay },
 		minDomActionDelay : { get : () => DOM_DELAY }
 	}));
