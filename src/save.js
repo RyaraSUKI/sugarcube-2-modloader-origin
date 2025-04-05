@@ -13,7 +13,7 @@
 */
 var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 	// Save type pseudo-enumeration.
-	const Type = enumFrom({
+	const SaveType = enumFrom({
 		Unknown : 0,
 		Auto    : 1,
 		Slot    : 2,
@@ -100,7 +100,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 			// Property updates.
 			info.desc = info.title;
 			delete info.title;
-			info.type = Type.Auto;
+			info.type = SaveType.Auto;
 
 			const infoKey = getAutoInfoKeyFromIndex(0);
 			const dataKey = getAutoDataKeyFromIndex(0);
@@ -125,7 +125,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 			// Property updates.
 			info.desc = info.title;
 			delete info.title;
-			info.type = Type.Slot;
+			info.type = SaveType.Slot;
 
 			const infoKey = getSlotInfoKeyFromIndex(index);
 			const dataKey = getSlotDataKeyFromIndex(index);
@@ -204,8 +204,8 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 		let keys;
 
 		switch (saveType) {
-			case Type.Auto: keys = getKeys(isAutoInfoKey); break;
-			case Type.Slot: keys = getKeys(isSlotInfoKey); break;
+			case SaveType.Auto: keys = getKeys(isAutoInfoKey); break;
+			case SaveType.Slot: keys = getKeys(isSlotInfoKey); break;
 			default:        keys = getKeys(isInfoKey); break;
 		}
 
@@ -261,7 +261,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 	}
 
 	function getTypeFromKey(key) {
-		return isAutoKey(key) ? Type.Auto : Type.Slot;
+		return isAutoKey(key) ? SaveType.Auto : SaveType.Slot;
 	}
 
 	function isInfoKey(key) {
@@ -348,7 +348,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 			return Promise.reject(new Error(L10n.get('saveErrorNonexistent')));
 		}
 
-		return newest.type === Type.Auto
+		return newest.type === SaveType.Auto
 			? autoLoad(newest.index)
 			: slotLoad(newest.index);
 	}
@@ -364,7 +364,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 			return null;
 		}
 
-		return newest.type === Type.Auto
+		return newest.type === SaveType.Auto
 			? { index : newest.index, ...storage.get(getAutoInfoKeyFromIndex(newest.index)) }
 			: { index : newest.index, ...storage.get(getSlotInfoKeyFromIndex(newest.index)) };
 	}
@@ -467,18 +467,18 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 		if (
 			!autoIsEnabled()
 			|| typeof Config.saves.isAllowed === 'function'
-			&& !Config.saves.isAllowed(Type.Auto)
+			&& !Config.saves.isAllowed(SaveType.Auto)
 		) {
 			return false;
 		}
 
-		const index   = (findNewest(Type.Auto).index + 1) % Config.saves.maxAutoSaves;
+		const index   = (findNewest(SaveType.Auto).index + 1) % Config.saves.maxAutoSaves;
 		const infoKey = getAutoInfoKeyFromIndex(index);
 		const dataKey = getAutoDataKeyFromIndex(index);
 		const {
 			info,
 			data
-		} = splitSave(marshal(createDetails(Type.Auto, desc, metadata)));
+		} = splitSave(marshal(createDetails(SaveType.Auto, desc, metadata)));
 
 		saveToBrowserStorage({ data, dataKey, info, infoKey });
 	}
@@ -589,7 +589,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 		if (
 			!slotIsEnabled()
 			|| typeof Config.saves.isAllowed === 'function'
-			&& !Config.saves.isAllowed(Type.Slot)
+			&& !Config.saves.isAllowed(SaveType.Slot)
 		) {
 			throw new Error(L10n.get('saveErrorDisallowed'));
 		}
@@ -599,7 +599,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 		const {
 			info,
 			data
-		} = splitSave(marshal(createDetails(Type.Slot, desc, metadata)));
+		} = splitSave(marshal(createDetails(SaveType.Slot, desc, metadata)));
 
 		saveToBrowserStorage({ data, dataKey, info, infoKey });
 	}
@@ -761,12 +761,12 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 
 		if (
 			typeof Config.saves.isAllowed === 'function'
-			&& !Config.saves.isAllowed(Type.Disk)
+			&& !Config.saves.isAllowed(SaveType.Disk)
 		) {
 			throw new Error(L10n.get('saveErrorDisallowed'));
 		}
 
-		const details = createDetails(Type.Disk, filename, metadata);
+		const details = createDetails(SaveType.Disk, filename, metadata);
 
 		saveBlobToDiskAs(
 			LZString.compressToBase64(Serial.stringify(marshal(details))),
@@ -881,12 +881,12 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 	function base64Save(metadata) {
 		if (
 			typeof Config.saves.isAllowed === 'function'
-			&& !Config.saves.isAllowed(Type.Base64)
+			&& !Config.saves.isAllowed(SaveType.Base64)
 		) {
 			throw new Error(L10n.get('saveErrorDisallowed'));
 		}
 
-		const details = createDetails(Type.Base64, null, metadata);
+		const details = createDetails(SaveType.Base64, null, metadata);
 
 		return LZString.compressToBase64(Serial.stringify(marshal(details)));
 	}
@@ -899,10 +899,10 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 	/* legacy */
 	function migrateLegacyV2SaveDetail(save) {
 		switch (save.type) {
-			case Type.Auto:   return { type : 'autosave' };
-			case Type.Slot:   return { type : 'slot' };
-			case Type.Disk:   return { type : 'disk' };
-			case Type.Base64: return { type : 'serialize' };
+			case SaveType.Auto:   return { type : 'autosave' };
+			case SaveType.Slot:   return { type : 'slot' };
+			case SaveType.Disk:   return { type : 'disk' };
+			case SaveType.Base64: return { type : 'serialize' };
 		}
 
 		throw new Error(`save.type must be an integer number (received: ${getTypeOf(save.type)})`);
@@ -975,23 +975,23 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 			switch (save.type) {
 				case 'auto':
 				case 'autosave': {
-					save.type = Type.Auto;
+					save.type = SaveType.Auto;
 					break;
 				}
 
 				case 'slot': {
-					save.type = Type.Slot;
+					save.type = SaveType.Slot;
 					break;
 				}
 
 				case 'disk': {
-					save.type = Type.Disk;
+					save.type = SaveType.Disk;
 					break;
 				}
 
 				case 'base64':
 				case 'serialize': {
-					save.type = Type.Base64;
+					save.type = SaveType.Base64;
 					break;
 				}
 			}
@@ -1068,7 +1068,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 
 	return Object.preventExtensions(Object.create(null, {
 		// General Save Constants.
-		Type      : { value : Type },
+		Type      : { get : () => SaveType },
 		MAX_INDEX : { get : () => MAX_INDEX },
 
 		// General Save Functions.
