@@ -1,3 +1,5 @@
+# SugarCube2 modloader加载
+修改了sugarcube.js，使得原版sugarcube2引擎可以使用[Modloader](https://github.com/Lyoko-Jeremie/sugarcube-2-ModLoader)
 # SugarCube v2
 
 [SugarCube](http://www.motoslave.net/sugarcube/) is a free (gratis and libre) story format for [Twine/Twee](http://twinery.org/).
