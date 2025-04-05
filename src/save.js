@@ -206,7 +206,7 @@ var Save = (() => { // eslint-disable-line no-unused-vars, no-var
 		switch (saveType) {
 			case SaveType.Auto: keys = getKeys(isAutoInfoKey); break;
 			case SaveType.Slot: keys = getKeys(isSlotInfoKey); break;
-			default:        keys = getKeys(isInfoKey); break;
+			default:            keys = getKeys(isInfoKey); break;
 		}
 
 		switch (keys.length) {
