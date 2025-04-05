@@ -19,7 +19,7 @@ var Engine = (() => { // eslint-disable-line no-unused-vars, no-var
 	// jQuery event namespace.
 	const EVENT_NS = '.engine';
 
-	// Engine state object.
+	// Engine state pseudo-enumeration.
 	const EngineState = enumFrom({
 		Init      : 0,
 		Idle      : 1,
