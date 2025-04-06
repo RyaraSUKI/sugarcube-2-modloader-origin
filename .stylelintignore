@@ -1,0 +1,10 @@
+# JavaScript
+**/*.js
+
+# Templates & Vendored
+template/
+vendor/
+
+# Development
+build/
+node_modules/
