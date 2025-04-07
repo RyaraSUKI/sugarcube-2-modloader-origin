@@ -8,59 +8,86 @@
 ***********************************************************************************************************************/
 
 @keyframes init-loading-spin {
-	0%   { transform: rotate(0deg); }
-	100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
+
 #init-screen {
-	display: none;
-	z-index: 500000;
-	position: fixed;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	font: 28px/1 Helmet, Freesans, sans-serif;
-	font-weight: bold;
-	color: #eee;
-	background-color: #111;
-	text-align: center;
+    display: none;
+    z-index: 500000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    font: 28px/1 Helmet, Freesans, sans-serif;
+    font-weight: bold;
+    color: #eee;
+    background-color: #111;
+    text-align: center;
 }
-#init-screen > div {
-	display: none;
-	position: relative;
-	margin: 0 auto;
-	max-width: 1136px;
-	top: 25%;
+
+#init-screen>div {
+    display: none;
+    position: relative;
+    margin: 0 auto;
+    max-width: 1136px;
+    top: 25%;
 }
+
 html[data-init="no-js"] #init-screen,
 html[data-init="lacking"] #init-screen,
 html[data-init="loading"] #init-screen {
-	display: block;
+    display: block;
 }
+
 html[data-init="no-js"] #init-no-js,
 html[data-init="lacking"] #init-lacking {
-	display: block;
-	padding: 0 1em;
+    display: block;
+    padding: 0 1em;
 }
+
 html[data-init="no-js"] #init-no-js {
-	color: red;
+    color: red;
 }
+
 html[data-init="loading"] #init-loading {
-	animation: init-loading-spin 2s linear infinite;
-	border: 12px solid transparent;
-	border-bottom-color: #7f7f7f;
-	border-radius: 50%;
-	border-top-color: #7f7f7f;
-	display: block;
-	height: 100px;
-	width: 100px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: block;
+    animation: init-loading-spin 1.4s ease-in-out infinite;
+
+    /* 圆环，利用角度实现，如此复杂总之不是我算的 */
+    background: conic-gradient(#ffdd88 0deg, #ffdd88 60deg,
+            transparent 60deg, transparent 72deg,
+            #ff8899 72deg, #ff8899 132deg,
+            transparent 132deg, transparent 144deg,
+            #77bbdd 144deg, #77bbdd 204deg,
+            transparent 204deg, transparent 216deg,
+            #7777aa 216deg, #7777aa 276deg,
+            transparent 276deg, transparent 288deg,
+            #77dd77 288deg, #77dd77 348deg,
+            transparent 348deg, transparent 360deg);
+
+    /* 利用遮罩，形成环形 */
+    -webkit-mask: radial-gradient(farthest-side, transparent 60%, black 61%);
+    mask: radial-gradient(farthest-side, transparent 60%, black 61%);
 }
-html[data-init="loading"] #init-loading > div {
-	text-indent: 16128px; /* 8K UHD horizontal ×2.1 */
-	overflow: hidden;
-	white-space: nowrap;
+
+html[data-init="loading"] #init-loading>div {
+    text-indent: 16128px;
+    /* 8K UHD horizontal ×2.1 */
+    overflow: hidden;
+    white-space: nowrap;
 }
+
 html[data-init="loading"] #ui-bar,
 html[data-init="loading"] #story {
-	display: none !important;
+    display: none !important;
 }
