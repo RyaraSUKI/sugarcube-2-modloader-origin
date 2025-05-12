@@ -9,6 +9,10 @@ npm install
 ```
 node build.js -d -u -b 2
 ```
+## Compile minified code
+```
+node build.js -b 2
+```
 
 # SugarCube v2
 
